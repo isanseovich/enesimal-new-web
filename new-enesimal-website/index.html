@@ -1,0 +1,2748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enesimal</title>
+    
+    <!-- Favicon / Icono de la pestaña del navegador -->
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <!-- Google Fonts: Space Grotesk (Moderno) & Space Mono (Retro-Tech) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Variables de Entorno - Modo Color por Defecto (Gris Platinado Monocromo) */
+        :root {
+            --bg-main: #0a0b0e;          /* Negro Carbón Profundo */
+            --bg-header: rgba(10, 11, 14, 0.2); /* Transparencia tipo vidrio */
+            --bg-light: #ffffff;        /* Blanco absoluto */
+            --text-main: #ffffff;       /* Blanco puro */
+            --text-dark: #000000;       /* Negro para texto en bloques claros */
+            --text-muted: #e0e0e0;      
+            --text-dark-gray: #888888;  
+            --text-muted-retro: #666666; /* Texto retro apagado para menor jerarquía */
+            --accent-blue: #D4D4D8;     /* Gris Platinado Enesimal */
+            --border-retro: rgba(255, 255, 255, 0.18);    
+            --border-dark: #000000;     
+            --bg-input: #12141a;
+            --logo-filter: none;        
+            --partner-filter: brightness(0) invert(1); /* Fuerza logos 100% blancos en modo oscuro */
+            --canvas-particle: rgba(200, 200, 200, 0.6); /* Partículas en Gris */
+            --canvas-line: rgba(200, 200, 200, 0.18);    /* Líneas en Gris */
+            --map-filter: grayscale(100%) invert(92%) contrast(120%); /* Modo oscuro mapa */
+            
+            --font-main: 'Space Grotesk', -apple-system, sans-serif;
+            --font-mono: 'Space Mono', monospace;
+        }
+
+        /* MODO INVERTIDO / LIGHT */
+        body.monochrome-mode {
+            --bg-main: #f8f9fa;         
+            --bg-header: rgba(255, 255, 255, 0.3);
+            --bg-light: #0d0e12;        
+            --text-main: #0a0b0e;       
+            --text-dark: #ffffff;       
+            --text-muted: #222222;      
+            --text-dark-gray: #777777;  
+            --text-muted-retro: #888888; 
+            --accent-blue: #52525B;     /* Gris Oscuro con alto contraste para fondo claro */
+            --border-retro: rgba(0, 0, 0, 0.15);    
+            --border-dark: #ffffff;     
+            --bg-input: #f0f2f5;
+            --logo-filter: invert(100%);
+            --partner-filter: brightness(0); /* Fuerza logos 100% negros en modo invertido claro */
+            --canvas-particle: rgba(80, 80, 80, 0.5); 
+            --canvas-line: rgba(80, 80, 80, 0.15);    
+            --map-filter: grayscale(100%) contrast(110%); /* Modo claro mapa */
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        /* CURSOR PERSONALIZADO Y SUTIL (Solo pantallas no táctiles) */
+        @media (pointer: fine) {
+            body {
+                cursor: none;
+            }
+
+            a, button, input, textarea, summary, .flow-pill, .partner-card, .case-block, .fde-toggle-switch, .lang-toggle-btn {
+                cursor: none !important;
+            }
+
+            .custom-cursor-dot {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 6px;
+                height: 6px;
+                background-color: var(--text-main);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 10000;
+                transform: translate(-50%, -50%);
+                transition: opacity 0.2s ease, background-color 0.3s ease;
+            }
+
+            .custom-cursor-follower {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 32px;
+                height: 32px;
+                border: 1px solid var(--accent-blue);
+                border-radius: 50%;
+                pointer-events: none;
+                z-index: 9999;
+                transform: translate(-50%, -50%);
+                transition: transform 0.15s ease-out, width 0.25s ease, height 0.25s ease, background-color 0.25s ease, border-color 0.3s ease;
+            }
+
+            .custom-cursor-follower.hovered {
+                width: 54px;
+                height: 54px;
+                background-color: rgba(212, 212, 216, 0.12);
+                border-color: var(--text-main);
+            }
+        }
+
+        /* Elementos secundario/retro atenuados */
+        .hype-tag, .steps-flow, .detail-item h5, .retro-sidebar, nav a, .card-num, .footer-copyright, .lang-toggle-btn {
+            font-family: var(--font-mono);
+        }
+
+        .hype-tag, .card-num, .mission-title {
+            font-size: 0.8rem !important;
+            color: var(--text-muted-retro) !important;
+            letter-spacing: 1.5px;
+            font-weight: 400;
+            font-family: var(--font-mono) !important;
+        }
+
+        /* NAVBAR FLOTANTE */
+        header {
+            width: 100%;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 1rem 1.5rem 0 1.5rem;
+            background-color: transparent;
+            transition: padding 0.3s ease;
+        }
+
+        .nav-container {
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2.5rem;
+            position: relative;
+            background-color: var(--bg-header);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid var(--border-retro);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            transition: padding 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+        }
+
+        header.scrolled .nav-container {
+            padding: 0.8rem 2.5rem;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            height: 32px;
+            transition: height 0.3s ease;
+        }
+
+        header.scrolled .logo-container {
+            height: 24px;
+        }
+
+        .logo-link {
+            display: block;
+            height: 100%;
+            text-decoration: none !important;
+        }
+
+        .logo-image {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+            display: block;
+            filter: var(--logo-filter); 
+            transition: filter 0.3s ease, height 0.3s ease;
+        }
+
+        .controls-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* BOTÓN SELECTOR DE IDIOMA (ES / EN) */
+        .lang-toggle-btn {
+            background: transparent;
+            border: 1px solid var(--border-retro);
+            color: var(--text-main);
+            padding: 0.35rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 1px;
+        }
+
+        .lang-toggle-btn:hover {
+            border-color: var(--accent-blue);
+            background-color: rgba(212, 212, 216, 0.1);
+            color: var(--accent-blue);
+        }
+
+        .lang-svg {
+            stroke: currentColor;
+            flex-shrink: 0;
+        }
+
+        .color-toggle-icon {
+            background: transparent;
+            border: none;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+        
+        .color-toggle-icon:hover {
+            background-color: rgba(128, 128, 128, 0.15);
+        }
+
+        .toggle-svg {
+            fill: var(--text-main);
+            transition: transform 0.4s ease, fill 0.3s ease;
+        }
+
+        body.monochrome-mode .toggle-svg {
+            transform: rotate(180deg);
+        }
+
+        .menu-icon-btn {
+            background: transparent;
+            border: none;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-icon-btn:hover {
+            background-color: rgba(128, 128, 128, 0.15);
+        }
+        
+        .menu-icon-btn:hover .menu-svg {
+            stroke: var(--accent-blue);
+        }
+
+        .menu-svg {
+            stroke: var(--text-main);
+            transition: stroke 0.2s ease;
+        }
+
+        nav {
+            display: none; 
+            position: absolute;
+            top: calc(100% + 0.6rem);
+            right: 0;
+            background-color: var(--bg-main);
+            border: 1px solid var(--border-retro);
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            width: 260px;
+        }
+
+        nav.menu-open {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        nav a {
+            font-family: var(--font-main);
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 0.5rem 0.8rem;
+            border-radius: 4px;
+            border-left: 2px solid transparent;
+            transition: all 0.2s ease;
+            letter-spacing: -0.2px;
+        }
+
+        nav a:hover {
+            color: var(--accent-blue);
+            background-color: rgba(255, 255, 255, 0.04);
+            border-left-color: var(--accent-blue);
+            transform: translateX(4px);
+        }
+
+        /* HERO SECTION */
+        .hero-motion-wrapper {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            height: calc(100vh - 63px);
+            min-height: 580px;
+            border-bottom: none;
+            overflow: hidden;
+            background-color: var(--bg-main);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        #agentNetworkCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 2rem;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            pointer-events: none;
+        }
+
+        .hero-content-direct {
+            max-width: 780px;
+            pointer-events: auto;
+        }
+
+        .hype-tag {
+            margin-bottom: 2.2rem !important;
+        }
+
+        .hero h1 {
+            font-family: var(--font-main);
+            font-size: 4.8rem;
+            font-weight: 700;
+            line-height: 1.1;
+            color: var(--text-main);
+            margin-bottom: 1.8rem;
+            border-left: 8px solid var(--accent-blue);
+            padding-left: 1.8rem;
+            letter-spacing: -1px;
+            text-shadow: 0 0 12px var(--bg-main);
+        }
+
+        .hero h1 span {
+            color: var(--accent-blue);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            text-shadow: 0 0 8px var(--bg-main);
+        }
+
+        /* BOTÓN REUTILIZABLE HOMOGÉNEO & MAGNÉTICO */
+        .hero-cta-btn, .btn-submit, .scroll-top-btn, .location-btn {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2.2rem;
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid var(--accent-blue);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            text-decoration: none;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
+            box-shadow: 0 0 15px rgba(212, 212, 216, 0.12);
+            will-change: transform;
+        }
+
+        .hero-cta-btn:hover, .btn-submit:hover, .location-btn:hover {
+            background-color: var(--accent-blue);
+            color: #000000;
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 25px rgba(212, 212, 216, 0.35);
+        }
+
+        /* SECCIÓN CLIENTES */
+        .partners-section {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 1.5rem 0 2rem 0;
+            overflow: hidden;
+        }
+
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            white-space: nowrap;
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        .marquee-track {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            animation: scrollMarquee 35s linear infinite;
+            will-change: transform;
+        }
+
+        .marquee-container:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        .partner-card {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 60px;
+            flex-shrink: 0;
+            text-decoration: none;
+            padding: 0 1rem;
+            background: transparent;
+            border: none;
+            transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+            will-change: transform;
+        }
+
+        .partner-logo {
+            max-width: 150px;
+            max-height: 50px;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            filter: var(--partner-filter);
+            opacity: 0.85;
+            transition: opacity 0.25s ease;
+        }
+
+        .partner-card:hover .partner-logo {
+            opacity: 1;
+        }
+
+        @keyframes scrollMarquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* SECCIÓN CORE_OBJECTIVE (MISIÓN) */
+        .mission {
+            position: relative;
+            width: 100%;
+            margin: 0 auto;
+            padding: 8rem 0 6rem 0;
+            overflow: hidden;
+            background-color: var(--bg-main);
+        }
+
+        .mission-container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .mission-title {
+            text-shadow: 0 0 10px var(--bg-main);
+            margin-bottom: 0 !important;
+        }
+
+        .mission-content p.mission-lead-text {
+            font-size: 2.6rem;
+            font-weight: 700;
+            line-height: 1.25;
+            color: var(--text-main);
+            margin-top: 0.2rem;
+            margin-bottom: 0;
+            letter-spacing: -0.8px;
+        }
+
+        .mission-content p .highlight {
+            color: var(--accent-blue);
+        }
+
+        /* SUBTÍTULO CON SWITCH INTEGRADO AL LADO DEL TEXTO */
+        .fde-section-subtitle {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 3.5rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .fde-subtitle-left {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .fde-subtitle-left::before {
+            content: "//";
+            color: var(--text-muted-retro);
+        }
+
+        .scroll-reveal-right {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        .scroll-reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .scroll-reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* CONTENEDOR DEL FLUJO FDE SIN BORDE EXTERIOR */
+        .fde-lifecycle-container {
+            padding: 1rem 0;
+            border: none;
+            background-color: transparent;
+            position: relative;
+        }
+
+        /* ESTILOS DEL SWITCH / TOGGLE INTERACTIVO AL LADO DEL SUBTÍTULO */
+        .fde-toggle-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted-retro);
+            letter-spacing: 1px;
+            user-select: none;
+        }
+
+        .fde-toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+
+        .fde-toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .fde-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border-retro);
+            transition: 0.3s ease;
+            border-radius: 20px;
+        }
+
+        .fde-slider:before {
+            position: absolute;
+            content: "";
+            height: 14px;
+            width: 14px;
+            left: 3px;
+            bottom: 3px;
+            background-color: var(--text-muted-retro);
+            transition: 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .fde-toggle-switch input:checked + .fde-slider {
+            background-color: rgba(34, 197, 94, 0.15);
+            border-color: #22c55e;
+        }
+
+        .fde-toggle-switch input:checked + .fde-slider:before {
+            transform: translateX(22px);
+            background-color: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+        }
+
+        /* COMPORTAMIENTO DINÁMICO DEL GRÁFICO FDE SEGÚN ESTADO DEL SWITCH */
+        .fde-pill-pulse {
+            width: 6px;
+            height: 6px;
+            background-color: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 6px #22c55e;
+            animation: pulseFde 2s infinite;
+            display: inline-block;
+            flex-shrink: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .fde-off .fde-pill-pulse {
+            opacity: 0 !important;
+            transform: scale(0);
+            animation: none !important;
+        }
+
+        .fde-off .step-card-fde.fde-active .fde-node-tag {
+            color: var(--text-muted-retro) !important;
+            opacity: 0.5;
+        }
+
+        .fde-off .step-card-fde.fde-active .flow-pill {
+            border-color: var(--border-retro) !important;
+            background-color: rgba(255, 255, 255, 0.03) !important;
+        }
+
+        @keyframes pulseFde {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.3); }
+        }
+
+        .steps-wrapper {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .steps-flow {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 0.8rem;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+            padding: 0.6rem 0.2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-card-fde {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .flow-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-retro);
+            padding: 0.6rem 1.2rem;
+            border-radius: 100px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-main);
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+        }
+
+        .flow-pill:hover {
+            border-color: var(--accent-blue);
+            background-color: rgba(212, 212, 216, 0.08);
+            transform: translateY(-2px);
+        }
+
+        .step-card-fde.fde-active .flow-pill {
+            border-color: var(--accent-blue);
+            background-color: rgba(212, 212, 216, 0.06);
+        }
+
+        .fde-node-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: var(--font-mono);
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--text-muted-retro);
+            transition: transform 0.2s ease, color 0.3s ease, opacity 0.3s ease;
+        }
+
+        .step-card-fde:hover .fde-node-tag {
+            transform: translateY(-2px);
+        }
+
+        .step-card-fde.fde-active .fde-node-tag {
+            color: var(--accent-blue);
+        }
+
+        .flow-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            min-width: 30px;
+            max-width: 90px;
+            color: var(--text-muted-retro);
+            margin-top: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .flow-connector svg {
+            width: 100%;
+            height: 12px;
+            stroke: currentColor;
+            stroke-width: 1.5;
+            fill: none;
+            transition: transform 0.3s ease;
+        }
+
+        .loop-return-track {
+            width: 100%;
+            margin-top: 0.6rem;
+            position: relative;
+            z-index: 1;
+            padding: 0;
+        }
+
+        .loop-return-svg {
+            width: 100%;
+            height: 32px;
+            color: var(--accent-blue);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+            display: block;
+        }
+
+        .loop-return-svg:hover {
+            opacity: 1;
+        }
+
+        .fde-loop-caption {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted-retro);
+            letter-spacing: 1px;
+            margin-top: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 992px) {
+            header {
+                padding: 0.5rem 1rem 0 1rem;
+            }
+            .nav-container {
+                padding: 1rem 1.5rem;
+            }
+            header.scrolled .nav-container {
+                padding: 0.7rem 1.2rem;
+            }
+            .steps-flow {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1.2rem;
+            }
+
+            .step-card-fde {
+                width: 100%;
+                align-items: stretch;
+            }
+
+            .flow-pill {
+                width: 100%;
+                text-align: center;
+                border-radius: 8px;
+                padding: 0.8rem 1rem;
+            }
+
+            .fde-node-tag {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .flow-connector {
+                max-width: 100%;
+                height: 20px;
+                min-width: auto;
+                margin-top: 0;
+            }
+
+            .flow-connector svg {
+                width: 20px;
+                height: 20px;
+                transform: rotate(90deg);
+            }
+
+            .loop-return-track {
+                display: none;
+            }
+        }
+
+        /* Títulos de Sección Principales */
+        .section-label {
+            font-family: var(--font-main);
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            color: var(--text-main);
+            letter-spacing: -1px;
+            display: flex;
+            align-items: center;
+            transition: color 0.3s ease;
+        }
+        
+        .section-label::after {
+            content: "▋";
+            color: var(--accent-blue);
+            animation: blink 1s infinite;
+            margin-left: 0.5rem;
+        }
+
+        /* Servicios Bloques Horizontales Apilados */
+        .services-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            border: 1px solid var(--border-retro); 
+            background-color: var(--bg-main);
+            width: 100%;
+            transition: border-color 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .service-card summary {
+            padding: 2rem 2.5rem;
+            cursor: pointer;
+            list-style: none;
+            outline: none;
+            user-select: none;
+            position: relative;
+        }
+
+        .service-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border-retro);
+            padding-bottom: 0.5rem;
+            padding-right: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: -0.5px;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* ICONOS DELANTE DE CADA CAPACIDAD */
+        .service-title-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 1;
+            min-width: 0;
+            word-break: break-word;
+        }
+
+        .service-title-icon {
+            width: 22px;
+            height: 22px;
+            stroke: var(--accent-blue);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .service-card:hover .service-title-icon {
+            transform: scale(1.15);
+        }
+
+        /* INDICADOR Y FLECHA ICONOGRÁFICA AGRANDADA */
+        .service-card h3::after {
+            content: "REVEAL_DATA_STREAM:";
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            color: var(--text-muted-retro);
+            font-weight: 500;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .service-card summary::after {
+            content: "↓";
+            font-size: 1.35rem;
+            font-family: var(--font-main);
+            font-weight: 700;
+            color: var(--accent-blue);
+            position: absolute;
+            right: 2.5rem;
+            top: 2rem;
+            transform: none;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .service-card[open] summary::after {
+            content: "↑";
+            color: var(--text-main);
+        }
+
+        .service-card[open] h3::after {
+            content: "HIDE_DATA_STREAM:";
+            color: var(--accent-blue);
+        }
+
+        .service-content {
+            padding: 2rem 2.5rem 2.5rem 2.5rem;
+            animation: expand 0.25s ease-out;
+        }
+
+        .service-card p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 1000px;
+        }
+
+        /* AJUSTES RESPONSIVE ESPECÍFICOS PARA LA SECCIÓN CAPACIDADES */
+        @media (max-width: 768px) {
+            .services-section {
+                padding: 4rem 1rem;
+            }
+
+            .service-card summary {
+                padding: 1.5rem 1.2rem;
+            }
+
+            .service-card summary::after {
+                right: 1.2rem;
+                top: 1.5rem;
+            }
+
+            .service-card h3 {
+                font-size: 1.05rem;
+                padding-right: 2rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .service-card h3::after {
+                font-size: 0.65rem;
+                margin-top: 0.2rem;
+            }
+
+            .service-content {
+                padding: 1.2rem 1.2rem 1.5rem 1.2rem;
+            }
+
+            .service-card p {
+                font-size: 0.95rem;
+            }
+        }
+
+        /* Casos de Éxito con Gráfico Lineal con Iconos */
+        .cases-section {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            border-top: 1px solid var(--border-retro);
+            border-bottom: 1px solid var(--border-retro);
+            padding: 6rem 2rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cases-section .section-label {
+            color: var(--text-dark);
+        }
+        
+        .cases-section .section-label::after {
+            color: var(--accent-blue);
+        }
+
+        .cases-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .case-block {
+            margin-bottom: 4rem;
+            border: 1px solid var(--border-dark);
+            padding: 3rem;
+            background-color: var(--bg-light);
+            position: relative;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .case-body-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .case-block::before {
+            content: "if (status === 'SUCCESS') =>";
+            font-family: var(--font-mono);
+            position: absolute;
+            top: -14px;
+            left: 20px;
+            background: var(--bg-light);
+            padding: 0 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted-retro);
+            font-weight: 400;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .case-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .case-header {
+            font-family: var(--font-main);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .case-desc {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .case-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            border-top: 1px dashed var(--border-dark);
+            padding-top: 1.2rem;
+        }
+
+        .detail-item h5 {
+            font-size: 0.7rem !important;
+            letter-spacing: 1px;
+            color: var(--text-muted-retro) !important;
+            margin-bottom: 0.2rem;
+            text-transform: uppercase;
+        }
+
+        .detail-item p {
+            font-size: 0.88rem !important;
+            font-weight: 600;
+            line-height: 1.3;
+            color: var(--accent-blue);
+        }
+
+        /* COMPONENTE: Gráfico Lineal de Nodos con Flechas Vectoriales Lineales */
+        .case-linear-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            border-left: 2px solid var(--border-dark);
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .chart-step-node {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .chart-step-node::before {
+            content: "";
+            position: absolute;
+            left: -2.41rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--bg-light);
+            border: 2px solid var(--border-dark);
+            transition: all 0.3s ease;
+        }
+
+        .chart-step-node:hover::before {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            transform: scale(1.3);
+        }
+
+        .node-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border-dark);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.03);
+            flex-shrink: 0;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .chart-step-node:hover .node-icon-wrapper {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+
+        .node-icon-wrapper svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-dark);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .node-text-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .node-title {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted-retro);
+            text-transform: uppercase;
+        }
+
+        .node-desc {
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .chart-step-arrow {
+            width: 16px;
+            height: 18px;
+            margin-left: 14px;
+            stroke: var(--text-dark);
+            opacity: 0.6;
+            stroke-width: 1.5;
+            fill: none;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 992px) {
+            .case-body-grid {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .case-linear-chart {
+                border-left: none;
+                border-top: 2px solid var(--border-dark);
+                padding-left: 0;
+                padding-top: 2rem;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+                overflow-x: auto;
+            }
+            .chart-step-node::before {
+                display: none;
+            }
+            .chart-step-arrow {
+                transform: rotate(-90deg);
+                margin-left: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mission {
+                padding: 5rem 0 4rem 0;
+            }
+            .mission-content p.mission-lead-text {
+                font-size: 1.8rem;
+            }
+            .hero h1 { font-size: 2.8rem; border-left-width: 6px; padding-left: 1.2rem; }
+            .hero-content-direct { max-width: 100%; }
+            .section-label { font-size: 2.2rem !important; }
+            .split-section { grid-template-columns: 1fr !important; gap: 3rem !important; }
+            .marquee-track { gap: 2.5rem; animation-duration: 25s; }
+            .scroll-top-btn { bottom: 1.5rem; right: 1.5rem; padding: 0.6rem 1.2rem; font-size: 0.8rem; }
+            .case-linear-chart {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .chart-step-arrow {
+                transform: rotate(0deg);
+                margin-left: 14px;
+            }
+        }
+
+        /* SECCIÓN DE GEOLOCALIZACIÓN Y UBICACIÓN DE LA OFICINA CON PIN CON LOGO ENESIMAL */
+        .location-section {
+            width: 100%;
+            padding: 6rem 0 0 0;
+            border-top: 1px dashed var(--border-retro);
+        }
+
+        .location-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem 2.5rem 2rem;
+        }
+
+        .location-address-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: -1.5rem;
+        }
+
+        .address-text p {
+            font-family: var(--font-main);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 0.3rem;
+        }
+
+        .full-width-map-wrapper {
+            width: 100vw;
+            position: relative;
+            left: 50%;
+            right: 50%;
+            margin-left: -50vw;
+            margin-right: -50vw;
+            height: 450px;
+            border-top: 1px solid var(--border-retro);
+            border-bottom: 1px solid var(--border-retro);
+            overflow: hidden;
+            background-color: var(--bg-input);
+        }
+
+        .map-iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: var(--map-filter);
+            transition: filter 0.3s ease;
+        }
+
+        /* MARCADOR / PIN PERSONALIZADO CON EL LOGO DE ENESIMAL */
+        .custom-map-pin {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -100%);
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: pinBounce 2.5s infinite cubic-bezier(0.45, 0, 0.15, 1);
+        }
+
+        .pin-card-badge {
+            background-color: var(--bg-main);
+            border: 1px solid var(--accent-blue);
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+        }
+
+        .pin-logo-img {
+            height: 22px;
+            width: auto;
+            object-fit: contain;
+            filter: var(--logo-filter);
+        }
+
+        .pin-card-text {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .pin-pointer-arrow {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 10px solid var(--accent-blue);
+            margin-top: -1px;
+        }
+
+        @keyframes pinBounce {
+            0%, 100% { transform: translate(-50%, -100%); }
+            50% { transform: translate(-50%, -112%); }
+        }
+
+        @media (max-width: 768px) {
+            .address-text p {
+                font-size: 1.1rem;
+            }
+            .full-width-map-wrapper {
+                height: 350px;
+            }
+        }
+
+        /* Sección Contacto con Canvas Libre de Caja Transparente */
+        .contact-section {
+            border-top: 1px dashed var(--border-retro);
+            padding: 6rem 2rem;
+        }
+
+        .split-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 380px;
+            overflow: hidden;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+        }
+
+        #contactNetworkCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.85;      
+            pointer-events: none;
+        }
+
+        .contact-info-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-info h2 {
+            font-family: var(--font-main);
+            font-size: 2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+            text-shadow: 0 0 10px var(--bg-main);
+        }
+
+        .contact-info p {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            margin-bottom: 0.8rem;
+            text-shadow: 0 0 8px var(--bg-main);
+        }
+
+        .contact-email-direct {
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            color: var(--text-main);
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-email-link {
+            color: var(--accent-blue);
+            text-decoration: none;
+            font-weight: 700;
+            transition: color 0.25s ease;
+        }
+
+        .contact-email-link:hover {
+            color: var(--text-main);
+            text-decoration: underline;
+        }
+
+        .form-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--text-muted-retro); 
+            margin-bottom: 0.6rem;
+        }
+
+        .form-control {
+            width: 100%;
+            background-color: var(--bg-input);
+            border: 1px solid var(--border-retro);
+            padding: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            font-weight: 400;
+            color: var(--text-main);
+            border-radius: 0px;
+            transition: all 0.2s ease;
+        }
+
+        .form-control::placeholder {
+            font-weight: 400;
+            opacity: 0.6;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        /* ESTILOS DEL MENSAJE DE CONFIRMACIÓN ASÍNCRONO DEL FORMULARIO */
+        .form-status-msg {
+            margin-top: 1.2rem;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            letter-spacing: 0.5px;
+            padding: 0.8rem 1rem;
+            border-radius: 4px;
+            display: none; /* Oculto por defecto */
+            animation: fadeInStatus 0.3s ease-out;
+        }
+
+        .form-status-msg.success {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #22c55e;
+            background-color: rgba(34, 197, 94, 0.08);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .form-status-msg.error {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #ef4444;
+            background-color: rgba(239, 68, 68, 0.08);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        @keyframes fadeInStatus {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Botón Scroll to Top */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            border: 1px solid var(--border-retro);
+            padding: 0.7rem 1.4rem;
+            font-family: var(--font-main);
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top-btn:hover {
+            background-color: var(--accent-blue);
+            color: #000000;
+            border-color: var(--accent-blue);
+            box-shadow: 0 6px 20px rgba(212, 212, 216, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem;
+            background-color: var(--bg-main);
+            border-top: 1px solid var(--border-retro);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .footer-right-col {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.8rem;
+        }
+
+        .footer-copyright {
+            color: var(--text-muted-retro);
+            font-size: 0.85rem;
+            font-weight: 400;
+        }
+
+        .footer-social-links {
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+
+        .footer-social-link {
+            color: var(--text-muted-retro);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.25s ease, transform 0.25s ease;
+            text-decoration: none;
+        }
+
+        .footer-social-link:hover {
+            color: var(--text-main);
+            transform: translateY(-2px);
+        }
+
+        .footer-social-icon {
+            fill: currentColor;
+            width: 16px;
+            height: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .footer-right-col {
+                align-items: flex-start;
+            }
+        }
+
+        @keyframes expand {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Elementos HTML del Cursor Personalizado -->
+    <div class="custom-cursor-dot" id="cursorDot"></div>
+    <div class="custom-cursor-follower" id="cursorFollower"></div>
+
+    <header id="mainHeader">
+        <div class="nav-container">
+            <div class="logo-container">
+                <a href="#inicio" class="logo-link">
+                    <img src="logo9.png" alt="enesimal" class="logo-image">
+                </a>
+            </div>
+            
+            <div class="controls-wrapper">
+                <!-- SELECTOR DE IDIOMA (ES / EN) -->
+                <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()" title="Switch Language / Cambiar Idioma">
+                    <svg class="lang-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <span id="langBtnText">EN</span>
+                </button>
+
+                <div class="color-toggle-icon" id="colorToggle" onclick="toggleColorMode()" title="Alternar inversión de video">
+                    <svg class="toggle-svg" width="20" height="20" viewBox="0 0 24 24">
+                        <path d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8v16z"/>
+                    </svg>
+                </div>
+                
+                <div class="menu-icon-btn" onclick="toggleMenu()" title="Menú del sistema">
+                    <svg class="menu-svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="3" stroke-linecap="square">
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <line x1="3" y1="12" x2="21" y2="12"></line>
+                        <line x1="3" y1="18" x2="21" y2="18"></line>
+                    </svg>
+                </div>
+            </div>
+
+            <nav id="navMenu">
+                <a href="#inicio" onclick="toggleMenu()" data-i18n="nav-start">Inicio</a>
+                <a href="#servicios" onclick="toggleMenu()" data-i18n="nav-capabilities">Capacidades</a>
+                <a href="#casos" onclick="toggleMenu()" data-i18n="nav-cases">Casos & Proyectos</a>
+                <a href="#contacto" onclick="toggleMenu()" data-i18n="nav-contact">Contactanos</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- SECCIÓN DE INICIO COMPLETA EN PANTALLA CON TEXTO CENTRADO VERTICALMENTE -->
+        <section id="inicio" class="hero-motion-wrapper">
+            <canvas id="agentNetworkCanvas"></canvas>
+            
+            <div class="hero">
+                <div class="hero-content-direct">
+                    <div class="hype-tag">&& [HYPE_TO_BUSINESS_LOGIC !== TRUE]</div>
+                    <h1 data-i18n="hero-title">Somos <span>tu habilitador hacia la IA agéntica.</span></h1>
+                    <p data-i18n="hero-desc">
+                        Transformamos organizaciones y creamos nuevas empresas en LATAM mediante la aplicación rigurosa de las Ciencias de la Computación, la Ciencia de Datos, los Sistemas de Información y la Inteligencia Artificial.
+                    </p>
+                    <a href="#contacto" class="hero-cta-btn magnetic-btn" data-i18n="hero-cta">Contactanos &rarr;</a>
+                </div>
+            </div>
+
+            <!-- CARRUSEL DE LOGOS EN LA PARTE INFERIOR DE LA PANTALLA INICIAL -->
+            <div id="clientes" class="partners-section">
+                <div class="marquee-container">
+                    <div class="marquee-track">
+                        <!-- Bloque inicial de logos -->
+                        <a href="https://www.rosental.com/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Rosental Inversiones">
+                            <img src="logos/rosental.png" alt="Rosental Inversiones" class="partner-logo">
+                        </a>
+                        <a href="https://grupogagliardo.com.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Grupo Gagliardo">
+                            <img src="logos/gagliardo.png" alt="Grupo Gagliardo" class="partner-logo">
+                        </a>
+                        <a href="https://www.grupoorono.com.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Grupo Oroño">
+                            <img src="logos/orono.png" alt="Grupo Oroño" class="partner-logo">
+                        </a>
+                        <a href="https://www.vicentin.com.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Nueva Vicentin Argentina">
+                            <img src="logos/vicentin.png" alt="Nueva Vicentin Argentina" class="partner-logo">
+                        </a>
+                        <a href="https://poincenot.com/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Poincenot">
+                            <img src="logos/poincenot.png" alt="Poincenot" class="partner-logo">
+                        </a>
+                        <a href="https://www.santafe.gov.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Provincia de Santa Fe">
+                            <img src="logos/santafe.png" alt="Provincia de Santa Fe" class="partner-logo">
+                        </a>
+                        <a href="https://www.santafe.gov.ar/index.php/web/content/view/full/102282" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="API">
+                            <img src="logos/api.png" alt="API" class="partner-logo">
+                        </a>
+                        <a href="https://www.rosario.gob.ar/inicio/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Municipalidad de Rosario">
+                            <img src="logos/rosario.png" alt="Municipalidad de Rosario" class="partner-logo">
+                        </a>
+                        <a href="https://www.bmros.com.ar/personas" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="BMR">
+                            <img src="logos/bmr.png" alt="BMR" class="partner-logo">
+                        </a>
+                        <a href="https://ugr.edu.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="UGR - Universidad del Gran Rosario">
+                            <img src="logos/ugr.png" alt="UGR - Universidad del Gran Rosario" class="partner-logo">
+                        </a>
+                        <a href="https://mitairosario.com.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Mita'i">
+                            <img src="logos/mitai.png" alt="Mita'i" class="partner-logo">
+                        </a>
+
+                        <!-- Duplicado idéntico para loop continuo sin cortes -->
+                        <a href="https://www.rosental.com/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Rosental Inversiones">
+                            <img src="logos/rosental.png" alt="Rosental Inversiones" class="partner-logo">
+                        </a>
+                        <a href="https://grupogagliardo.com.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Grupo Gagliardo">
+                            <img src="logos/gagliardo.png" alt="Grupo Gagliardo" class="partner-logo">
+                        </a>
+                        <a href="https://www.grupoorono.com.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Grupo Oroño">
+                            <img src="logos/orono.png" alt="Grupo Oroño" class="partner-logo">
+                        </a>
+                        <a href="https://www.vicentin.com.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Nueva Vicentin Argentina">
+                            <img src="logos/vicentin.png" alt="Nueva Vicentin Argentina" class="partner-logo">
+                        </a>
+                        <a href="https://poincenot.com/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Poincenot">
+                            <img src="logos/poincenot.png" alt="Poincenot" class="partner-logo">
+                        </a>
+                        <a href="https://www.santafe.gov.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Provincia de Santa Fe">
+                            <img src="logos/santafe.png" alt="Provincia de Santa Fe" class="partner-logo">
+                        </a>
+                        <a href="https://www.santafe.gov.ar/index.php/web/content/view/full/102282" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="API">
+                            <img src="logos/api.png" alt="API" class="partner-logo">
+                        </a>
+                        <a href="https://www.rosario.gob.ar/inicio/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Municipalidad de Rosario">
+                            <img src="logos/rosario.png" alt="Municipalidad de Rosario" class="partner-logo">
+                        </a>
+                        <a href="https://www.bmros.com.ar/personas" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="BMR">
+                            <img src="logos/bmr.png" alt="BMR" class="partner-logo">
+                        </a>
+                        <a href="https://ugr.edu.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="UGR - Universidad del Gran Rosario">
+                            <img src="logos/ugr.png" alt="UGR - Universidad del Gran Rosario" class="partner-logo">
+                        </a>
+                        <a href="https://mitairosario.com.ar/" target="_blank" rel="noopener noreferrer" class="partner-card tilt-card" title="Mita'i">
+                            <img src="logos/mitai.png" alt="Mita'i" class="partner-logo">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN CORE_OBJECTIVE (MISIÓN) CON BUCLE Y CAPA INTEGRADA DE FDE -->
+        <section id="mision" class="mission">
+            <div class="mission-container">
+                <div class="mission-title hype-tag">:: CORE_OBJECTIVE</div>
+                <div class="mission-content scroll-reveal-right">
+                    <p class="mission-lead-text" data-i18n="mission-text">
+                        Desarrollamos conocimiento, talento, productos y empresas para liderar los desafíos de la economía digital con <span class="highlight">impacto sostenible</span>.
+                    </p>
+                    
+                    <!-- SUBTÍTULO CON SWITCH INTEGRADO A LA DERECHA -->
+                    <div class="fde-section-subtitle">
+                        <span class="fde-subtitle-left" data-i18n="fde-subtitle">CICLO DE VIDA E INTEGRACIÓN DE LA CAPA FDE</span>
+                        <div class="fde-toggle-container">
+                            <span data-i18n="fde-toggle-label">VER CAPA FDE</span>
+                            <label class="fde-toggle-switch">
+                                <input type="checkbox" id="fdeToggle" onchange="toggleFdeLayer()">
+                                <span class="fde-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- DIAGRAMA INTEGRADO CON CAPA DE FORWARD DEPLOYED ENGINEERS (FDE) (INICIA APAGADO: CLASE fde-off) -->
+                    <div class="fde-lifecycle-container scroll-reveal fde-off" id="fdeDiagramContainer">
+                        <div class="steps-wrapper">
+                            <div class="steps-flow">
+                                <div class="step-card-fde fde-active" title="FDE On-Site">
+                                    <span class="flow-pill" data-i18n="step-1">01 // EVALUACIÓN</span>
+                                    <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                                </div>
+                                <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                                
+                                <div class="step-card-fde core-active" title="Core Lab">
+                                    <span class="flow-pill" data-i18n="step-2">02 // DESARROLLO</span>
+                                    <span class="fde-node-tag">[CORE LAB]</span>
+                                </div>
+                                <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                                
+                                <div class="step-card-fde fde-active" title="FDE On-Site">
+                                    <span class="flow-pill" data-i18n="step-3">03 // IMPLEMENTACIÓN</span>
+                                    <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                                </div>
+                                <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                                
+                                <div class="step-card-fde fde-active" title="FDE On-Site">
+                                    <span class="flow-pill" data-i18n="step-4">04 // ADOPCIÓN</span>
+                                    <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                                </div>
+                            </div>
+
+                            <!-- BUCLE VECTORIAL DE RETORNO Y FEEDBACK CONTINUO FDE -->
+                            <div class="loop-return-track">
+                                <svg class="loop-return-svg" viewBox="0 0 1000 32" fill="none" preserveAspectRatio="none">
+                                    <path d="M 885 0 V 16 C 885 28, 865 30, 835 30 H 145 C 115 30, 95 28, 95 16 V 0" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/>
+                                    <polyline points="88,10 95,0 102,10" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                                </svg>
+                                <div class="fde-loop-caption">
+                                    <span data-i18n="fde-feedback">FEEDBACK CONTINUO EN TIEMPO REAL</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="servicios" class="services-section">
+            <div class="section-label scroll-reveal" data-i18n="capabilities-title">NUESTRAS CAPACIDADES</div>
+            <div class="services-grid">
+                
+                <details class="service-card tilt-card scroll-reveal" open>
+                    <summary>
+                        <h3>
+                            <span class="service-title-wrapper">
+                                <svg class="service-title-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M12 2v3m0 14v3M2 12h3m14 0h3m-3.5-7.5l-2.1 2.1m-8.8 8.8l-2.1 2.1m0-13rem2.1 2.1m8.8 8.8l2.1 2.1"></path></svg>
+                                <span data-i18n="cap-1-title">IA Agéntica & Agentes Autónomos</span>
+                            </span>
+                        </h3>
+                    </summary>
+                    <div class="service-content">
+                        <p data-i18n="cap-1-desc">Despliegue estratégico de modelos agénticos y arquitecturas de agentes autónomos capacitados para razonar, tomar decisiones y ejecutar tareas complejas. Nos alejamos de la adopción superficial para integrar IA que automatiza operaciones críticas y habilita nuevas capacidades en las empresas.</p>
+                    </div>
+                </details>
+
+                <details class="service-card tilt-card scroll-reveal">
+                    <summary>
+                        <h3>
+                            <span class="service-title-wrapper">
+                                <svg class="service-title-icon" viewBox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                                <span data-i18n="cap-2-title">Ciencia de Datos</span>
+                            </span>
+                        </h3>
+                    </summary>
+                    <div class="service-content">
+                        <p data-i18n="cap-2-desc">Modelado y análisis avanzado de datos orientados a resultados medibles. Evaluamos el impacto y la estructura de cada organización para optimizar procesos latentes, convirtiendo la información en valor directo para el negocio.</p>
+                    </div>
+                </details>
+
+                <details class="service-card tilt-card scroll-reveal">
+                    <summary>
+                        <h3>
+                            <span class="service-title-wrapper">
+                                <svg class="service-title-icon" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line><polyline points="7 8 10 11 7 14"></polyline><line x1="13" y1="14" x2="17" y2="14"></line></svg>
+                                <span data-i18n="cap-3-title">Ciencias de la Computación</span>
+                            </span>
+                        </h3>
+                    </summary>
+                    <div class="service-content">
+                        <p data-i18n="cap-3-desc">Diseño y construcción de sistemas robustos basados en principios de ingeniería rigurosos. Garantizamos desarrollos estables, lógicas optimizadas y arquitecturas escalables preparadas para entornos críticos de alta demanda.</p>
+                    </div>
+                </details>
+
+                <details class="service-card tilt-card scroll-reveal">
+                    <summary>
+                        <h3>
+                            <span class="service-title-wrapper">
+                                <svg class="service-title-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                                <span data-i18n="cap-4-title">Sistemas de información & Automatización de Procesos</span>
+                            </span>
+                        </h3>
+                    </summary>
+                    <div class="service-content">
+                        <p data-i18n="cap-4-desc">Orquestación eficiente y automatización end-to-end de procesos de negocio. Bajo enfoques de optimización e integraciones tecnológicas inteligentes, aseguramos que la infraestructura operativa sea escalable, segura y rentable.</p>
+                    </div>
+                </details>
+
+                <details class="service-card tilt-card scroll-reveal">
+                    <summary>
+                        <h3>
+                            <span class="service-title-wrapper">
+                                <svg class="service-title-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 8v8m-4-4h8"></path></svg>
+                                <span data-i18n="cap-5-title">FDE: Ingeniería Desplegada en Primera Línea</span>
+                            </span>
+                        </h3>
+                    </summary>
+                    <div class="service-content">
+                        <p data-i18n="cap-5-desc">Incrustamos Forward Deployed Engineers (FDE) directamente en la infraestructura y equipos clave de nuestros clientes. Nuestros ingenieros trabajan en el terreno operativo para integrar modelos avanzados de IA y arquitecturas agénticas en sistemas reales de producción, acelerando la adopción tecnológica y resolviendo fricciones críticas de la organización desde adentro.</p>
+                    </div>
+                </details>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN CASOS & PROYECTOS CON GRÁFICOS LINEALES DE ICONOS AL COSTADO DEL TEXTO -->
+        <section id="casos" class="cases-section">
+            <div class="cases-container">
+                <div class="section-label scroll-reveal" data-i18n="cases-title">CASOS & PROYECTOS</div>
+                
+                <!-- PROYECTO 1: UGR -->
+                <div class="case-block tilt-card scroll-reveal">
+                    <div class="case-body-grid">
+                        <div class="case-info-col">
+                            <div class="case-header" data-i18n="case-1-title">Automatización de Liquidación y Facturación</div>
+                            <div class="case-desc" data-i18n="case-1-desc">
+                                Despliegue de un ecosistema basado en Agentes de IA para la Universidad del Gran Rosario (UGR). La solución automatiza los flujos de facturación y el procesamiento transaccional de liquidación de honorarios para la planta docente de la institución.
+                            </div>
+                            <div class="case-details">
+                                <div class="detail-item">
+                                    <h5 data-i18n="client-label">CLIENTE</h5>
+                                    <p>Universidad del Gran Rosario</p>
+                                </div>
+                                <div class="detail-item">
+                                    <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico Lineal con Iconos (UGR) -->
+                        <div class="case-linear-chart">
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">01 / INPUT</span>
+                                    <span class="node-desc" data-i18n="case-1-node-1">Comprobantes & Datos</span>
+                                </div>
+                            </div>
+
+                            <svg class="chart-step-arrow" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="15"/><polyline points="3,10 8,17 13,10"/></svg>
+
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="9" y1="9" x2="15" y2="15"></line><line x1="15" y1="9" x2="9" y2="15"></line></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">02 / CORE</span>
+                                    <span class="node-desc" data-i18n="case-1-node-2">Agentes IA Orquestados</span>
+                                </div>
+                            </div>
+
+                            <svg class="chart-step-arrow" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="15"/><polyline points="3,10 8,17 13,10"/></svg>
+
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">03 / OUTPUT</span>
+                                    <span class="node-desc" data-i18n="case-1-node-3">Liquidación Validada</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROYECTO 2: POINCENOT & NBCH -->
+                <div class="case-block tilt-card scroll-reveal">
+                    <div class="case-body-grid">
+                        <div class="case-info-col">
+                            <div class="case-header" data-i18n="case-2-title">Motor de Detección de Fraudes Financieros</div>
+                            <div class="case-desc" data-i18n="case-2-desc">
+                                Diseño e implementación de un modelo avanzado para la mitigación y detección temprana de anomalías y fraudes financieros, integrado nativamente para Poincenot y las estructuras del Nuevo Banco del Chaco.
+                            </div>
+                            <div class="case-details">
+                                <div class="detail-item">
+                                    <h5 data-i18n="client-label">CLIENTE</h5>
+                                    <p>Poincenot & Nuevo Banco del Chaco</p>
+                                </div>
+                                <div class="detail-item">
+                                    <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico Lineal con Iconos (POINCENOT) -->
+                        <div class="case-linear-chart">
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">01 / INPUT</span>
+                                    <span class="node-desc" data-i18n="case-2-node-1">Flujo Transaccional</span>
+                                </div>
+                            </div>
+
+                            <svg class="chart-step-arrow" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="15"/><polyline points="3,10 8,17 13,10"/></svg>
+
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">02 / CORE</span>
+                                    <span class="node-desc" data-i18n="case-2-node-2">Motor Predictivo IA</span>
+                                </div>
+                            </div>
+
+                            <svg class="chart-step-arrow" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="15"/><polyline points="3,10 8,17 13,10"/></svg>
+
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">03 / OUTPUT</span>
+                                    <span class="node-desc" data-i18n="case-2-node-3">Bloqueo Preventivo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROYECTO 3: TRUCKFLOW -->
+                <div class="case-block tilt-card scroll-reveal">
+                    <div class="case-body-grid">
+                        <div class="case-info-col">
+                            <div class="case-header" data-i18n="case-3-title">Computer Vision en Rutas Industriales</div>
+                            <div class="case-desc" data-i18n="case-3-desc">
+                                Desarrollo de un sistema logístico inteligente que utiliza procesamiento de imágenes e Inteligencia Artificial en tiempo real para la identificación y validación de rutas permitidas dentro de plantas industriales complejas.
+                            </div>
+                            <div class="case-details">
+                                <div class="detail-item">
+                                    <h5 data-i18n="client-label">CLIENTE</h5>
+                                    <p>Nueval Vicentín Argentina</p>
+                                </div>
+                                <div class="detail-item">
+                                    <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico Lineal con Iconos (TRUCKFLOW) -->
+                        <div class="case-linear-chart">
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">01 / INPUT</span>
+                                    <span class="node-desc" data-i18n="case-3-node-1">Cámaras en Tiempo Real</span>
+                                </div>
+                            </div>
+
+                            <svg class="chart-step-arrow" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="15"/><polyline points="3,10 8,17 13,10"/></svg>
+
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">02 / CORE</span>
+                                    <span class="node-desc" data-i18n="case-3-node-2">Filtros de Procesamiento</span>
+                                </div>
+                            </div>
+
+                            <svg class="chart-step-arrow" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="15"/><polyline points="3,10 8,17 13,10"/></svg>
+
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">03 / OUTPUT</span>
+                                    <span class="node-desc" data-i18n="case-3-node-3">Ruta Industrial Validada</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PROYECTO 4: N9 -->
+                <div class="case-block tilt-card scroll-reveal">
+                    <div class="case-body-grid">
+                        <div class="case-info-col">
+                            <div class="case-header" data-i18n="case-4-title">Framework Agéntico N9</div>
+                            <div class="case-desc" data-i18n="case-4-desc">
+                                Creación de una arquitectura y framework de agentes autónomos orientados a la orquestación y automatización de flujos operativos cotidianos, reduciendo drásticamente la carga de tareas repetitivas en pequeñas y medianas empresas.
+                            </div>
+                            <div class="case-details">
+                                <div class="detail-item">
+                                    <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
+                                    <p>...</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gráfico Lineal con Iconos (N9) -->
+                        <div class="case-linear-chart">
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">01 / INPUT</span>
+                                    <span class="node-desc" data-i18n="case-4-node-1">Mapeo de Tareas Repetitivas</span>
+                                </div>
+                            </div>
+
+                            <svg class="chart-step-arrow" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="15"/><polyline points="3,10 8,17 13,10"/></svg>
+
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">02 / CORE</span>
+                                    <span class="node-desc" data-i18n="case-4-node-2">Framework Multi-Agente</span>
+                                </div>
+                            </div>
+
+                            <svg class="chart-step-arrow" viewBox="0 0 16 20"><line x1="8" y1="0" x2="8" y2="15"/><polyline points="3,10 8,17 13,10"/></svg>
+
+                            <div class="chart-step-node">
+                                <div class="node-icon-wrapper">
+                                    <svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                                </div>
+                                <div class="node-text-wrapper">
+                                    <span class="node-title">03 / OUTPUT</span>
+                                    <span class="node-desc" data-i18n="case-4-node-3">Reducción Directa de Costos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE GEOLOCALIZACIÓN Y UBICACIÓN DE LA OFICINA CON PIN CON LOGO ENESIMAL -->
+        <section id="ubicacion" class="location-section">
+            <div class="location-container">
+                <div class="section-label scroll-reveal" data-i18n="location-title">NUESTRA OFICINA</div>
+                <div class="location-address-bar scroll-reveal">
+                    <div class="address-text">
+                        <span class="hype-tag">:: LOCATION_NODE</span>
+                        <p>Alvear 1670, Piso 5, Rosario, Santa Fe, Argentina</p>
+                    </div>
+                    <a href="https://maps.google.com/?q=Alvear+1670,+Rosario,+Santa+Fe,+Argentina" target="_blank" rel="noopener noreferrer" class="location-btn magnetic-btn" data-i18n="location-btn">ABRIR EN MAPS &rarr;</a>
+                </div>
+            </div>
+            <div class="full-width-map-wrapper scroll-reveal">
+                <!-- PIN SOBREPUESTO CON EL LOGO DE ENESIMAL -->
+                <div class="custom-map-pin">
+                    <div class="pin-card-badge">
+                        <img src="logo9.png" alt="Enesimal" class="pin-logo-img">
+                        <span class="pin-card-text"> HQ</span>
+                    </div>
+                    <div class="pin-pointer-arrow"></div>
+                </div>
+
+                <!-- Mapa con Pin exacto marcado en Alvear 1670, Rosario -->
+                <iframe class="map-iframe" src="https://maps.google.com/maps?q=Alvear+1670,+Piso+5,+Rosario,+Santa+Fe,+Argentina&t=&z=16&ie=UTF8&iwloc=&output=embed" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación de la oficina de Enesimal - Alvear 1670"></iframe>
+            </div>
+        </section>
+
+        <!-- SECCIÓN CONTACTO CON CANVAS LIBRE DE CAJA TRANSPARENTE Y LEYENDA EMAIL -->
+        <section id="contacto" class="contact-section">
+            <div class="split-section">
+                <div class="contact-info scroll-reveal">
+                    <canvas id="contactNetworkCanvas"></canvas>
+                    <div class="contact-info-content">
+                        <h2>> <span data-i18n="contact-title">CONTACTANOS</span></h2>
+                        <p data-i18n="contact-desc">Escribinos para analizar la infraestructura de datos de tu organización y diseñar soluciones reales que impacten en la eficiencia de tu negocio.</p>
+                        
+                        <!-- LEYENDA EMAIL DIRECTO CON ICONO VECTORIAL -->
+                        <div class="contact-email-direct">
+                            <svg class="contact-mail-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 6px;"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+                            <span data-i18n="contact-mail-lead">También nos podés enviar un mail a</span> <a href="mailto:hello@enesimal.com" class="contact-email-link">hello@enesimal.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form scroll-reveal">
+                    <!-- Formulario conectado de forma asíncrona a Formspree enviando mensajes a hello@enesimal.com -->
+                    <form id="contactForm" action="https://formspree.io/f/mrpzqzby" method="POST">
+                        <!-- TRAMPA HONEYPOT PARA PREVENIR SPAM DE BOTS -->
+                        <input type="text" name="_gotcha" style="display:none !important" tabindex="-1" autocomplete="off">
+
+                        <div class="form-group">
+                            <label for="name" data-i18n="form-name">TU NOMBRE Y APELLIDO</label>
+                            <input type="text" id="name" name="name" class="form-control" placeholder="Ej. Juan Pérez" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" data-i18n="form-email">TU EMAIL</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="juan@empresa.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message" data-i18n="form-msg">TU MENSAJE</label>
+                            <textarea id="message" name="message" rows="5" class="form-control" placeholder="Contanos qué flujos operativos buscás optimizar con agentes de IA..." required></textarea>
+                        </div>
+                        <button type="submit" id="submitBtn" class="btn-submit magnetic-btn" data-i18n="form-btn">ENVIAR</button>
+                        
+                        <!-- RECUADRO INDICADOR DE ESTADO EN PANTALLA -->
+                        <div id="formStatusMsg" class="form-status-msg"></div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Botón Scroll to Top Modernizado & Magnético -->
+    <button id="scrollTopBtn" class="scroll-top-btn magnetic-btn" onclick="scrollToTop()" title="Ir al inicio">
+        ↑ TOP
+    </button>
+
+    <footer>
+        <div class="footer-container">
+            <div class="logo-container" style="height: 30px;">
+                <img src="logo9.png" alt="enesimal" class="logo-image">
+            </div>
+            
+            <div class="footer-right-col">
+                <div class="footer-copyright">
+                    © 2026 enesimal. SYS_STATUS: OK.
+                </div>
+
+                <!-- Redes sociales pequeñas de color gris (mismo tono que el copyright) ubicadas DEBAJO del texto -->
+                <div class="footer-social-links">
+                    <a href="https://www.instagram.com/enesimal.tech/" target="_blank" rel="noopener noreferrer" class="footer-social-link" title="Instagram">
+                        <svg class="footer-social-icon" viewBox="0 0 24 24">
+                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/company/enesimal-company/" target="_blank" rel="noopener noreferrer" class="footer-social-link" title="LinkedIn">
+                        <svg class="footer-social-icon" viewBox="0 0 24 24">
+                            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/enesimal" target="_blank" rel="noopener noreferrer" class="footer-social-link" title="GitHub">
+                        <svg class="footer-social-icon" viewBox="0 0 24 24">
+                            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.39-1.305.705-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.405.345.765 1.02.765 2.055 0 1.485-.015 2.685-.015 3.06 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /* SISTEMA DICCIONARIO BILINGÜE COMPLETO (ES / EN) */
+        let currentLang = 'es';
+
+        const i18nData = {
+            es: {
+                "nav-start": "Inicio",
+                "nav-capabilities": "Capacidades",
+                "nav-cases": "Casos & Proyectos",
+                "nav-contact": "Contactanos",
+                "hero-title": "Somos <span>tu habilitador hacia la IA agéntica.</span>",
+                "hero-desc": "Transformamos organizaciones y creamos nuevas empresas en LATAM mediante la aplicación rigurosa de las Ciencias de la Computación, la Ciencia de Datos, los Sistemas de Información y la Inteligencia Artificial.",
+                "hero-cta": "Contactanos →",
+                "mission-text": "Desarrollamos conocimiento, talento, productos y empresas para liderar los desafíos de la economía digital con <span class=\"highlight\">impacto sostenible</span>.",
+                "fde-subtitle": "CICLO DE VIDA E INTEGRACIÓN DE LA CAPA FDE",
+                "fde-toggle-label": "VER CAPA FDE",
+                "step-1": "01 // EVALUACIÓN",
+                "step-2": "02 // DESARROLLO",
+                "step-3": "03 // IMPLEMENTACIÓN",
+                "step-4": "04 // ADOPCIÓN",
+                "fde-feedback": "FEEDBACK CONTINUO EN TIEMPO REAL",
+                "capabilities-title": "NUESTRAS CAPACIDADES",
+                "cap-1-title": "IA Agéntica & Agentes Autónomos",
+                "cap-1-desc": "Despliegue estratégico de modelos agénticos y arquitecturas de agentes autónomos capacitados para razonar, tomar decisiones y ejecutar tareas complejas. Nos alejamos de la adopción superficial para integrar IA que automatiza operaciones críticas y habilita nuevas capacidades en las empresas.",
+                "cap-2-title": "Ciencia de Datos",
+                "cap-2-desc": "Modelado y análisis avanzado de datos orientados a resultados medibles. Evaluamos el impacto y la estructura de cada organización para optimizar procesos latentes, convirtiendo la información en valor directo para el negocio.",
+                "cap-3-title": "Ciencias de la Computación",
+                "cap-3-desc": "Diseño y construcción de sistemas robustos basados en principios de ingeniería rigurosos. Garantizamos desarrollos estables, lógicas optimizadas y arquitecturas escalables preparadas para entornos críticos de alta demanda.",
+                "cap-4-title": "Sistemas de información & Automatización de Procesos",
+                "cap-4-desc": "Orquestación eficiente y automatización end-to-end de procesos de negocio. Bajo enfoques de optimización e integraciones tecnológicas inteligentes, aseguramos que la infraestructura operativa sea escalable, segura y rentable.",
+                "cap-5-title": "FDE: Ingeniería Desplegada en Primera Línea",
+                "cap-5-desc": "Incrustamos Forward Deployed Engineers (FDE) directamente en la infraestructura y equipos clave de nuestros clientes. Nuestros ingenieros trabajan en el terreno operativo para integrar modelos avanzados de IA y arquitecturas agénticas en sistemas reales de producción, acelerando la adopción tecnológica y resolviendo fricciones críticas de la organización desde adentro.",
+                "cases-title": "CASOS & PROYECTOS",
+                "client-label": "CLIENTE",
+                "stack-label": "STACK TECNOLÓGICO",
+                "case-1-title": "Automatización de Liquidación y Facturación",
+                "case-1-desc": "Despliegue de un ecosistema basado en Agentes de IA para la Universidad del Gran Rosario (UGR). La solución automatiza los flujos de facturación y el procesamiento transaccional de liquidación de honorarios para la planta docente de la institución.",
+                "case-1-node-1": "Comprobantes & Datos",
+                "case-1-node-2": "Agentes IA Orquestados",
+                "case-1-node-3": "Liquidación Validada",
+                "case-2-title": "Motor de Detección de Fraudes Financieros",
+                "case-2-desc": "Diseño e implementación de un modelo avanzado para la mitigación y detección temprana de anomalías y fraudes financieros, integrado nativamente para Poincenot y las estructuras del Nuevo Banco del Chaco.",
+                "case-2-node-1": "Flujo Transaccional",
+                "case-2-node-2": "Motor Predictivo IA",
+                "case-2-node-3": "Bloqueo Preventivo",
+                "case-3-title": "Computer Vision en Rutas Industriales",
+                "case-3-desc": "Desarrollo de un sistema logístico inteligente que utiliza procesamiento de imágenes e Inteligencia Artificial en tiempo real para la identificación y validación de rutas permitidas dentro de plantas industriales complejas.",
+                "case-3-node-1": "Cámaras en Tiempo Real",
+                "case-3-node-2": "Filtros de Procesamiento",
+                "case-3-node-3": "Ruta Industrial Validada",
+                "case-4-title": "Framework Agéntico N9",
+                "case-4-desc": "Creación de una arquitectura y framework de agentes autónomos orientados a la orquestación y automatización de flujos operativos cotidianos, reduciendo drásticamente la carga de tareas repetitivas en pequeñas y medianas empresas.",
+                "case-4-node-1": "Mapeo de Tareas Repetitivas",
+                "case-4-node-2": "Framework Multi-Agente",
+                "case-4-node-3": "Reducción Directa de Costos",
+                "location-title": "NUESTRA OFICINA",
+                "location-btn": "ABRIR EN MAPS →",
+                "contact-title": "CONTACTANOS",
+                "contact-desc": "Escribinos para analizar la infraestructura de datos de tu organización y diseñar soluciones reales que impacten en la eficiencia de tu negocio.",
+                "contact-mail-lead": "También nos podés enviar un mail a",
+                "form-name": "TU NOMBRE Y APELLIDO",
+                "form-email": "TU EMAIL",
+                "form-msg": "TU MENSAJE",
+                "form-btn": "ENVIAR"
+            },
+            en: {
+                "nav-start": "Home",
+                "nav-capabilities": "Capabilities",
+                "nav-cases": "Cases & Projects",
+                "nav-contact": "Contact Us",
+                "hero-title": "We are <span>your enabler towards Agentic AI.</span>",
+                "hero-desc": "We transform organizations and build new ventures in LATAM through the rigorous application of Computer Science, Data Science, Information Systems, and Artificial Intelligence.",
+                "hero-cta": "Contact Us →",
+                "mission-text": "We develop knowledge, talent, products, and companies to lead the challenges of the digital economy with <span class=\"highlight\">sustainable impact</span>.",
+                "fde-subtitle": "LIFECYCLE & FDE LAYER INTEGRATION",
+                "fde-toggle-label": "VIEW FDE LAYER",
+                "step-1": "01 // ASSESSMENT",
+                "step-2": "02 // DEVELOPMENT",
+                "step-3": "03 // IMPLEMENTATION",
+                "step-4": "04 // ADOPTION",
+                "fde-feedback": "REAL-TIME CONTINUOUS FEEDBACK",
+                "capabilities-title": "OUR CAPABILITIES",
+                "cap-1-title": "Agentic AI & Autonomous Agents",
+                "cap-1-desc": "Strategic deployment of agentic models and autonomous agent architectures designed to reason, make decisions, and execute complex workflows. Moving beyond superficial AI to automate critical operations and unlock new corporate capabilities.",
+                "cap-2-title": "Data Science",
+                "cap-2-desc": "Advanced data modeling and analytical engineering focused on measurable business outcomes. We evaluate structural and operational bottlenecks to convert latent information into direct enterprise value.",
+                "cap-3-title": "Computer Science",
+                "cap-3-desc": "Architecture and engineering of robust systems built on rigorous computational principles. Delivering stable execution, optimized logic, and scalable infrastructure ready for mission-critical environments.",
+                "cap-4-title": "Information Systems & Process Automation",
+                "cap-4-desc": "End-to-end orchestration and intelligent automation of core business processes. Applying mathematical optimization and smart integrations to build scalable, secure, and cost-effective digital backbones.",
+                "cap-5-title": "FDE: Forward Deployed Engineering",
+                "cap-5-desc": "We embed Forward Deployed Engineers (FDE) directly into our clients' teams and operational infrastructure. Working on-site, our FDEs integrate advanced AI models into real production code, accelerating adoption and eliminating critical friction from within.",
+                "cases-title": "CASES & PROJECTS",
+                "client-label": "CLIENT",
+                "stack-label": "TECH STACK",
+                "case-1-title": "Payroll & Invoicing Automation",
+                "case-1-desc": "Deployment of an Agentic AI ecosystem for Universidad del Gran Rosario (UGR). The solution automates billing workflows and transactional faculty payroll processing.",
+                "case-1-node-1": "Documents & Data Inputs",
+                "case-1-node-2": "Orchestrated AI Agents",
+                "case-1-node-3": "Validated Settlement",
+                "case-2-title": "Financial Fraud Detection Engine",
+                "case-2-desc": "Design and production deployment of an advanced predictive model for early mitigation of financial anomalies and fraud, natively integrated for Poincenot and Nuevo Banco del Chaco.",
+                "case-2-node-1": "Transactional Data Stream",
+                "case-2-node-2": "Predictive AI Engine",
+                "case-2-node-3": "Preventive Interception",
+                "case-3-title": "Computer Vision in Industrial Logistics",
+                "case-3-desc": "Development of a computer vision logistic platform that processes real-time camera feeds using AI to validate authorized routes inside complex industrial plants.",
+                "case-3-node-1": "Real-time Camera Stream",
+                "case-3-node-2": "Computer Vision Filters",
+                "case-3-node-3": "Validated Industrial Route",
+                "case-4-title": "N9 Agentic Framework",
+                "case-4-desc": "Creation of a multi-agent architectural framework designed to orchestrate and automate repetitive operational tasks, significantly lowering overhead costs for growing businesses.",
+                "case-4-node-1": "Repetitive Task Mapping",
+                "case-4-node-2": "Multi-Agent Framework",
+                "case-4-node-3": "Direct Cost Reduction",
+                "location-title": "OUR OFFICE",
+                "location-btn": "OPEN IN MAPS →",
+                "contact-title": "CONTACT US",
+                "contact-desc": "Get in touch with us to analyze your organization's data infrastructure and design real engineering solutions that impact your operational efficiency.",
+                "contact-mail-lead": "You can also email us directly at",
+                "form-name": "YOUR FULL NAME",
+                "form-email": "YOUR EMAIL",
+                "form-msg": "YOUR MESSAGE",
+                "form-btn": "SEND MESSAGE"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            document.documentElement.lang = currentLang;
+            
+            // Actualizar el botón de idioma
+            const langBtnText = document.getElementById('langBtnText');
+            if (langBtnText) {
+                langBtnText.textContent = currentLang === 'es' ? 'EN' : 'ES';
+            }
+
+            // Traducir todos los elementos marcados con data-i18n
+            const elements = document.querySelectorAll('[data-i18n]');
+            elements.forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (i18nData[currentLang] && i18nData[currentLang][key]) {
+                    el.innerHTML = i18nData[currentLang][key];
+                }
+            });
+
+            // Actualizar placeholders de formulario
+            const nameInput = document.getElementById('name');
+            const emailInput = document.getElementById('email');
+            const msgInput = document.getElementById('message');
+
+            if (nameInput) nameInput.placeholder = currentLang === 'es' ? 'Ej. Juan Pérez' : 'e.g. John Doe';
+            if (emailInput) emailInput.placeholder = currentLang === 'es' ? 'juan@empresa.com' : 'john@company.com';
+            if (msgInput) msgInput.placeholder = currentLang === 'es' ? 'Contanos qué flujos operativos buscás optimizar con agentes de IA...' : 'Tell us what operational workflows you want to optimize using AI agents...';
+        }
+
+        function toggleMenu() {
+            const menu = document.getElementById('navMenu');
+            menu.classList.toggle('menu-open');
+        }
+
+        function toggleColorMode() {
+            const body = document.body;
+            body.classList.toggle('monochrome-mode');
+        }
+
+        /* FUNCIÓN INTERACTIVA PARA EL SWITCH DE CAPA FDE */
+        function toggleFdeLayer() {
+            const container = document.getElementById('fdeDiagramContainer');
+            const toggle = document.getElementById('fdeToggle');
+            if (!container || !toggle) return;
+
+            if (toggle.checked) {
+                container.classList.remove('fde-off');
+            } else {
+                container.classList.add('fde-off');
+            }
+        }
+
+        /* MANEJO ASÍNCRONO DEL FORMULARIO CON MENSAJE DE ESTADO EN PANTALLA */
+        const contactForm = document.getElementById('contactForm');
+        const formStatusMsg = document.getElementById('formStatusMsg');
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (contactForm) {
+            contactForm.addEventListener('submit', async function (e) {
+                e.preventDefault(); // Evita la recarga de página y redirección
+                
+                const formData = new FormData(contactForm);
+                submitBtn.disabled = true;
+                
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.innerHTML = currentLang === 'es' ? 'ENVIANDO...' : 'SENDING...';
+
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        headers: {
+                            'Accept': 'application/json'
+                        }
+                    });
+
+                    if (response.ok) {
+                        formStatusMsg.style.display = 'flex'; // Garantiza visibilidad
+                        formStatusMsg.className = 'form-status-msg success';
+                        formStatusMsg.innerHTML = currentLang === 'es' 
+                            ? '✔ Mensaje enviado con éxito. Te responderemos a la brevedad.' 
+                            : '✔ Message sent successfully. We will reply to you shortly.';
+                        contactForm.reset();
+                    } else {
+                        throw new Error('Form submission error');
+                    }
+                } catch (error) {
+                    formStatusMsg.style.display = 'flex'; // Garantiza visibilidad
+                    formStatusMsg.className = 'form-status-msg error';
+                    formStatusMsg.innerHTML = currentLang === 'es' 
+                        ? '✖ Hubo un problema al enviar el mensaje. Por favor intenta nuevamente o envíanos un mail directamente.' 
+                        : '✖ There was a problem sending your message. Please try again or email us directly.';
+                } finally {
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+
+                    // Ocultar mensaje tras 6 segundos
+                    setTimeout(() => {
+                        formStatusMsg.style.display = 'none';
+                    }, 6000);
+                }
+            });
+        }
+
+        // Función para scroll suave hacia arriba
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Control de visibilidad del botón Scroll to Top y reducción del logo en header al desplazarse
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        const mainHeader = document.getElementById('mainHeader');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                mainHeader.classList.add('scrolled');
+            } else {
+                mainHeader.classList.remove('scrolled');
+            }
+
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        // Detector bidireccional de desplazamiento
+        const revealRightElements = document.querySelectorAll('.scroll-reveal-right');
+        const revealRightObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                } else {
+                    entry.target.classList.remove('active');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        revealRightElements.forEach(el => revealRightObserver.observe(el));
+
+        // DETECTOR GENERAL DE ANIMACIONES ACTIVADAS POR SCROLL (SCROLL-TRIGGERED ANIMATIONS)
+        const scrollRevealElements = document.querySelectorAll('.scroll-reveal');
+        const scrollRevealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15 });
+
+        scrollRevealElements.forEach(el => scrollRevealObserver.observe(el));
+
+        // Script de cierre automático para exclusividad de acordeón horizontal
+        const items = document.querySelectorAll('.service-card');
+        items.forEach(item => {
+            item.addEventListener('toggle', () => {
+                if (item.open) {
+                    items.forEach(el => { if (el !== item) el.removeAttribute('open'); });
+                }
+            });
+        });
+
+        /* 1. SISTEMA DE CURSOR PERSONALIZADO Y SUTIL */
+        const cursorDot = document.getElementById('cursorDot');
+        const cursorFollower = document.getElementById('cursorFollower');
+
+        if (window.matchMedia('(pointer: fine)').matches && cursorDot && cursorFollower) {
+            let mouseX = window.innerWidth / 2;
+            let mouseY = window.innerHeight / 2;
+            let followerX = mouseX;
+            let followerY = mouseY;
+
+            window.addEventListener('mousemove', (e) => {
+                mouseX = e.clientX;
+                mouseY = e.clientY;
+                cursorDot.style.left = `${mouseX}px`;
+                cursorDot.style.top = `${mouseY}px`;
+            });
+
+            function renderCursor() {
+                followerX += (mouseX - followerX) * 0.18;
+                followerY += (mouseY - followerY) * 0.18;
+                cursorFollower.style.left = `${followerX}px`;
+                cursorFollower.style.top = `${followerY}px`;
+                requestAnimationFrame(renderCursor);
+            }
+            renderCursor();
+
+            const interactiveElements = document.querySelectorAll('a, button, input, textarea, summary, .flow-pill, .case-block, .fde-toggle-switch, .lang-toggle-btn');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorFollower.classList.add('hovered'));
+                el.addEventListener('mouseleave', () => cursorFollower.classList.remove('hovered'));
+            });
+        }
+
+        /* 2. EFECTO TILT PERSPECTIVO EN TARJETAS */
+        const tiltCards = document.querySelectorAll('.tilt-card');
+        tiltCards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -5;
+                const rotateY = ((x - centerX) / centerX) * 5;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.01, 1.01, 1.01)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            });
+        });
+
+        /* 3. BOTONES MAGNÉTICOS (MAGNETIC BUTTONS) */
+        const magneticButtons = document.querySelectorAll('.magnetic-btn');
+        magneticButtons.forEach(btn => {
+            btn.addEventListener('mousemove', (e) => {
+                const rect = btn.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                btn.style.transform = `translate3d(${x * 0.35}px, ${y * 0.35}px, 0)`;
+            });
+
+            btn.addEventListener('mouseleave', () => {
+                btn.style.transform = 'translate3d(0, 0, 0)';
+            });
+        });
+
+        // CLASE REUTILIZABLE PARA REDES AGÉNTICAS (CANVAS)
+        class NetworkAnimation {
+            constructor(canvasId, numParticles = 75, speed = 0.45) {
+                this.canvas = document.getElementById(canvasId);
+                if (!this.canvas) return;
+                this.ctx = this.canvas.getContext('2d');
+                this.numParticles = numParticles;
+                this.speed = speed;
+                this.particles = [];
+                
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                this.init();
+                this.animate();
+            }
+
+            resize() {
+                if (!this.canvas || !this.canvas.parentElement) return;
+                this.canvas.width = this.canvas.parentElement.clientWidth;
+                this.canvas.height = this.canvas.parentElement.clientHeight;
+            }
+
+            init() {
+                this.particles = [];
+                for (let i = 0; i < this.numParticles; i++) {
+                    this.particles.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        vx: (Math.random() - 0.5) * 1.2,
+                        vy: (Math.random() - 0.5) * 1.2,
+                        radius: Math.random() * 2 + 1.2
+                    });
+                }
+            }
+
+            animate() {
+                if (!this.canvas || !this.ctx) return;
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                const styles = getComputedStyle(document.documentElement);
+                const particleColor = styles.getPropertyValue('--canvas-particle').trim();
+                const lineColor = styles.getPropertyValue('--canvas-line').trim();
+
+                for (let i = 0; i < this.particles.length; i++) {
+                    let p = this.particles[i];
+                    p.x += p.vx * this.speed;
+                    p.y += p.vy * this.speed;
+
+                    if (p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+                    if (p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+
+                    this.ctx.beginPath();
+                    this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    this.ctx.fillStyle = particleColor;
+                    this.ctx.fill();
+
+                    for (let j = i + 1; j < this.particles.length; j++) {
+                        let p2 = this.particles[j];
+                        const dx = p.x - p2.x;
+                        const dy = p.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 135) {
+                            this.ctx.beginPath();
+                            this.ctx.moveTo(p.x, p.y);
+                            this.ctx.lineTo(p2.x, p2.y);
+                            this.ctx.strokeStyle = lineColor;
+                            this.ctx.lineWidth = 1;
+                            this.ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+
+        // Inicialización de Animación en la Hero Section
+        new NetworkAnimation('agentNetworkCanvas', 75, 0.45);
+
+        // Inicialización de Animación Limpia en la Sección Contacto
+        new NetworkAnimation('contactNetworkCanvas', 35, 0.35);
+    </script>
+
+</body>
+</html>
