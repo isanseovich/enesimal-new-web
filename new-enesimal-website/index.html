@@ -75,6 +75,7 @@
             color: var(--text-main);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
         }
 
@@ -84,7 +85,7 @@
                 cursor: none;
             }
 
-            a, button, input, textarea, summary, .flow-pill, .partner-card, .case-block, .fde-toggle-switch, .lang-toggle-btn {
+            a, button, input, textarea, summary, .flow-pill, .partner-card, .case-block, .fde-toggle-switch, .lang-toggle-btn, .team-linkedin-link {
                 cursor: none !important;
             }
 
@@ -323,7 +324,7 @@
             transform: translateX(4px);
         }
 
-        /* HERO SECTION */
+        /* HERO SECTION RESPONSIVE Y FLEXIBLE */
         .hero-motion-wrapper {
             width: 100vw;
             position: relative;
@@ -331,9 +332,7 @@
             right: 50%;
             margin-left: -50vw;
             margin-right: -50vw;
-            height: calc(100vh - 63px);
-            min-height: 580px;
-            border-bottom: none;
+            min-height: calc(100vh - 63px);
             overflow: hidden;
             background-color: var(--bg-main);
             display: flex;
@@ -356,7 +355,7 @@
             max-width: 1200px;
             width: 100%;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 3rem 2rem 2rem 2rem;
             flex: 1;
             display: flex;
             align-items: center;
@@ -364,19 +363,19 @@
         }
 
         .hero-content-direct {
-            max-width: 780px;
+            max-width: 820px;
             pointer-events: auto;
         }
 
         .hype-tag {
-            margin-bottom: 2.2rem !important;
+            margin-bottom: 1.8rem !important;
         }
 
         .hero h1 {
             font-family: var(--font-main);
-            font-size: 4.8rem;
+            font-size: 3.8rem;
             font-weight: 700;
-            line-height: 1.1;
+            line-height: 1.15;
             color: var(--text-main);
             margin-bottom: 1.8rem;
             border-left: 8px solid var(--accent-blue);
@@ -387,24 +386,26 @@
 
         .hero h1 span {
             color: var(--accent-blue);
+            display: block;
+            margin-top: 0.4rem;
         }
 
         .hero p {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
             text-shadow: 0 0 8px var(--bg-main);
         }
 
         /* BOTÓN REUTILIZABLE HOMOGÉNEO & MAGNÉTICO */
-        .hero-cta-btn, .btn-submit, .scroll-top-btn, .location-btn {
+        .hero-cta-btn, .btn-submit, .scroll-top-btn, .location-btn, .team-linkedin-link {
             display: inline-block;
-            margin-top: 2rem;
-            padding: 1rem 2.2rem;
+            margin-top: 1rem;
+            padding: 0.8rem 1.6rem;
             background-color: transparent;
             color: var(--text-main);
             border: 1px solid var(--accent-blue);
             font-family: var(--font-mono);
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             font-weight: 700;
             text-transform: uppercase;
             text-decoration: none;
@@ -416,20 +417,21 @@
             will-change: transform;
         }
 
-        .hero-cta-btn:hover, .btn-submit:hover, .location-btn:hover {
+        .hero-cta-btn:hover, .btn-submit:hover, .location-btn:hover, .team-linkedin-link:hover {
             background-color: var(--accent-blue);
             color: #000000;
             border-color: var(--accent-blue);
             box-shadow: 0 0 25px rgba(212, 212, 216, 0.35);
         }
 
-        /* SECCIÓN CLIENTES */
+        /* SECCIÓN CLIENTES (GARANTIZA VISIBILIDAD DE LOGOS) */
         .partners-section {
             position: relative;
             z-index: 2;
             width: 100%;
-            padding: 1.5rem 0 2rem 0;
+            padding: 2.5rem 0 2.5rem 0;
             overflow: hidden;
+            background-color: transparent;
         }
 
         .marquee-container {
@@ -491,77 +493,65 @@
             }
         }
 
-        /* SECCIÓN CORE_OBJECTIVE (MISIÓN) */
-        .mission {
+        /* CORRECCIÓN RESPONSIVE PARA EL HERO Y CLIENTES EN MÓVILES/PANTALLAS MEDIANAS */
+        @media (max-width: 992px) {
+            .hero-motion-wrapper {
+                min-height: auto;
+            }
+            .hero h1 {
+                font-size: 2.8rem;
+                border-left-width: 6px;
+                padding-left: 1.2rem;
+            }
+            .hero p {
+                font-size: 1.05rem;
+            }
+            .partners-section {
+                padding: 2rem 0;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 2.1rem;
+            }
+            .hero {
+                padding: 2rem 1.2rem;
+            }
+            .marquee-track {
+                gap: 2.5rem;
+            }
+            .partner-logo {
+                max-width: 110px;
+                max-height: 40px;
+            }
+        }
+
+        /* SECCIÓN UNIFICADA: CORE_OBJECTIVE & MANIFESTO */
+        .core-manifesto-section {
             position: relative;
             width: 100%;
             margin: 0 auto;
-            padding: 8rem 0 6rem 0;
+            padding: 6rem 0;
             overflow: hidden;
             background-color: var(--bg-main);
         }
 
-        .mission-container {
+        .core-manifesto-container {
             position: relative;
             z-index: 1;
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 2.5rem;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        .mission-title {
-            text-shadow: 0 0 10px var(--bg-main);
-            margin-bottom: 0 !important;
-        }
-
-        .mission-content p.mission-lead-text {
-            font-size: 2.6rem;
-            font-weight: 700;
-            line-height: 1.25;
-            color: var(--text-main);
-            margin-top: 0.2rem;
-            margin-bottom: 0;
-            letter-spacing: -0.8px;
-        }
-
-        .mission-content p .highlight {
-            color: var(--accent-blue);
-        }
-
-        /* SUBTÍTULO CON SWITCH INTEGRADO AL LADO DEL TEXTO */
-        .fde-section-subtitle {
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: var(--accent-blue);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 3.5rem;
-            margin-bottom: 1.2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .fde-subtitle-left {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .fde-subtitle-left::before {
-            content: "//";
-            color: var(--text-muted-retro);
-        }
-
+        /* ANIMACIÓN FLUIDA Y CONFIABLE DESDE LA DERECHA Y RETORNO */
         .scroll-reveal-right {
             opacity: 0;
-            transform: translateX(100px);
+            transform: translateX(60px);
             transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, opacity;
         }
@@ -571,37 +561,180 @@
             transform: translateX(0);
         }
 
-        .scroll-reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: opacity, transform;
+        .core-manifesto-card {
+            border-left: 4px solid var(--accent-blue);
+            background: rgba(255, 255, 255, 0.015);
+            border-top: 1px solid var(--border-retro);
+            border-right: 1px solid var(--border-retro);
+            border-bottom: 1px solid var(--border-retro);
+            border-radius: 0 12px 12px 0;
+            padding: 3.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
-        .scroll-reveal.active {
-            opacity: 1;
-            transform: translateY(0);
+        .core-lead-text {
+            font-size: 2.2rem;
+            font-weight: 700;
+            line-height: 1.3;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
         }
 
-        /* CONTENEDOR DEL FLUJO FDE SIN BORDE EXTERIOR */
-        .fde-lifecycle-container {
-            padding: 1rem 0;
-            border: none;
+        .core-lead-text .highlight {
+            color: var(--accent-blue);
+        }
+
+        .manifesto-body-text {
+            font-size: 1.2rem;
+            line-height: 1.85;
+            color: var(--text-muted);
+            font-weight: 400;
+            border-top: 1px dashed var(--border-retro);
+            padding-top: 2.2rem;
+        }
+
+        /* MANIFIESTO PUNCHLINE LIMPIO Y SIN FONDO CON PALABRAS GRANDES E ICONOS ELEGANTE */
+        .manifesto-punchline {
             background-color: transparent;
+            border-top: 1px solid var(--border-retro);
+            border-bottom: 1px solid var(--border-retro);
+            padding: 2rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .punchline-row {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+
+        .punchline-row span {
+            font-family: var(--font-main);
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            line-height: 1.3;
+        }
+
+        .punchline-icon {
+            width: 32px;
+            height: 32px;
+            stroke: var(--accent-blue);
+            fill: none;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+        }
+
+        .pulse-icon {
+            animation: pulseGlow 2.5s infinite ease-in-out;
+        }
+
+        .spin-icon {
+            animation: spinContinuous 12s linear infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { transform: scale(1); opacity: 0.85; }
+            50% { transform: scale(1.18); opacity: 1; filter: drop-shadow(0 0 8px var(--accent-blue)); }
+        }
+
+        @keyframes spinContinuous {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ESTILOS DEL ENCABEZADO Y DESARROLLO METODOLÓGICO FDE */
+        .fde-section-header {
+            margin-top: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            border-top: 1px dashed var(--border-retro);
+            padding-top: 2.5rem;
+        }
+
+        .fde-main-title {
+            font-family: var(--font-main);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .fde-intro-card {
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px solid var(--border-retro);
+            border-radius: 8px;
+            padding: 2rem 2.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .fde-intro-p {
+            font-size: 1.12rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+        }
+
+        /* EFECTO DE ESCRITURA PROGRESIVA SEGÚN SCROLL PARA LA CITA METODOLÓGICA */
+        .fde-quote-callout {
+            font-family: var(--font-mono);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            border-left: 3px solid var(--accent-blue);
+            padding-left: 1.2rem;
+            background: rgba(212, 212, 216, 0.04);
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            border-radius: 0 4px 4px 0;
+            line-height: 1.6;
+            min-height: 80px;
             position: relative;
         }
 
-        /* ESTILOS DEL SWITCH / TOGGLE INTERACTIVO AL LADO DEL SUBTÍTULO */
+        .typewriter-word {
+            opacity: 0.15;
+            transition: opacity 0.25s ease, color 0.25s ease;
+        }
+
+        .typewriter-word.revealed {
+            opacity: 1;
+            color: var(--text-main);
+        }
+
+        /* SWITCH CENTRADO DEBAJO DEL GRÁFICO DEL FLUJO FDE */
+        .fde-center-switch-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
         .fde-toggle-container {
             display: inline-flex;
             align-items: center;
-            gap: 0.8rem;
+            gap: 0.9rem;
             font-family: var(--font-mono);
-            font-size: 0.72rem;
+            font-size: 0.78rem;
             font-weight: 700;
             color: var(--text-muted-retro);
             letter-spacing: 1px;
             user-select: none;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-retro);
+            padding: 0.6rem 1.4rem;
+            border-radius: 100px;
         }
 
         .fde-toggle-switch {
@@ -651,38 +784,484 @@
             box-shadow: 0 0 8px #22c55e;
         }
 
-        /* COMPORTAMIENTO DINÁMICO DEL GRÁFICO FDE SEGÚN ESTADO DEL SWITCH */
-        .fde-pill-pulse {
-            width: 6px;
-            height: 6px;
-            background-color: #22c55e;
-            border-radius: 50%;
-            box-shadow: 0 0 6px #22c55e;
-            animation: pulseFde 2s infinite;
-            display: inline-block;
+        /* REACTIVIDAD DEL SWITCH SOBRE LAS BADGES FDE ON-SITE EN TARJETAS */
+        .stage-badge.onsite {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            border: 1px solid var(--border-retro);
+            color: var(--text-muted-retro);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+        }
+
+        /* Cuando la capa FDE está ACTIVA (.fde-on) */
+        .fde-on .stage-badge.onsite {
+            border-color: rgba(34, 197, 94, 0.5) !important;
+            color: #22c55e !important;
+            background: rgba(34, 197, 94, 0.1) !important;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
+        }
+
+        /* TARJETAS EXPLICATIVAS DE LAS 4 ETAPAS DEL CICLO FDE */
+        .fde-stages-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .fde-stage-card {
+            border: 1px solid var(--border-retro);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 1.6rem 1.8rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            transition: border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .fde-stage-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-2px);
+        }
+
+        .stage-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+        }
+
+        .stage-card-num {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: 1px;
+        }
+
+        .stage-card-title {
+            font-family: var(--font-main);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .stage-card-desc {
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* SECCIÓN: IA SEGURA Y SOBERANÍA DE DATOS (MONOCROMÁTICA & ESTÁTICA) */
+        .security-section {
+            width: 100%;
+            padding: 6rem 0;
+            background-color: var(--bg-main);
+            border-top: 1px dashed var(--border-retro);
+        }
+
+        .security-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .security-card {
+            border: 1px solid var(--border-retro);
+            border-left: 4px solid var(--accent-blue);
+            background: rgba(255, 255, 255, 0.015);
+            padding: 3rem 2.8rem;
+            border-radius: 0 12px 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2.2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .security-title-main {
+            font-family: var(--font-main);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .security-body-text {
+            font-size: 1.15rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        /* Diagrama Lineal: Datos -> Infraestructura -> Resultados */
+        .security-flow-grid {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            border-top: 1px dashed var(--border-retro);
+            border-bottom: 1px dashed var(--border-retro);
+            padding: 2.2rem 0;
+            margin: 0.5rem 0;
+        }
+
+        .sec-step-card {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex: 1;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-retro);
+            padding: 1.2rem 1.5rem;
+            border-radius: 8px;
+            transition: border-color 0.25s ease;
+        }
+
+        .sec-step-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .sec-icon-box {
+            width: 46px;
+            height: 46px;
+            border: 1px solid var(--border-retro);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(212, 212, 216, 0.08);
+            color: var(--accent-blue);
             flex-shrink: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .fde-off .fde-pill-pulse {
-            opacity: 0 !important;
-            transform: scale(0);
-            animation: none !important;
+        .sec-icon-box svg {
+            width: 22px;
+            height: 22px;
+            stroke: currentColor;
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
         }
 
-        .fde-off .step-card-fde.fde-active .fde-node-tag {
-            color: var(--text-muted-retro) !important;
-            opacity: 0.5;
+        .sec-step-info {
+            display: flex;
+            flex-direction: column;
         }
 
-        .fde-off .step-card-fde.fde-active .flow-pill {
-            border-color: var(--border-retro) !important;
-            background-color: rgba(255, 255, 255, 0.03) !important;
+        .sec-step-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted-retro);
+            text-transform: uppercase;
         }
 
-        @keyframes pulseFde {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(1.3); }
+        .sec-step-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-top: 0.2rem;
+        }
+
+        .sec-flow-arrow {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-blue);
+            stroke-width: 2;
+            fill: none;
+            flex-shrink: 0;
+            opacity: 0.8;
+        }
+
+        /* Grid de Beneficios de Seguridad */
+        .security-pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.8rem;
+        }
+
+        .sec-pillar-box {
+            border: 1px solid var(--border-retro);
+            padding: 1.5rem;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.01);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            transition: border-color 0.25s ease;
+        }
+
+        .sec-pillar-box:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .sec-pillar-title {
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .sec-pillar-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* SECCIÓN SOBRE NOSOTROS & BOARD DE DIRECCIÓN */
+        .about-section {
+            width: 100%;
+            padding: 6rem 0;
+            background-color: var(--bg-main);
+            border-top: 1px dashed var(--border-retro);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* GRID DEL BOARD DE DIRECCIÓN */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.8rem;
+        }
+
+        .team-card {
+            border: 1px solid var(--border-retro);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 2.2rem 2rem;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 1.8rem;
+            transition: border-color 0.25s ease, transform 0.25s ease;
+        }
+
+        .team-card:hover {
+            border-color: var(--accent-blue);
+            transform: translateY(-4px);
+        }
+
+        .team-card-top {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .team-role-tag {
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .team-member-name {
+            font-family: var(--font-main);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+        }
+
+        .team-member-bio {
+            font-size: 0.98rem;
+            color: var(--text-muted);
+            line-height: 1.65;
+            border-top: 1px dashed var(--border-retro);
+            padding-top: 1rem;
+            margin-top: 0.4rem;
+        }
+
+        .team-linkedin-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--text-main);
+            text-decoration: none;
+            border: 1px solid var(--border-retro);
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            align-self: flex-start;
+            transition: all 0.25s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .team-linkedin-link:hover {
+            border-color: var(--accent-blue);
+            background-color: var(--accent-blue);
+            color: #000000;
+        }
+
+        .team-linkedin-icon {
+            width: 14px;
+            height: 14px;
+            fill: currentColor;
+        }
+
+        /* TARJETA INFERIOR VISUAL: EQUIPO MULTIDISCIPLINARIO & PARTNERSHIP UGR */
+        .team-extended-card {
+            border: 1px solid var(--border-retro);
+            border-left: 4px solid var(--accent-blue);
+            background: rgba(255, 255, 255, 0.015);
+            padding: 2.5rem 2.8rem;
+            border-radius: 0 12px 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 1.6rem;
+            margin-top: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .team-extended-title {
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .team-extended-p {
+            font-size: 1.12rem;
+            line-height: 1.75;
+            color: var(--text-muted);
+        }
+
+        .team-roles-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.7rem;
+            border-top: 1px dashed var(--border-retro);
+            padding-top: 1.6rem;
+        }
+
+        .role-chip {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 0.45rem 0.9rem;
+            border-radius: 6px;
+            background: rgba(212, 212, 216, 0.06);
+            border: 1px solid var(--border-retro);
+            color: var(--text-main);
+            transition: all 0.25s ease;
+        }
+
+        .role-chip:hover {
+            border-color: var(--accent-blue);
+            background: rgba(212, 212, 216, 0.12);
+        }
+
+        .partnership-badge-row {
+            display: flex;
+            align-items: center;
+            gap: 1.4rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-retro);
+            padding: 1.2rem 1.6rem;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+        }
+
+        .ugr-logo-img {
+            height: 44px;
+            width: auto;
+            object-fit: contain;
+            filter: var(--partner-filter);
+            flex-shrink: 0;
+        }
+
+        .partnership-text {
+            font-size: 1.02rem;
+            color: var(--text-main);
+            font-weight: 500;
+            line-height: 1.55;
+        }
+
+        .partnership-text strong {
+            color: var(--accent-blue);
+        }
+
+        @media (max-width: 992px) {
+            .fde-stages-grid {
+                grid-template-columns: 1fr;
+            }
+            .security-flow-grid {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .sec-flow-arrow {
+                transform: rotate(90deg);
+                margin: 0 auto;
+            }
+            .security-pillars-grid, .team-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .core-manifesto-section {
+                padding: 4rem 0;
+            }
+            .core-manifesto-card, .security-card, .team-extended-card {
+                padding: 2rem 1.5rem;
+            }
+            .security-title-main {
+                font-size: 1.6rem;
+            }
+            .security-body-text {
+                font-size: 1.02rem;
+            }
+            .core-lead-text {
+                font-size: 1.5rem;
+            }
+            .fde-main-title {
+                font-size: 1.5rem;
+            }
+            .fde-intro-p {
+                font-size: 0.98rem;
+            }
+            .fde-quote-callout {
+                font-size: 0.92rem;
+            }
+            .manifesto-body-text {
+                font-size: 1rem;
+            }
+            .punchline-row span {
+                font-size: 1.3rem;
+            }
+            .team-extended-p {
+                font-size: 0.98rem;
+            }
+            .partnership-badge-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
 
         .steps-wrapper {
@@ -1016,7 +1595,7 @@
             max-width: 1000px;
         }
 
-        /* AJUSTES RESPONSIVE ESPECÍFICOS PARA LA SECCIÓN CAPACIDADES */
+        /* AJUSTES RESPONSIVE ESPECÍFICOS PARA LA SECCIÓN CAPACIDADES Y MANIFIESTO */
         @media (max-width: 768px) {
             .services-section {
                 padding: 4rem 1rem;
@@ -1269,13 +1848,7 @@
         }
 
         @media (max-width: 768px) {
-            .mission {
-                padding: 5rem 0 4rem 0;
-            }
-            .mission-content p.mission-lead-text {
-                font-size: 1.8rem;
-            }
-            .hero h1 { font-size: 2.8rem; border-left-width: 6px; padding-left: 1.2rem; }
+            .hero h1 { font-size: 2.5rem; border-left-width: 6px; padding-left: 1.2rem; }
             .hero-content-direct { max-width: 100%; }
             .section-label { font-size: 2.2rem !important; }
             .split-section { grid-template-columns: 1fr !important; gap: 3rem !important; }
@@ -1623,6 +2196,17 @@
             color: var(--text-muted-retro);
             font-size: 0.85rem;
             font-weight: 400;
+            line-height: 1.6;
+            text-align: right;
+        }
+
+        .footer-fiscal-info {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: var(--text-muted-retro);
+            margin-top: 0.2rem;
+            opacity: 0.85;
         }
 
         .footer-social-links {
@@ -1654,6 +2238,9 @@
         @media (max-width: 768px) {
             .footer-right-col {
                 align-items: flex-start;
+            }
+            .footer-copyright {
+                text-align: left;
             }
         }
 
@@ -1706,8 +2293,11 @@
 
             <nav id="navMenu">
                 <a href="#inicio" onclick="toggleMenu()" data-i18n="nav-start">Inicio</a>
+                <a href="#mision" onclick="toggleMenu()" data-i18n="nav-methodology">Metodología</a>
+                <a href="#seguridad" onclick="toggleMenu()" data-i18n="nav-security">Seguridad</a>
                 <a href="#servicios" onclick="toggleMenu()" data-i18n="nav-capabilities">Capacidades</a>
                 <a href="#casos" onclick="toggleMenu()" data-i18n="nav-cases">Casos & Proyectos</a>
+                <a href="#nosotros" onclick="toggleMenu()" data-i18n="nav-about">Nosotros</a>
                 <a href="#contacto" onclick="toggleMenu()" data-i18n="nav-contact">Contactanos</a>
             </nav>
         </div>
@@ -1721,9 +2311,9 @@
             <div class="hero">
                 <div class="hero-content-direct">
                     <div class="hype-tag">&& [HYPE_TO_BUSINESS_LOGIC !== TRUE]</div>
-                    <h1 data-i18n="hero-title">Somos <span>tu habilitador hacia la IA agéntica.</span></h1>
+                    <h1 data-i18n="hero-title">Construimos sistemas inteligentes para el mundo real.<span>Somos tu habilitador hacia la IA agéntica.</span></h1>
                     <p data-i18n="hero-desc">
-                        Transformamos organizaciones y creamos nuevas empresas en LATAM mediante la aplicación rigurosa de las Ciencias de la Computación, la Ciencia de Datos, los Sistemas de Información y la Inteligencia Artificial.
+                        Combinamos IA, Ciencia de Datos, Ciencias de la Computación y Sistemas de Información para diseñar e implementar sistemas inteligentes que se integran con los datos, procesos y conocimiento de las organizaciones.
                     </p>
                     <a href="#contacto" class="hero-cta-btn magnetic-btn" data-i18n="hero-cta">Contactanos &rarr;</a>
                 </div>
@@ -1807,18 +2397,99 @@
             </div>
         </section>
 
-        <!-- SECCIÓN CORE_OBJECTIVE (MISIÓN) CON BUCLE Y CAPA INTEGRADA DE FDE -->
-        <section id="mision" class="mission">
-            <div class="mission-container">
-                <div class="mission-title hype-tag">:: CORE_OBJECTIVE</div>
-                <div class="mission-content scroll-reveal-right">
-                    <p class="mission-lead-text" data-i18n="mission-text">
-                        Desarrollamos conocimiento, talento, productos y empresas para liderar los desafíos de la economía digital con <span class="highlight">impacto sostenible</span>.
+        <!-- SECCIÓN UNIFICADA: CORE OBJECTIVE & MANIFESTO Y METODOLOGÍA FDE -->
+        <section id="mision" class="core-manifesto-section">
+            <div class="core-manifesto-container">
+                <div class="mission-title hype-tag">:: CORE_OBJECTIVE & MANIFESTO</div>
+                
+                <!-- ANIMACIÓN BIDIRECCIONAL DESDE LA DERECHA Y SIN TILT -->
+                <div class="core-manifesto-card scroll-reveal-right">
+                    <p class="core-lead-text" data-i18n="core-lead">
+                        Lideramos los desafíos de la economía digital desarrollando conocimiento, talento y tecnología con <span class="highlight">impacto sostenible</span>.
                     </p>
                     
-                    <!-- SUBTÍTULO CON SWITCH INTEGRADO A LA DERECHA -->
-                    <div class="fde-section-subtitle">
-                        <span class="fde-subtitle-left" data-i18n="fde-subtitle">CICLO DE VIDA E INTEGRACIÓN DE LA CAPA FDE</span>
+                    <p class="manifesto-body-text" data-i18n="manifesto-body">
+                        El modelo no es tu ventaja competitiva: lo son tus datos, tus procesos y tu conocimiento. Diseñamos arquitecturas con modelos comerciales y de pesos abiertos para que aproveches la IA manteniendo el control de lo que te hace único.
+                    </p>
+                    
+                    <!-- REMATE CON ICONOS VECTORIALES ANIMADOS CONTINUOS Y PALABRAS GRANDES -->
+                    <div class="manifesto-punchline">
+                        <div class="punchline-row">
+                            <svg class="punchline-icon pulse-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                            <span data-i18n="manifesto-line1">De los modelos a los sistemas.</span>
+                        </div>
+                        <div class="punchline-row">
+                            <svg class="punchline-icon spin-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span data-i18n="manifesto-line2">De los datos a la acción.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SUBTÍTULO Y ENCABEZADO METODOLÓGICO EXPANDIDO (TOP) -->
+                <div class="fde-section-header">
+                    <div class="mission-title hype-tag">// METHODOLOGY_FRAMEWORK</div>
+                    
+                    <div class="fde-header-flex">
+                        <h2 class="fde-main-title" data-i18n="fde-main-title">
+                            Nuestro Enfoque Metodológico
+                        </h2>
+                    </div>
+
+                    <!-- PÁRRAFOS EXPLICATIVOS Y CITA CON ESCRITURA PROGRESIVA POR SCROLL -->
+                    <div class="fde-intro-card">
+                        <p class="fde-intro-p" data-i18n="fde-p1">
+                            A diferencia de los abordajes tradicionales que entregan prototipos aislados, un proyecto de IA Agéntica real impacta de forma directa e interconectada en tres dimensiones de la organización: <strong>sus datos actuales, sus procesos operativos y su cultura de trabajo</strong>. En Enesimal abordamos estas tres capas de manera holística, garantizando sostenibilidad en producción.
+                        </p>
+                        
+                        <!-- CITA CON EFECTO TYPEWRITER / SCROLL REVEAL PALABRA POR PALABRA -->
+                        <div class="fde-quote-callout" id="typewriterCallout">
+                            "No se trata de lanzar un prototipo funcional y esperar que escale. Un proyecto de IA Agéntica exitoso requiere metodología, conocimiento profundo del dominio y experiencia comprobada en Ciencias de la Computación y Sistemas de Información."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIAGRAMA INTEGRADO FDE + SWITCH CENTRADO DEBAJO DEL GRÁFICO (MIDDLE) -->
+                <div class="fde-lifecycle-container scroll-reveal fde-off" id="fdeDiagramContainer">
+                    <div class="steps-wrapper">
+                        <div class="steps-flow">
+                            <div class="step-card-fde fde-active" title="FDE On-Site">
+                                <span class="flow-pill" data-i18n="step-1">01 // EVALUACIÓN</span>
+                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                            </div>
+                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                            
+                            <div class="step-card-fde core-active" title="Core Lab">
+                                <span class="flow-pill" data-i18n="step-2">02 // DESARROLLO</span>
+                                <span class="fde-node-tag">[CORE LAB]</span>
+                            </div>
+                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                            
+                            <div class="step-card-fde fde-active" title="FDE On-Site">
+                                <span class="flow-pill" data-i18n="step-3">03 // IMPLEMENTACIÓN</span>
+                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                            </div>
+                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                            
+                            <div class="step-card-fde fde-active" title="FDE On-Site">
+                                <span class="flow-pill" data-i18n="step-4">04 // ADOPCIÓN</span>
+                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                            </div>
+                        </div>
+
+                        <!-- BUCLE VECTORIAL DE RETORNO Y FEEDBACK CONTINUO FDE -->
+                        <div class="loop-return-track">
+                            <svg class="loop-return-svg" viewBox="0 0 1000 32" fill="none" preserveAspectRatio="none">
+                                <path d="M 885 0 V 16 C 885 28, 865 30, 835 30 H 145 C 115 30, 95 28, 95 16 V 0" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/>
+                                <polyline points="88,10 95,0 102,10" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            </svg>
+                            <div class="fde-loop-caption">
+                                <span data-i18n="fde-feedback">FEEDBACK CONTINUO EN TIEMPO REAL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SWITCH INTERACTIVO CENTRADO EXACTAMENTE ABAJO DEL GRÁFICO -->
+                    <div class="fde-center-switch-wrapper">
                         <div class="fde-toggle-container">
                             <span data-i18n="fde-toggle-label">VER CAPA FDE</span>
                             <label class="fde-toggle-switch">
@@ -1827,45 +2498,122 @@
                             </label>
                         </div>
                     </div>
+                </div>
 
-                    <!-- DIAGRAMA INTEGRADO CON CAPA DE FORWARD DEPLOYED ENGINEERS (FDE) (INICIA APAGADO: CLASE fde-off) -->
-                    <div class="fde-lifecycle-container scroll-reveal fde-off" id="fdeDiagramContainer">
-                        <div class="steps-wrapper">
-                            <div class="steps-flow">
-                                <div class="step-card-fde fde-active" title="FDE On-Site">
-                                    <span class="flow-pill" data-i18n="step-1">01 // EVALUACIÓN</span>
-                                    <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
-                                </div>
-                                <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
-                                
-                                <div class="step-card-fde core-active" title="Core Lab">
-                                    <span class="flow-pill" data-i18n="step-2">02 // DESARROLLO</span>
-                                    <span class="fde-node-tag">[CORE LAB]</span>
-                                </div>
-                                <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
-                                
-                                <div class="step-card-fde fde-active" title="FDE On-Site">
-                                    <span class="flow-pill" data-i18n="step-3">03 // IMPLEMENTACIÓN</span>
-                                    <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
-                                </div>
-                                <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
-                                
-                                <div class="step-card-fde fde-active" title="FDE On-Site">
-                                    <span class="flow-pill" data-i18n="step-4">04 // ADOPCIÓN</span>
-                                    <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
-                                </div>
-                            </div>
+                <!-- TARJETAS CON LA EXPLICACIÓN DE LAS 4 ETAPAS DEL CICLO FDE (SIN NÚMEROS EN TÍTULO) (BOTTOM) -->
+                <div class="fde-stages-grid scroll-reveal">
+                    <div class="fde-stage-card">
+                        <div class="stage-card-header">
+                            <span class="stage-card-num">STAGE // 01</span>
+                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
+                        </div>
+                        <h3 class="stage-card-title" data-i18n="stage-1-title">EVALUACIÓN</h3>
+                        <p class="stage-card-desc" data-i18n="stage-1-desc">
+                            Incrustamos a nuestros ingenieros directamente en la operación para diagnosticar los flujos de trabajo, identificar fricciones latentes y mapear la infraestructura de datos existente.
+                        </p>
+                    </div>
 
-                            <!-- BUCLE VECTORIAL DE RETORNO Y FEEDBACK CONTINUO FDE -->
-                            <div class="loop-return-track">
-                                <svg class="loop-return-svg" viewBox="0 0 1000 32" fill="none" preserveAspectRatio="none">
-                                    <path d="M 885 0 V 16 C 885 28, 865 30, 835 30 H 145 C 115 30, 95 28, 95 16 V 0" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/>
-                                    <polyline points="88,10 95,0 102,10" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                                </svg>
-                                <div class="fde-loop-caption">
-                                    <span data-i18n="fde-feedback">FEEDBACK CONTINUO EN TIEMPO REAL</span>
-                                </div>
+                    <div class="fde-stage-card">
+                        <div class="stage-card-header">
+                            <span class="stage-card-num">STAGE // 02</span>
+                            <span class="stage-badge">[CORE LAB]</span>
+                        </div>
+                        <h3 class="stage-card-title" data-i18n="stage-2-title">DESARROLLO</h3>
+                        <p class="stage-card-desc" data-i18n="stage-2-desc">
+                            Diseñamos la arquitectura del sistema, entrenamos o ajustamos modelos agénticos y construimos la lógica de decisión bajo rigurosos principios de Ciencias de la Computación.
+                        </p>
+                    </div>
+
+                    <div class="fde-stage-card">
+                        <div class="stage-card-header">
+                            <span class="stage-card-num">STAGE // 03</span>
+                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
+                        </div>
+                        <h3 class="stage-card-title" data-i18n="stage-3-title">IMPLEMENTACIÓN</h3>
+                        <p class="stage-card-desc" data-i18n="stage-3-desc">
+                            Desplegamos las soluciones directamente en el entorno de producción del cliente, integrándolas con sus sistemas legados y garantizando estabilidad operacional.
+                        </p>
+                    </div>
+
+                    <div class="fde-stage-card">
+                        <div class="stage-card-header">
+                            <span class="stage-card-num">STAGE // 04</span>
+                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
+                        </div>
+                        <h3 class="stage-card-title" data-i18n="stage-4-title">ADOPCIÓN</h3>
+                        <p class="stage-card-desc" data-i18n="stage-4-desc">
+                            Acompañamos a los equipos internos en la curva de aprendizaje, facilitando la transición cultural y estableciendo un bucle de retroalimentación continua en tiempo real.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN: IA SEGURA Y SOBERANÍA DE DATOS (MONOCROMÁTICA & ESTÁTICA) -->
+        <section id="seguridad" class="security-section">
+            <div class="security-container scroll-reveal">
+                <div class="mission-title hype-tag">:: SECURITY_AND_SOVEREIGNTY</div>
+                
+                <div class="security-card">
+                    <h2 class="security-title-main" data-i18n="security-title">
+                        IA Segura, con Datos Bajo Tu Control
+                    </h2>
+                    
+                    <p class="security-body-text" data-i18n="security-desc">
+                        A diferencia de las soluciones convencionales que envían información sensible a APIs públicas de terceros, desplegamos IA agéntica e infraestructura de cómputo en la nube privada o servidores On-Premise de tu organización.
+                    </p>
+
+                    <!-- Diagrama Lineal: Datos -> Infraestructura -> Resultados -->
+                    <div class="security-flow-grid">
+                        <div class="sec-step-card">
+                            <div class="sec-icon-box">
+                                <svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
                             </div>
+                            <div class="sec-step-info">
+                                <span class="sec-step-tag">01 // INPUT</span>
+                                <span class="sec-step-title" data-i18n="sec-node-1">Tus Datos Sensibles</span>
+                            </div>
+                        </div>
+
+                        <svg class="sec-flow-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+
+                        <div class="sec-step-card">
+                            <div class="sec-icon-box">
+                                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                            </div>
+                            <div class="sec-step-info">
+                                <span class="sec-step-tag">02 // AMBIENTE</span>
+                                <span class="sec-step-title" data-i18n="sec-node-2">Infra / Modelo Local</span>
+                            </div>
+                        </div>
+
+                        <svg class="sec-flow-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+
+                        <div class="sec-step-card">
+                            <div class="sec-icon-box">
+                                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            </div>
+                            <div class="sec-step-info">
+                                <span class="sec-step-tag">03 // OUTPUT</span>
+                                <span class="sec-step-title" data-i18n="sec-node-3">Resultados Seguros</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 Pilares en Español -->
+                    <div class="security-pillars-grid">
+                        <div class="sec-pillar-box">
+                            <div class="sec-pillar-title" data-i18n="sec-p1-title">Cero Fuga de Datos</div>
+                            <div class="sec-pillar-desc" data-i18n="sec-p1-desc">Tu información confidencial nunca abandona el perímetro corporativo ni se utiliza para entrenar modelos públicos externos.</div>
+                        </div>
+                        <div class="sec-pillar-box">
+                            <div class="sec-pillar-title" data-i18n="sec-p2-title">Nube Privada / On-Premise</div>
+                            <div class="sec-pillar-desc" data-i18n="sec-p2-desc">Integración nativa dentro de tus propios servidores o tenants privados (AWS, Azure, GCP) bajo tus políticas de IT.</div>
+                        </div>
+                        <div class="sec-pillar-box">
+                            <div class="sec-pillar-title" data-i18n="sec-p3-title">Garantía & Cumplimiento Normativo</div>
+                            <div class="sec-pillar-desc" data-i18n="sec-p3-desc">Cumplimiento estricto de normativas de protección de datos personales, confidencialidad corporativa y acuerdos de NDA rígidos.</div>
                         </div>
                     </div>
                 </div>
@@ -1949,32 +2697,28 @@
             </div>
         </section>
 
-        <!-- SECCIÓN CASOS & PROYECTOS CON GRÁFICOS LINEALES DE ICONOS AL COSTADO DEL TEXTO -->
+        <!-- SECCIÓN CASOS & PROYECTOS CON GRÁFICOS LINEALES DE ICONOS AL COSTADO DEL TEXTO Y STACK ESPECÍFICO -->
         <section id="casos" class="cases-section">
             <div class="cases-container">
                 <div class="section-label scroll-reveal" data-i18n="cases-title">CASOS & PROYECTOS</div>
                 
-                <!-- PROYECTO 1: UGR -->
+                <!-- PROYECTO 1 -->
                 <div class="case-block tilt-card scroll-reveal">
                     <div class="case-body-grid">
                         <div class="case-info-col">
                             <div class="case-header" data-i18n="case-1-title">Automatización de Liquidación y Facturación</div>
                             <div class="case-desc" data-i18n="case-1-desc">
-                                Despliegue de un ecosistema basado en Agentes de IA para la Universidad del Gran Rosario (UGR). La solución automatiza los flujos de facturación y el procesamiento transaccional de liquidación de honorarios para la planta docente de la institución.
+                                Despliegue de un ecosistema basado en Agentes de IA para la gestión institucional. La solución automatiza los flujos de facturación y el procesamiento transaccional de liquidación de honorarios para la planta docente de la institución.
                             </div>
                             <div class="case-details">
                                 <div class="detail-item">
-                                    <h5 data-i18n="client-label">CLIENTE</h5>
-                                    <p>Universidad del Gran Rosario</p>
-                                </div>
-                                <div class="detail-item">
                                     <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
-                                    <p>...</p>
+                                    <p>Python, LangGraph, PostgreSQL</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Gráfico Lineal con Iconos (UGR) -->
+                        <!-- Gráfico Lineal con Iconos -->
                         <div class="case-linear-chart">
                             <div class="chart-step-node">
                                 <div class="node-icon-wrapper">
@@ -2013,27 +2757,23 @@
                     </div>
                 </div>
 
-                <!-- PROYECTO 2: POINCENOT & NBCH -->
+                <!-- PROYECTO 2 -->
                 <div class="case-block tilt-card scroll-reveal">
                     <div class="case-body-grid">
                         <div class="case-info-col">
                             <div class="case-header" data-i18n="case-2-title">Motor de Detección de Fraudes Financieros</div>
                             <div class="case-desc" data-i18n="case-2-desc">
-                                Diseño e implementación de un modelo avanzado para la mitigación y detección temprana de anomalías y fraudes financieros, integrado nativamente para Poincenot y las estructuras del Nuevo Banco del Chaco.
+                                Diseño e implementación de un modelo avanzado para la mitigación y detección temprana de anomalías y fraudes financieros, integrado nativamente para estructuras bancarias y fintechs de alta escala transaccional.
                             </div>
                             <div class="case-details">
                                 <div class="detail-item">
-                                    <h5 data-i18n="client-label">CLIENTE</h5>
-                                    <p>Poincenot & Nuevo Banco del Chaco</p>
-                                </div>
-                                <div class="detail-item">
                                     <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
-                                    <p>...</p>
+                                    <p>LangGraph, Apache Kafka, LangSmith, PostgreSQL, WebSockets</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Gráfico Lineal con Iconos (POINCENOT) -->
+                        <!-- Gráfico Lineal con Iconos -->
                         <div class="case-linear-chart">
                             <div class="chart-step-node">
                                 <div class="node-icon-wrapper">
@@ -2072,7 +2812,7 @@
                     </div>
                 </div>
 
-                <!-- PROYECTO 3: TRUCKFLOW -->
+                <!-- PROYECTO 3 -->
                 <div class="case-block tilt-card scroll-reveal">
                     <div class="case-body-grid">
                         <div class="case-info-col">
@@ -2082,17 +2822,13 @@
                             </div>
                             <div class="case-details">
                                 <div class="detail-item">
-                                    <h5 data-i18n="client-label">CLIENTE</h5>
-                                    <p>Nueval Vicentín Argentina</p>
-                                </div>
-                                <div class="detail-item">
                                     <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
-                                    <p>...</p>
+                                    <p>Python, OpenCV, YOLO, PyTorch, Docker</p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Gráfico Lineal con Iconos (TRUCKFLOW) -->
+                        <!-- Gráfico Lineal con Iconos -->
                         <div class="case-linear-chart">
                             <div class="chart-step-node">
                                 <div class="node-icon-wrapper">
@@ -2142,7 +2878,7 @@
                             <div class="case-details">
                                 <div class="detail-item">
                                     <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
-                                    <p>...</p>
+                                    <p>Python, LangGraph, FastAPI, Redis, Docker</p>
                                 </div>
                             </div>
                         </div>
@@ -2182,6 +2918,90 @@
                                     <span class="node-desc" data-i18n="case-4-node-3">Reducción Directa de Costos</span>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN SOBRE NOSOTROS & BOARD DE DIRECCIÓN (UBICACIÓN POST CASOS Y PROYECTOS CON TÍTULO DE SECCIÓN PRINCIPAL) -->
+        <section id="nosotros" class="about-section">
+            <div class="about-container scroll-reveal">
+                <!-- TÍTULO PRINCIPAL DE SECCIÓN -->
+                <div class="section-label scroll-reveal" data-i18n="about-title">SOBRE NOSOTROS</div>
+                
+                <!-- BOARD DE DIRECCIÓN Y CO-FUNDADORES (TODOS CON CARGO 'CO-FUNDADOR & DIRECTOR' Y BOTONES MAGNÉTICOS) -->
+                <div class="team-grid scroll-reveal">
+                    <!-- FEDERICO LUNA -->
+                    <div class="team-card">
+                        <div class="team-card-top">
+                            <span class="team-role-tag" data-i18n="role-fede">CO-FUNDADOR & DIRECTOR</span>
+                            <h3 class="team-member-name">Federico Luna</h3>
+                            <p class="team-member-bio" data-i18n="bio-fede">
+                                Especialista en Ciencias de la Computación, arquitectura de software escalable y desarrollo de sistemas agénticos avanzados. Posee una sólida trayectoria en el diseño técnico e implementación en producción de soluciones complejas para empresas de alta demanda.
+                            </p>
+                        </div>
+                        <a href="https://www.linkedin.com/in/fedel?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" class="team-linkedin-link magnetic-btn">
+                            <svg class="team-linkedin-icon" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            <span>LINKEDIN &rarr;</span>
+                        </a>
+                    </div>
+
+                    <!-- GERMÁN GIRÓ -->
+                    <div class="team-card">
+                        <div class="team-card-top">
+                            <span class="team-role-tag" data-i18n="role-german">CO-FUNDADOR & DIRECTOR</span>
+                            <h3 class="team-member-name">Germán Giró</h3>
+                            <p class="team-member-bio" data-i18n="bio-german">
+                                Ex Secretario de Ciencia, Tecnología e Innovación de Santa Fe y ex Secretario de Tecnología de Rosario. Docente universitario e investigador, cuenta con más de 20 años de liderazgo en transformación digital y gestión tecnológica pública y privada.
+                            </p>
+                        </div>
+                        <a href="https://www.linkedin.com/in/germangiro?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" class="team-linkedin-link magnetic-btn">
+                            <svg class="team-linkedin-icon" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            <span>LINKEDIN &rarr;</span>
+                        </a>
+                    </div>
+
+                    <!-- IGNACIO SANSEOVICH -->
+                    <div class="team-card">
+                        <div class="team-card-top">
+                            <span class="team-role-tag" data-i18n="role-ignacio">CO-FUNDADOR & DIRECTOR</span>
+                            <h3 class="team-member-name">Ignacio Sanseovich</h3>
+                            <p class="team-member-bio" data-i18n="bio-ignacio">
+                                Ex Presidente del Polo Tecnológico Rosario y empresario del sector IT con más de 15 años de trayectoria. Experto en desarrollo de negocios B2B, gobierno de datos y articulación de alianzas estratégicas para empresas en crecimiento.
+                            </p>
+                        </div>
+                        <a href="https://www.linkedin.com/in/ignacio-oscar-sanseovich?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" class="team-linkedin-link magnetic-btn">
+                            <svg class="team-linkedin-icon" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            <span>LINKEDIN &rarr;</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- TARJETAS EXTENDIDA CON TEXTO MÁS DIRECTO Y CONCRETO Y LOGO UGR -->
+                <div class="team-extended-card scroll-reveal">
+                    <div class="team-extended-title" data-i18n="team-ext-title">// NUESTRO EQUIPO Y RED DE TALENTO</div>
+                    
+                    <p class="team-extended-p" data-i18n="team-ext-p">
+                        <strong>Más de 20 ingenieros y científicos</strong> especializados en desarrollo de software, arquitectura de datos e Inteligencia Artificial.
+                    </p>
+
+                    <div class="team-roles-chips">
+                        <span class="role-chip" data-i18n="chip-1">Gestión & Estrategia</span>
+                        <span class="role-chip" data-i18n="chip-2">Científicos de Datos</span>
+                        <span class="role-chip" data-i18n="chip-3">Ingenieros de IA & Agentes</span>
+                        <span class="role-chip" data-i18n="chip-4">Desarrolladores Full Stack</span>
+                        <span class="role-chip" data-i18n="chip-5">Arquitectos de Software</span>
+                        <span class="role-chip" data-i18n="chip-6">Analistas de Sistemas</span>
+                        <span class="role-chip" data-i18n="chip-7">Ingenieros de Software</span>
+                        <span class="role-chip" data-i18n="chip-8">Ingenieros en Sistemas</span>
+                    </div>
+
+                    <div class="partnership-badge-row">
+                        <img src="logos/ugr.png" alt="UGR - Universidad del Gran Rosario" class="ugr-logo-img">
+                        <div class="partnership-text" data-i18n="partnership-text">
+                            Partnership estratégico institucional con la <strong>Universidad del Gran Rosario (UGR)</strong> para investigación aplicada, transferencia tecnológica e innovación continua.
                         </div>
                     </div>
                 </div>
@@ -2274,6 +3094,7 @@
             <div class="footer-right-col">
                 <div class="footer-copyright">
                     © 2026 enesimal. SYS_STATUS: OK.
+                    <span class="footer-fiscal-info" data-i18n="footer-fiscal">Razón Social: Enesimal S.A. | CUIT: 30-71849124-6</span>
                 </div>
 
                 <!-- Redes sociales pequeñas de color gris (mismo tono que el copyright) ubicadas DEBAJO del texto -->
@@ -2305,13 +3126,59 @@
         const i18nData = {
             es: {
                 "nav-start": "Inicio",
+                "nav-methodology": "Metodología",
+                "nav-security": "Seguridad",
                 "nav-capabilities": "Capacidades",
+                "nav-about": "Nosotros",
                 "nav-cases": "Casos & Proyectos",
                 "nav-contact": "Contactanos",
-                "hero-title": "Somos <span>tu habilitador hacia la IA agéntica.</span>",
-                "hero-desc": "Transformamos organizaciones y creamos nuevas empresas en LATAM mediante la aplicación rigurosa de las Ciencias de la Computación, la Ciencia de Datos, los Sistemas de Información y la Inteligencia Artificial.",
+                "hero-title": "Construimos sistemas inteligentes para el mundo real.<span>Somos tu habilitador hacia la IA agéntica.</span>",
+                "hero-desc": "Combinamos IA, Ciencia de Datos, Ciencias de la Computación y Sistemas de Información para diseñar e implementar sistemas inteligentes que se integran con los datos, procesos y conocimiento de las organizaciones.",
                 "hero-cta": "Contactanos →",
-                "mission-text": "Desarrollamos conocimiento, talento, productos y empresas para liderar los desafíos de la economía digital con <span class=\"highlight\">impacto sostenible</span>.",
+                "core-lead": "Lideramos los desafíos de la economía digital desarrollando conocimiento, talento y tecnología con <span class=\"highlight\">impacto sostenible</span>.",
+                "manifesto-body": "El modelo no es tu ventaja competitiva: lo son tus datos, tus procesos y tu conocimiento. Diseñamos arquitecturas con modelos comerciales y de pesos abiertos para que aproveches la IA manteniendo el control de lo que te hace único.",
+                "manifesto-line1": "De los modelos a los sistemas.",
+                "manifesto-line2": "De los datos a la acción.",
+                "fde-main-title": "Nuestro Enfoque Metodológico",
+                "fde-p1": "A diferencia de los abordajes tradicionales que entregan prototipos aislados, un proyecto de IA Agéntica real impacta de forma directa e interconectada en tres dimensiones de la organización: <strong>sus datos actuales, sus procesos operativos y su cultura de trabajo</strong>. En Enesimal abordamos estas tres capas de manera holística, garantizando sostenibilidad en producción.",
+                "fde-quote": "\"No se trata de lanzar un prototipo funcional y esperar que escale. Un proyecto de IA Agéntica exitoso requiere metodología, conocimiento profundo del dominio y experiencia comprobada en Ciencias de la Computación y Sistemas de Información.\"",
+                "stage-1-title": "EVALUACIÓN",
+                "stage-1-desc": "Incrustamos a nuestros ingenieros directamente en la operación para diagnosticar los flujos de trabajo, identificar fricciones latentes y mapear la infraestructura de datos existente.",
+                "stage-2-title": "DESARROLLO",
+                "stage-2-desc": "Diseñamos la arquitectura del sistema, entrenamos o ajustamos modelos agénticos y construimos la lógica de decisión bajo rigurosos principios de Ciencias de la Computación.",
+                "stage-3-title": "IMPLEMENTACIÓN",
+                "stage-3-desc": "Desplegamos las soluciones directamente en el entorno de producción del cliente, integrándolas con sus sistemas legados y garantizando estabilidad operacional.",
+                "stage-4-title": "ADOPCIÓN",
+                "stage-4-desc": "Acompañamos a los equipos internos en la curva de aprendizaje, facilitando la transición cultural y estableciendo un bucle de retroalimentación continua en tiempo real.",
+                "security-title": "IA Segura, con Datos Bajo Tu Control",
+                "security-desc": "A diferencia de las soluciones convencionales que envían información sensible a APIs públicas de terceros, desplegamos IA agéntica e infraestructura de cómputo en la nube privada o servidores On-Premise de tu organización.",
+                "sec-node-1": "Tus Datos Sensibles",
+                "sec-node-2": "Infra / Modelo Local",
+                "sec-node-3": "Resultados Seguros",
+                "sec-p1-title": "Cero Fuga de Datos",
+                "sec-p1-desc": "Tu información confidencial nunca abandona el perímetro corporativo ni se utiliza para entrenar modelos públicos externos.",
+                "sec-p2-title": "Nube Privada / On-Premise",
+                "sec-p2-desc": "Integración nativa dentro de tus propios servidores o tenants privados (AWS, Azure, GCP) bajo tus políticas de IT.",
+                "sec-p3-title": "Garantía & Cumplimiento Normativo",
+                "sec-p3-desc": "Cumplimiento estricto de normativas de protección de datos personales, confidencialidad corporativa y acuerdos de NDA rígidos.",
+                "about-title": "SOBRE NOSOTROS",
+                "role-fede": "CO-FUNDADOR & DIRECTOR",
+                "bio-fede": "Especialista en Ciencias de la Computación, arquitectura de software escalable y desarrollo de sistemas agénticos avanzados. Posee una sólida trayectoria en el diseño técnico e implementación en producción de soluciones complejas para empresas de alta demanda.",
+                "role-german": "CO-FUNDADOR & DIRECTOR",
+                "bio-german": "Ex Secretario de Ciencia, Tecnología e Innovación de Santa Fe y ex Secretario de Tecnología de Rosario. Docente universitario e investigador, cuenta con más de 20 años de liderazgo en transformación digital y gestión tecnológica pública y privada.",
+                "role-ignacio": "CO-FUNDADOR & DIRECTOR",
+                "bio-ignacio": "Ex Presidente del Polo Tecnológico Rosario y empresario del sector IT con más de 15 años de trayectoria. Experto en desarrollo de negocios B2B, gobierno de datos y articulación de alianzas estratégicas para empresas en crecimiento.",
+                "team-ext-title": "// NUESTRO EQUIPO Y RED DE TALENTO",
+                "team-ext-p": "<strong>Más de 20 ingenieros y científicos</strong> especializados en desarrollo de software, arquitectura de datos e Inteligencia Artificial.",
+                "chip-1": "Gestión & Estrategia",
+                "chip-2": "Científicos de Datos",
+                "chip-3": "Ingenieros de IA & Agentes",
+                "chip-4": "Desarrolladores Full Stack",
+                "chip-5": "Arquitectos de Software",
+                "chip-6": "Analistas de Sistemas",
+                "chip-7": "Ingenieros de Software",
+                "chip-8": "Ingenieros en Sistemas",
+                "partnership-text": "Partnership estratégico institucional con la <strong>Universidad del Gran Rosario (UGR)</strong> para investigación aplicada, transferencia tecnológica e innovación continua.",
                 "fde-subtitle": "CICLO DE VIDA E INTEGRACIÓN DE LA CAPA FDE",
                 "fde-toggle-label": "VER CAPA FDE",
                 "step-1": "01 // EVALUACIÓN",
@@ -2331,15 +3198,14 @@
                 "cap-5-title": "FDE: Ingeniería Desplegada en Primera Línea",
                 "cap-5-desc": "Incrustamos Forward Deployed Engineers (FDE) directamente en la infraestructura y equipos clave de nuestros clientes. Nuestros ingenieros trabajan en el terreno operativo para integrar modelos avanzados de IA y arquitecturas agénticas en sistemas reales de producción, acelerando la adopción tecnológica y resolviendo fricciones críticas de la organización desde adentro.",
                 "cases-title": "CASOS & PROYECTOS",
-                "client-label": "CLIENTE",
                 "stack-label": "STACK TECNOLÓGICO",
                 "case-1-title": "Automatización de Liquidación y Facturación",
-                "case-1-desc": "Despliegue de un ecosistema basado en Agentes de IA para la Universidad del Gran Rosario (UGR). La solución automatiza los flujos de facturación y el procesamiento transaccional de liquidación de honorarios para la planta docente de la institución.",
+                "case-1-desc": "Despliegue de un ecosistema basado en Agentes de IA para la gestión institucional. La solución automatiza los flujos de facturación y el procesamiento transaccional de liquidación de honorarios para la planta docente de la institución.",
                 "case-1-node-1": "Comprobantes & Datos",
                 "case-1-node-2": "Agentes IA Orquestados",
                 "case-1-node-3": "Liquidación Validada",
                 "case-2-title": "Motor de Detección de Fraudes Financieros",
-                "case-2-desc": "Diseño e implementación de un modelo avanzado para la mitigación y detección temprana de anomalías y fraudes financieros, integrado nativamente para Poincenot y las estructuras del Nuevo Banco del Chaco.",
+                "case-2-desc": "Diseño e implementación de un modelo avanzado para la mitigación y detección temprana de anomalías y fraudes financieros, integrado nativamente para estructuras bancarias y fintechs de alta escala transaccional.",
                 "case-2-node-1": "Flujo Transaccional",
                 "case-2-node-2": "Motor Predictivo IA",
                 "case-2-node-3": "Bloqueo Preventivo",
@@ -2361,17 +3227,64 @@
                 "form-name": "TU NOMBRE Y APELLIDO",
                 "form-email": "TU EMAIL",
                 "form-msg": "TU MENSAJE",
-                "form-btn": "ENVIAR"
+                "form-btn": "ENVIAR",
+                "footer-fiscal": "Razón Social: Enesimal S.A. | CUIT: 30-71849124-6"
             },
             en: {
                 "nav-start": "Home",
+                "nav-methodology": "Methodology",
+                "nav-security": "Security",
                 "nav-capabilities": "Capabilities",
+                "nav-about": "About Us",
                 "nav-cases": "Cases & Projects",
                 "nav-contact": "Contact Us",
-                "hero-title": "We are <span>your enabler towards Agentic AI.</span>",
-                "hero-desc": "We transform organizations and build new ventures in LATAM through the rigorous application of Computer Science, Data Science, Information Systems, and Artificial Intelligence.",
+                "hero-title": "We build intelligent systems for the real world.<span>We are your enabler towards Agentic AI.</span>",
+                "hero-desc": "We combine AI, Data Science, Computer Science, and Information Systems to design and implement intelligent systems that integrate seamlessly with organizational data, processes, and knowledge.",
                 "hero-cta": "Contact Us →",
-                "mission-text": "We develop knowledge, talent, products, and companies to lead the challenges of the digital economy with <span class=\"highlight\">sustainable impact</span>.",
+                "core-lead": "We lead the challenges of the digital economy by developing knowledge, talent, and technology with <span class=\"highlight\">sustainable impact</span>.",
+                "manifesto-body": "The model is not your competitive advantage: your data, processes, and knowledge are. We design architectures with commercial and open-weight models, enabling you to leverage AI while retaining full control over what makes your organization unique.",
+                "manifesto-line1": "From models to systems.",
+                "manifesto-line2": "From data to action.",
+                "fde-main-title": "Our Methodological Approach",
+                "fde-p1": "Unlike traditional approaches that deliver isolated prototypes, a real Agentic AI project directly impacts three core organizational pillars: <strong>current data, operational processes, and workplace culture</strong>. At Enesimal, we address these three layers holistically, guaranteeing production stability.",
+                "fde-quote": "\"It is not about deploying a working prototype and hoping it scales. A successful Agentic AI project requires methodology, deep domain knowledge, and proven expertise in Computer Science and Information Systems.\"",
+                "stage-1-title": "ASSESSMENT",
+                "stage-1-desc": "We embed our engineers directly on-site to diagnose operational workflows, identify latent friction, and map existing data infrastructure.",
+                "stage-2-title": "DEVELOPMENT",
+                "stage-2-desc": "We design system architecture, fine-tune agentic models, and build decision logic under rigorous Computer Science principles.",
+                "stage-3-title": "IMPLEMENTATION",
+                "stage-3-desc": "We deploy solutions directly into the client's production environment, integrating seamlessly with legacy systems and ensuring operational stability.",
+                "stage-4-title": "ADOPTION",
+                "stage-4-desc": "We guide internal teams through the learning curve, facilitating cultural transition and establishing a real-time continuous feedback loop.",
+                "security-title": "Secure AI, With Data Under Your Control",
+                "security-desc": "Unlike standard solutions that stream sensitive data to third-party public APIs, we deploy agentic AI and compute infrastructure on your organization's private cloud or On-Premise servers.",
+                "sec-node-1": "Your Sensitive Data",
+                "sec-node-2": "Local / Private Infra Model",
+                "sec-node-3": "Secure Outputs",
+                "sec-p1-title": "Zero Data Leakage",
+                "sec-p1-desc": "Your confidential business information never leaves your corporate perimeter nor is it used to train external public models.",
+                "sec-p2-title": "Private Cloud / On-Premise",
+                "sec-p2-desc": "Native deployment inside your own servers or private tenants (AWS, Azure, GCP) compliant with your IT policies.",
+                "sec-p3-title": "Compliance & NDA Guarantee",
+                "sec-p3-desc": "Strict compliance with personal data protection regulations, corporate confidentiality standards, and standard NDAs.",
+                "about-title": "ABOUT US",
+                "role-fede": "CO-FOUNDER & DIRECTOR",
+                "bio-fede": "Specialist in Computer Science, scalable software architecture, and advanced agentic systems engineering. Proven track record in technical design and production deployment of high-demand enterprise systems.",
+                "role-german": "CO-FOUNDER & DIRECTOR",
+                "bio-german": "Former Secretary of Science, Technology & Innovation of Santa Fe and former Secretary of Technology of Rosario. University professor and researcher with 20+ years of digital transformation leadership across public and private sectors.",
+                "role-ignacio": "CO-FOUNDER & DIRECTOR",
+                "bio-ignacio": "Former President of Polo Tecnológico Rosario and IT business leader with 15+ years of experience. Expert in B2B technology business development, data governance, and strategic enterprise partnerships.",
+                "team-ext-title": "// OUR TEAM & TALENT NETWORK",
+                "team-ext-p": "<strong>Over 20 engineers and scientists</strong> specialized in software development, data architecture, and Artificial Intelligence.",
+                "chip-1": "Management & Strategy",
+                "chip-2": "Data Scientists",
+                "chip-3": "AI & Agent Engineers",
+                "chip-4": "Full Stack Developers",
+                "chip-5": "Software Architects",
+                "chip-6": "Systems Analysts",
+                "chip-7": "Software Engineers",
+                "chip-8": "Systems Engineers",
+                "partnership-text": "Strategic institutional partnership with <strong>Universidad del Gran Rosario (UGR)</strong> for applied research, technology transfer, and continuous innovation.",
                 "fde-subtitle": "LIFECYCLE & FDE LAYER INTEGRATION",
                 "fde-toggle-label": "VIEW FDE LAYER",
                 "step-1": "01 // ASSESSMENT",
@@ -2391,15 +3304,14 @@
                 "cap-5-title": "FDE: Forward Deployed Engineering",
                 "cap-5-desc": "We embed Forward Deployed Engineers (FDE) directly into our clients' teams and operational infrastructure. Working on-site, our FDEs integrate advanced AI models into real production code, accelerating adoption and eliminating critical friction from within.",
                 "cases-title": "CASES & PROJECTS",
-                "client-label": "CLIENT",
                 "stack-label": "TECH STACK",
                 "case-1-title": "Payroll & Invoicing Automation",
-                "case-1-desc": "Deployment of an Agentic AI ecosystem for Universidad del Gran Rosario (UGR). The solution automates billing workflows and transactional faculty payroll processing.",
+                "case-1-desc": "Deployment of an Agentic AI ecosystem for institutional management. The solution automates billing workflows and transactional faculty payroll processing.",
                 "case-1-node-1": "Documents & Data Inputs",
                 "case-1-node-2": "Orchestrated AI Agents",
                 "case-1-node-3": "Validated Settlement",
                 "case-2-title": "Financial Fraud Detection Engine",
-                "case-2-desc": "Design and production deployment of an advanced predictive model for early mitigation of financial anomalies and fraud, natively integrated for Poincenot and Nuevo Banco del Chaco.",
+                "case-2-desc": "Design and production deployment of an advanced predictive model for early mitigation of financial anomalies and fraud, natively integrated for high-volume banking and fintech infrastructure.",
                 "case-2-node-1": "Transactional Data Stream",
                 "case-2-node-2": "Predictive AI Engine",
                 "case-2-node-3": "Preventive Interception",
@@ -2421,7 +3333,8 @@
                 "form-name": "YOUR FULL NAME",
                 "form-email": "YOUR EMAIL",
                 "form-msg": "YOUR MESSAGE",
-                "form-btn": "SEND MESSAGE"
+                "form-btn": "SEND MESSAGE",
+                "footer-fiscal": "Legal Name: Enesimal S.A. | CUIT: 30-71849124-6"
             }
         };
 
@@ -2444,6 +3357,9 @@
                 }
             });
 
+            // Re-preparar palabras para la animación de tipeo al cambiar idioma
+            initTypewriterWords();
+
             // Actualizar placeholders de formulario
             const nameInput = document.getElementById('name');
             const emailInput = document.getElementById('email');
@@ -2464,16 +3380,19 @@
             body.classList.toggle('monochrome-mode');
         }
 
-        /* FUNCIÓN INTERACTIVA PARA EL SWITCH DE CAPA FDE */
+        /* FUNCIÓN INTERACTIVA PARA EL SWITCH DE CAPA FDE (CON CONTROL DUAL SOBRE DIAGRAMA Y TARJETAS) */
         function toggleFdeLayer() {
             const container = document.getElementById('fdeDiagramContainer');
             const toggle = document.getElementById('fdeToggle');
+            const fdeSection = document.getElementById('mision');
             if (!container || !toggle) return;
 
             if (toggle.checked) {
                 container.classList.remove('fde-off');
+                if (fdeSection) fdeSection.classList.add('fde-on');
             } else {
                 container.classList.add('fde-off');
+                if (fdeSection) fdeSection.classList.remove('fde-on');
             }
         }
 
@@ -2541,6 +3460,41 @@
         const scrollTopBtn = document.getElementById('scrollTopBtn');
         const mainHeader = document.getElementById('mainHeader');
 
+        /* SCRIPT DE ESCRITURA PROGRESIVA DE LA CITA BASADO EN SCROLL */
+        function initTypewriterWords() {
+            const callout = document.getElementById('typewriterCallout');
+            if (!callout) return;
+            const fullText = callout.textContent.trim();
+            const words = fullText.split(' ');
+            callout.innerHTML = words.map(word => `<span class="typewriter-word">${word}</span>`).join(' ');
+        }
+
+        function handleTypewriterScroll() {
+            const callout = document.getElementById('typewriterCallout');
+            if (!callout) return;
+            const rect = callout.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Calculamos el progreso de scroll a través del elemento (de 0 a 1)
+            const start = windowHeight * 0.85;
+            const end = windowHeight * 0.35;
+            
+            let progress = (start - rect.top) / (start - end);
+            progress = Math.max(0, Math.min(1, progress));
+            
+            const wordElements = callout.querySelectorAll('.typewriter-word');
+            const totalWords = wordElements.length;
+            const revealedCount = Math.floor(progress * totalWords);
+            
+            wordElements.forEach((wordEl, index) => {
+                if (index <= revealedCount) {
+                    wordEl.classList.add('revealed');
+                } else {
+                    wordEl.classList.remove('revealed');
+                }
+            });
+        }
+
         window.addEventListener('scroll', () => {
             if (window.scrollY > 50) {
                 mainHeader.classList.add('scrolled');
@@ -2553,9 +3507,17 @@
             } else {
                 scrollTopBtn.classList.remove('visible');
             }
+
+            handleTypewriterScroll();
         });
 
-        // Detector bidireccional de desplazamiento
+        // Inicializar palabras al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            initTypewriterWords();
+            handleTypewriterScroll();
+        });
+
+        // Detector bidireccional de desplazamiento (Entra al scrolear hacia abajo, se va al scrolear hacia arriba)
         const revealRightElements = document.querySelectorAll('.scroll-reveal-right');
         const revealRightObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
@@ -2565,7 +3527,7 @@
                     entry.target.classList.remove('active');
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.05 });
 
         revealRightElements.forEach(el => revealRightObserver.observe(el));
 
@@ -2617,7 +3579,7 @@
             }
             renderCursor();
 
-            const interactiveElements = document.querySelectorAll('a, button, input, textarea, summary, .flow-pill, .case-block, .fde-toggle-switch, .lang-toggle-btn');
+            const interactiveElements = document.querySelectorAll('a, button, input, textarea, summary, .flow-pill, .case-block, .fde-toggle-switch, .lang-toggle-btn, .team-linkedin-link');
             interactiveElements.forEach(el => {
                 el.addEventListener('mouseenter', () => cursorFollower.classList.add('hovered'));
                 el.addEventListener('mouseleave', () => cursorFollower.classList.remove('hovered'));
