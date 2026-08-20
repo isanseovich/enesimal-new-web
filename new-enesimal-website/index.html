@@ -38,24 +38,24 @@
             --font-mono: 'Space Mono', monospace;
         }
 
-        /* MODO INVERTIDO / LIGHT */
+        /* MODO INVERTIDO / LIGHT - CORREGIDO PARA ALTO CONTRASTE Y LEGIBILIDAD DE GRISES */
         body.monochrome-mode {
-            --bg-main: #f8f9fa;         
-            --bg-header: rgba(255, 255, 255, 0.3);
+            --bg-main: #f4f5f7;         
+            --bg-header: rgba(255, 255, 255, 0.6);
             --bg-light: #0d0e12;        
             --text-main: #0a0b0e;       
             --text-dark: #ffffff;       
-            --text-muted: #222222;      
-            --text-dark-gray: #777777;  
-            --text-muted-retro: #888888; 
-            --accent-blue: #52525B;     /* Gris Oscuro con alto contraste para fondo claro */
-            --border-retro: rgba(0, 0, 0, 0.15);    
+            --text-muted: #2d3036;      /* Gris Oscuro de Alto Contraste */
+            --text-dark-gray: #4b5059;  
+            --text-muted-retro: #525863; /* Retro de Alto Contraste */
+            --accent-blue: #27272A;     /* Gris Grafito Oscuro */
+            --border-retro: rgba(0, 0, 0, 0.22);    
             --border-dark: #ffffff;     
-            --bg-input: #f0f2f5;
+            --bg-input: #e4e7eb;
             --logo-filter: invert(100%);
             --partner-filter: brightness(0); /* Fuerza logos 100% negros en modo invertido claro */
-            --canvas-particle: rgba(80, 80, 80, 0.5); 
-            --canvas-line: rgba(80, 80, 80, 0.15);    
+            --canvas-particle: rgba(40, 40, 40, 0.6); 
+            --canvas-line: rgba(40, 40, 40, 0.18);    
             --map-filter: grayscale(100%) contrast(110%); /* Modo claro mapa */
         }
 
@@ -386,8 +386,7 @@
 
         .hero h1 span {
             color: var(--accent-blue);
-            display: block;
-            margin-top: 0.4rem;
+            display: inline;
         }
 
         .hero p {
@@ -415,6 +414,11 @@
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease, color 0.25s ease;
             box-shadow: 0 0 15px rgba(212, 212, 216, 0.12);
             will-change: transform;
+        }
+
+        /* MAYOR AIRE / ESPACIADO EXCLUSIVO PARA EL BOTÓN DEL HERO */
+        .hero-cta-btn {
+            margin-top: 2.8rem !important;
         }
 
         .hero-cta-btn:hover, .btn-submit:hover, .location-btn:hover, .team-linkedin-link:hover {
@@ -525,19 +529,23 @@
                 max-width: 110px;
                 max-height: 40px;
             }
+            .hero-cta-btn {
+                margin-top: 2rem !important;
+            }
         }
 
-        /* SECCIÓN UNIFICADA: CORE_OBJECTIVE & MANIFESTO */
-        .core-manifesto-section {
+        /* SECCIÓN METODOLOGÍA FDE */
+        .fde-section {
             position: relative;
             width: 100%;
             margin: 0 auto;
             padding: 6rem 0;
             overflow: hidden;
             background-color: var(--bg-main);
+            border-top: 1px dashed var(--border-retro);
         }
 
-        .core-manifesto-container {
+        .fde-container {
             position: relative;
             z-index: 1;
             display: flex;
@@ -548,125 +556,11 @@
             padding: 0 2rem;
         }
 
-        /* ANIMACIÓN FLUIDA Y CONFIABLE DESDE LA DERECHA Y RETORNO */
-        .scroll-reveal-right {
-            opacity: 0;
-            transform: translateX(60px);
-            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
-            will-change: transform, opacity;
-        }
-
-        .scroll-reveal-right.active {
-            opacity: 1;
-            transform: translateX(0);
-        }
-
-        .core-manifesto-card {
-            border-left: 4px solid var(--accent-blue);
-            background: rgba(255, 255, 255, 0.015);
-            border-top: 1px solid var(--border-retro);
-            border-right: 1px solid var(--border-retro);
-            border-bottom: 1px solid var(--border-retro);
-            border-radius: 0 12px 12px 0;
-            padding: 3.5rem 3rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .core-lead-text {
-            font-size: 2.2rem;
-            font-weight: 700;
-            line-height: 1.3;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-        }
-
-        .core-lead-text .highlight {
-            color: var(--accent-blue);
-        }
-
-        .manifesto-body-text {
-            font-size: 1.2rem;
-            line-height: 1.85;
-            color: var(--text-muted);
-            font-weight: 400;
-            border-top: 1px dashed var(--border-retro);
-            padding-top: 2.2rem;
-        }
-
-        /* MANIFIESTO PUNCHLINE LIMPIO Y SIN FONDO CON PALABRAS GRANDES E ICONOS ELEGANTE */
-        .manifesto-punchline {
-            background-color: transparent;
-            border-top: 1px solid var(--border-retro);
-            border-bottom: 1px solid var(--border-retro);
-            padding: 2rem 0;
-            display: flex;
-            flex-direction: column;
-            gap: 1.2rem;
-        }
-
-        .punchline-row {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-        }
-
-        .punchline-row span {
-            font-family: var(--font-main);
-            font-size: 1.85rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-            line-height: 1.3;
-        }
-
-        .punchline-icon {
-            width: 32px;
-            height: 32px;
-            stroke: var(--accent-blue);
-            fill: none;
-            stroke-width: 2.2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex-shrink: 0;
-        }
-
-        .pulse-icon {
-            animation: pulseGlow 2.5s infinite ease-in-out;
-        }
-
-        .spin-icon {
-            animation: spinContinuous 12s linear infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 0.85; }
-            50% { transform: scale(1.18); opacity: 1; filter: drop-shadow(0 0 8px var(--accent-blue)); }
-        }
-
-        @keyframes spinContinuous {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
         /* ESTILOS DEL ENCABEZADO Y DESARROLLO METODOLÓGICO FDE */
         .fde-section-header {
-            margin-top: 2.5rem;
             display: flex;
             flex-direction: column;
             gap: 1.2rem;
-            border-top: 1px dashed var(--border-retro);
-            padding-top: 2.5rem;
-        }
-
-        .fde-main-title {
-            font-family: var(--font-main);
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
         }
 
         .fde-intro-card {
@@ -797,6 +691,19 @@
             transition: all 0.3s ease;
         }
 
+        /* ESTILO PARA [CORE LAB] IDÉNTICO AL FDE ON-SITE APAGADO */
+        .stage-badge.corelab {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            border: 1px solid var(--border-retro);
+            color: var(--text-muted-retro);
+            background: rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
+        }
+
         /* Cuando la capa FDE está ACTIVA (.fde-on) */
         .fde-on .stage-badge.onsite {
             border-color: rgba(34, 197, 94, 0.5) !important;
@@ -856,7 +763,7 @@
             line-height: 1.6;
         }
 
-        /* SECCIÓN: IA SEGURA Y SOBERANÍA DE DATOS (MONOCROMÁTICA & ESTÁTICA) */
+        /* SECCIÓN: IA SEGURA Y SOBERANÍA DE DATOS CON BORDES 완벽AMENTE ALINEADOS Y ANTI-CLIPPING */
         .security-section {
             width: 100%;
             padding: 6rem 0;
@@ -873,8 +780,24 @@
             gap: 2.5rem;
         }
 
+        /* ANIMACIÓN BIDIRECCIONAL DESDE LA DERECHA PARA EL BLOQUE SEGURIDAD */
+        .scroll-reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: transform, opacity;
+        }
+
+        .scroll-reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* FIX DE BORDE SUPERIOR CORTADO: ISOLATION, BACKFACE-VISIBILITY Y BORDES NÍTIDOS EXPLÍCITOS */
         .security-card {
-            border: 1px solid var(--border-retro);
+            border-top: 1px solid var(--border-retro);
+            border-right: 1px solid var(--border-retro);
+            border-bottom: 1px solid var(--border-retro);
             border-left: 4px solid var(--accent-blue);
             background: rgba(255, 255, 255, 0.015);
             padding: 3rem 2.8rem;
@@ -883,15 +806,11 @@
             flex-direction: column;
             gap: 2.2rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        .security-title-main {
-            font-family: var(--font-main);
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: var(--text-main);
-            letter-spacing: -0.5px;
-            line-height: 1.2;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            isolation: isolate;
         }
 
         .security-body-text {
@@ -1225,20 +1144,14 @@
         }
 
         @media (max-width: 768px) {
-            .core-manifesto-section {
+            .fde-section {
                 padding: 4rem 0;
             }
-            .core-manifesto-card, .security-card, .team-extended-card {
+            .security-card, .team-extended-card {
                 padding: 2rem 1.5rem;
-            }
-            .security-title-main {
-                font-size: 1.6rem;
             }
             .security-body-text {
                 font-size: 1.02rem;
-            }
-            .core-lead-text {
-                font-size: 1.5rem;
             }
             .fde-main-title {
                 font-size: 1.5rem;
@@ -1248,12 +1161,6 @@
             }
             .fde-quote-callout {
                 font-size: 0.92rem;
-            }
-            .manifesto-body-text {
-                font-size: 1rem;
-            }
-            .punchline-row span {
-                font-size: 1.3rem;
             }
             .team-extended-p {
                 font-size: 0.98rem;
@@ -1521,7 +1428,7 @@
             gap: 0.5rem;
         }
 
-        /* ICONOS DELANTE DE CADA CAPACIDAD */
+        /* ICONOS DELANTE DE CADA CAPACIDAD CON ANIMACIÓN FLOTANTE / RESPIRACIÓN CONTINUA */
         .service-title-wrapper {
             display: inline-flex;
             align-items: center;
@@ -1540,11 +1447,23 @@
             stroke-linecap: round;
             stroke-linejoin: round;
             flex-shrink: 0;
-            transition: transform 0.3s ease;
+            animation: floatGlow 3s ease-in-out infinite;
+            will-change: transform, filter;
+        }
+
+        @keyframes floatGlow {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                filter: drop-shadow(0 0 2px var(--accent-blue));
+            }
+            50% {
+                transform: translateY(-3px) scale(1.12);
+                filter: drop-shadow(0 0 7px var(--accent-blue));
+            }
         }
 
         .service-card:hover .service-title-icon {
-            transform: scale(1.15);
+            transform: scale(1.22);
         }
 
         /* INDICADOR Y FLECHA ICONOGRÁFICA AGRANDADA */
@@ -2293,9 +2212,9 @@
 
             <nav id="navMenu">
                 <a href="#inicio" onclick="toggleMenu()" data-i18n="nav-start">Inicio</a>
+                <a href="#servicios" onclick="toggleMenu()" data-i18n="nav-capabilities">Capacidades</a>
                 <a href="#mision" onclick="toggleMenu()" data-i18n="nav-methodology">Metodología</a>
                 <a href="#seguridad" onclick="toggleMenu()" data-i18n="nav-security">Seguridad</a>
-                <a href="#servicios" onclick="toggleMenu()" data-i18n="nav-capabilities">Capacidades</a>
                 <a href="#casos" onclick="toggleMenu()" data-i18n="nav-cases">Casos & Proyectos</a>
                 <a href="#nosotros" onclick="toggleMenu()" data-i18n="nav-about">Nosotros</a>
                 <a href="#contacto" onclick="toggleMenu()" data-i18n="nav-contact">Contactanos</a>
@@ -2311,7 +2230,7 @@
             <div class="hero">
                 <div class="hero-content-direct">
                     <div class="hype-tag">&& [HYPE_TO_BUSINESS_LOGIC !== TRUE]</div>
-                    <h1 data-i18n="hero-title">Construimos sistemas inteligentes para el mundo real.<span>Somos tu habilitador hacia la IA agéntica.</span></h1>
+                    <h1 data-i18n="hero-title">Somos tu habilitador hacia la IA agéntica.</h1>
                     <p data-i18n="hero-desc">
                         Combinamos IA, Ciencia de Datos, Ciencias de la Computación y Sistemas de Información para diseñar e implementar sistemas inteligentes que se integran con los datos, procesos y conocimiento de las organizaciones.
                     </p>
@@ -2397,229 +2316,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN UNIFICADA: CORE OBJECTIVE & MANIFESTO Y METODOLOGÍA FDE -->
-        <section id="mision" class="core-manifesto-section">
-            <div class="core-manifesto-container">
-                <div class="mission-title hype-tag">:: CORE_OBJECTIVE & MANIFESTO</div>
-                
-                <!-- ANIMACIÓN BIDIRECCIONAL DESDE LA DERECHA Y SIN TILT -->
-                <div class="core-manifesto-card scroll-reveal-right">
-                    <p class="core-lead-text" data-i18n="core-lead">
-                        Lideramos los desafíos de la economía digital desarrollando conocimiento, talento y tecnología con <span class="highlight">impacto sostenible</span>.
-                    </p>
-                    
-                    <p class="manifesto-body-text" data-i18n="manifesto-body">
-                        El modelo no es tu ventaja competitiva: lo son tus datos, tus procesos y tu conocimiento. Diseñamos arquitecturas con modelos comerciales y de pesos abiertos para que aproveches la IA manteniendo el control de lo que te hace único.
-                    </p>
-                    
-                    <!-- REMATE CON ICONOS VECTORIALES ANIMADOS CONTINUOS Y PALABRAS GRANDES -->
-                    <div class="manifesto-punchline">
-                        <div class="punchline-row">
-                            <svg class="punchline-icon pulse-icon" viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                            <span data-i18n="manifesto-line1">De los modelos a los sistemas.</span>
-                        </div>
-                        <div class="punchline-row">
-                            <svg class="punchline-icon spin-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                            <span data-i18n="manifesto-line2">De los datos a la acción.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SUBTÍTULO Y ENCABEZADO METODOLÓGICO EXPANDIDO (TOP) -->
-                <div class="fde-section-header">
-                    <div class="mission-title hype-tag">// METHODOLOGY_FRAMEWORK</div>
-                    
-                    <div class="fde-header-flex">
-                        <h2 class="fde-main-title" data-i18n="fde-main-title">
-                            Nuestro Enfoque Metodológico
-                        </h2>
-                    </div>
-
-                    <!-- PÁRRAFOS EXPLICATIVOS Y CITA CON ESCRITURA PROGRESIVA POR SCROLL -->
-                    <div class="fde-intro-card">
-                        <p class="fde-intro-p" data-i18n="fde-p1">
-                            A diferencia de los abordajes tradicionales que entregan prototipos aislados, un proyecto de IA Agéntica real impacta de forma directa e interconectada en tres dimensiones de la organización: <strong>sus datos actuales, sus procesos operativos y su cultura de trabajo</strong>. En Enesimal abordamos estas tres capas de manera holística, garantizando sostenibilidad en producción.
-                        </p>
-                        
-                        <!-- CITA CON EFECTO TYPEWRITER / SCROLL REVEAL PALABRA POR PALABRA -->
-                        <div class="fde-quote-callout" id="typewriterCallout">
-                            "No se trata de lanzar un prototipo funcional y esperar que escale. Un proyecto de IA Agéntica exitoso requiere metodología, conocimiento profundo del dominio y experiencia comprobada en Ciencias de la Computación y Sistemas de Información."
-                        </div>
-                    </div>
-                </div>
-
-                <!-- DIAGRAMA INTEGRADO FDE + SWITCH CENTRADO DEBAJO DEL GRÁFICO (MIDDLE) -->
-                <div class="fde-lifecycle-container scroll-reveal fde-off" id="fdeDiagramContainer">
-                    <div class="steps-wrapper">
-                        <div class="steps-flow">
-                            <div class="step-card-fde fde-active" title="FDE On-Site">
-                                <span class="flow-pill" data-i18n="step-1">01 // EVALUACIÓN</span>
-                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
-                            </div>
-                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
-                            
-                            <div class="step-card-fde core-active" title="Core Lab">
-                                <span class="flow-pill" data-i18n="step-2">02 // DESARROLLO</span>
-                                <span class="fde-node-tag">[CORE LAB]</span>
-                            </div>
-                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
-                            
-                            <div class="step-card-fde fde-active" title="FDE On-Site">
-                                <span class="flow-pill" data-i18n="step-3">03 // IMPLEMENTACIÓN</span>
-                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
-                            </div>
-                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
-                            
-                            <div class="step-card-fde fde-active" title="FDE On-Site">
-                                <span class="flow-pill" data-i18n="step-4">04 // ADOPCIÓN</span>
-                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
-                            </div>
-                        </div>
-
-                        <!-- BUCLE VECTORIAL DE RETORNO Y FEEDBACK CONTINUO FDE -->
-                        <div class="loop-return-track">
-                            <svg class="loop-return-svg" viewBox="0 0 1000 32" fill="none" preserveAspectRatio="none">
-                                <path d="M 885 0 V 16 C 885 28, 865 30, 835 30 H 145 C 115 30, 95 28, 95 16 V 0" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/>
-                                <polyline points="88,10 95,0 102,10" stroke="currentColor" stroke-width="1.5" fill="none"/>
-                            </svg>
-                            <div class="fde-loop-caption">
-                                <span data-i18n="fde-feedback">FEEDBACK CONTINUO EN TIEMPO REAL</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SWITCH INTERACTIVO CENTRADO EXACTAMENTE ABAJO DEL GRÁFICO -->
-                    <div class="fde-center-switch-wrapper">
-                        <div class="fde-toggle-container">
-                            <span data-i18n="fde-toggle-label">VER CAPA FDE</span>
-                            <label class="fde-toggle-switch">
-                                <input type="checkbox" id="fdeToggle" onchange="toggleFdeLayer()">
-                                <span class="fde-slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- TARJETAS CON LA EXPLICACIÓN DE LAS 4 ETAPAS DEL CICLO FDE (SIN NÚMEROS EN TÍTULO) (BOTTOM) -->
-                <div class="fde-stages-grid scroll-reveal">
-                    <div class="fde-stage-card">
-                        <div class="stage-card-header">
-                            <span class="stage-card-num">STAGE // 01</span>
-                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
-                        </div>
-                        <h3 class="stage-card-title" data-i18n="stage-1-title">EVALUACIÓN</h3>
-                        <p class="stage-card-desc" data-i18n="stage-1-desc">
-                            Incrustamos a nuestros ingenieros directamente en la operación para diagnosticar los flujos de trabajo, identificar fricciones latentes y mapear la infraestructura de datos existente.
-                        </p>
-                    </div>
-
-                    <div class="fde-stage-card">
-                        <div class="stage-card-header">
-                            <span class="stage-card-num">STAGE // 02</span>
-                            <span class="stage-badge">[CORE LAB]</span>
-                        </div>
-                        <h3 class="stage-card-title" data-i18n="stage-2-title">DESARROLLO</h3>
-                        <p class="stage-card-desc" data-i18n="stage-2-desc">
-                            Diseñamos la arquitectura del sistema, entrenamos o ajustamos modelos agénticos y construimos la lógica de decisión bajo rigurosos principios de Ciencias de la Computación.
-                        </p>
-                    </div>
-
-                    <div class="fde-stage-card">
-                        <div class="stage-card-header">
-                            <span class="stage-card-num">STAGE // 03</span>
-                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
-                        </div>
-                        <h3 class="stage-card-title" data-i18n="stage-3-title">IMPLEMENTACIÓN</h3>
-                        <p class="stage-card-desc" data-i18n="stage-3-desc">
-                            Desplegamos las soluciones directamente en el entorno de producción del cliente, integrándolas con sus sistemas legados y garantizando estabilidad operacional.
-                        </p>
-                    </div>
-
-                    <div class="fde-stage-card">
-                        <div class="stage-card-header">
-                            <span class="stage-card-num">STAGE // 04</span>
-                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
-                        </div>
-                        <h3 class="stage-card-title" data-i18n="stage-4-title">ADOPCIÓN</h3>
-                        <p class="stage-card-desc" data-i18n="stage-4-desc">
-                            Acompañamos a los equipos internos en la curva de aprendizaje, facilitando la transición cultural y estableciendo un bucle de retroalimentación continua en tiempo real.
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- SECCIÓN: IA SEGURA Y SOBERANÍA DE DATOS (MONOCROMÁTICA & ESTÁTICA) -->
-        <section id="seguridad" class="security-section">
-            <div class="security-container scroll-reveal">
-                <div class="mission-title hype-tag">:: SECURITY_AND_SOVEREIGNTY</div>
-                
-                <div class="security-card">
-                    <h2 class="security-title-main" data-i18n="security-title">
-                        IA Segura, con Datos Bajo Tu Control
-                    </h2>
-                    
-                    <p class="security-body-text" data-i18n="security-desc">
-                        A diferencia de las soluciones convencionales que envían información sensible a APIs públicas de terceros, desplegamos IA agéntica e infraestructura de cómputo en la nube privada o servidores On-Premise de tu organización.
-                    </p>
-
-                    <!-- Diagrama Lineal: Datos -> Infraestructura -> Resultados -->
-                    <div class="security-flow-grid">
-                        <div class="sec-step-card">
-                            <div class="sec-icon-box">
-                                <svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
-                            </div>
-                            <div class="sec-step-info">
-                                <span class="sec-step-tag">01 // INPUT</span>
-                                <span class="sec-step-title" data-i18n="sec-node-1">Tus Datos Sensibles</span>
-                            </div>
-                        </div>
-
-                        <svg class="sec-flow-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-
-                        <div class="sec-step-card">
-                            <div class="sec-icon-box">
-                                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
-                            </div>
-                            <div class="sec-step-info">
-                                <span class="sec-step-tag">02 // AMBIENTE</span>
-                                <span class="sec-step-title" data-i18n="sec-node-2">Infra / Modelo Local</span>
-                            </div>
-                        </div>
-
-                        <svg class="sec-flow-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-
-                        <div class="sec-step-card">
-                            <div class="sec-icon-box">
-                                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                            </div>
-                            <div class="sec-step-info">
-                                <span class="sec-step-tag">03 // OUTPUT</span>
-                                <span class="sec-step-title" data-i18n="sec-node-3">Resultados Seguros</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3 Pilares en Español -->
-                    <div class="security-pillars-grid">
-                        <div class="sec-pillar-box">
-                            <div class="sec-pillar-title" data-i18n="sec-p1-title">Cero Fuga de Datos</div>
-                            <div class="sec-pillar-desc" data-i18n="sec-p1-desc">Tu información confidencial nunca abandona el perímetro corporativo ni se utiliza para entrenar modelos públicos externos.</div>
-                        </div>
-                        <div class="sec-pillar-box">
-                            <div class="sec-pillar-title" data-i18n="sec-p2-title">Nube Privada / On-Premise</div>
-                            <div class="sec-pillar-desc" data-i18n="sec-p2-desc">Integración nativa dentro de tus propios servidores o tenants privados (AWS, Azure, GCP) bajo tus políticas de IT.</div>
-                        </div>
-                        <div class="sec-pillar-box">
-                            <div class="sec-pillar-title" data-i18n="sec-p3-title">Garantía & Cumplimiento Normativo</div>
-                            <div class="sec-pillar-desc" data-i18n="sec-p3-desc">Cumplimiento estricto de normativas de protección de datos personales, confidencialidad corporativa y acuerdos de NDA rígidos.</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        <!-- SECCIÓN 1: NUESTRAS CAPACIDADES (REUBICADA AL PRINCIPIO CON ÍCONOS EN ANIMACIÓN CONTINUA) -->
         <section id="servicios" class="services-section">
             <div class="section-label scroll-reveal" data-i18n="capabilities-title">NUESTRAS CAPACIDADES</div>
             <div class="services-grid">
@@ -2697,7 +2394,197 @@
             </div>
         </section>
 
-        <!-- SECCIÓN CASOS & PROYECTOS CON GRÁFICOS LINEALES DE ICONOS AL COSTADO DEL TEXTO Y STACK ESPECÍFICO -->
+        <!-- SECCIÓN 2: METODOLOGÍA FDE (CON TÍTULO PRINCIPAL DE SECCIÓN Y BADGE CORE LAB HOMOGÉNEA) -->
+        <section id="mision" class="fde-section">
+            <div class="fde-container">
+                <div class="fde-section-header">
+                    <!-- TÍTULO DE SECCIÓN UNIFICADO CON ESTILO GRANDE DE SECCIÓN -->
+                    <div class="section-label scroll-reveal" data-i18n="fde-main-title">NUESTRO ENFOQUE METODOLÓGICO</div>
+
+                    <!-- PÁRRAFOS EXPLICATIVOS Y CITA CON ESCRITURA PROGRESIVA POR SCROLL -->
+                    <div class="fde-intro-card">
+                        <p class="fde-intro-p" data-i18n="fde-p1">
+                            A diferencia de los abordajes tradicionales que entregan prototipos aislados, un proyecto de IA Agéntica real impacta de forma directa e interconectada en tres dimensiones de la organización: <strong>sus datos actuales, sus procesos operativos y su cultura de trabajo</strong>. En Enesimal abordamos estas tres capas de manera holística, garantizando sostenibilidad en producción.
+                        </p>
+                        
+                        <!-- CITA CON EFECTO TYPEWRITER / SCROLL REVEAL PALABRA POR PALABRA -->
+                        <div class="fde-quote-callout" id="typewriterCallout">
+                            "No se trata de lanzar un prototipo funcional y esperar que escale. Un proyecto de IA Agéntica exitoso requiere metodología, conocimiento profundo del dominio y experiencia comprobada en Ciencias de la Computación y Sistemas de Información."
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DIAGRAMA INTEGRADO FDE + SWITCH CENTRADO DEBAJO DEL GRÁFICO (MIDDLE) -->
+                <div class="fde-lifecycle-container scroll-reveal fde-off" id="fdeDiagramContainer">
+                    <div class="steps-wrapper">
+                        <div class="steps-flow">
+                            <div class="step-card-fde fde-active" title="FDE On-Site">
+                                <span class="flow-pill" data-i18n="step-1">01 // EVALUACIÓN</span>
+                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                            </div>
+                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                            
+                            <div class="step-card-fde core-active" title="Core Lab">
+                                <span class="flow-pill" data-i18n="step-2">02 // DESARROLLO</span>
+                                <span class="fde-node-tag">[CORE LAB]</span>
+                            </div>
+                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                            
+                            <div class="step-card-fde fde-active" title="FDE On-Site">
+                                <span class="flow-pill" data-i18n="step-3">03 // IMPLEMENTACIÓN</span>
+                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                            </div>
+                            <div class="flow-connector"><svg viewBox="0 0 50 12"><line x1="0" y1="6" x2="40" y2="6"/><path d="M38 2L46 6L38 10"/></svg></div>
+                            
+                            <div class="step-card-fde fde-active" title="FDE On-Site">
+                                <span class="flow-pill" data-i18n="step-4">04 // ADOPCIÓN</span>
+                                <span class="fde-node-tag"><span class="fde-pill-pulse"></span> [FDE ON-SITE]</span>
+                            </div>
+                        </div>
+
+                        <!-- BUCLE VECTORIAL DE RETORNO Y FEEDBACK CONTINUO FDE -->
+                        <div class="loop-return-track">
+                            <svg class="loop-return-svg" viewBox="0 0 1000 32" fill="none" preserveAspectRatio="none">
+                                <path d="M 885 0 V 16 C 885 28, 865 30, 835 30 H 145 C 115 30, 95 28, 95 16 V 0" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/>
+                                <polyline points="88,10 95,0 102,10" stroke="currentColor" stroke-width="1.5" fill="none"/>
+                            </svg>
+                            <div class="fde-loop-caption">
+                                <span data-i18n="fde-feedback">FEEDBACK CONTINUO EN TIEMPO REAL</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SWITCH INTERACTIVO CENTRADO EXACTAMENTE ABAJO DEL GRÁFICO -->
+                    <div class="fde-center-switch-wrapper">
+                        <div class="fde-toggle-container">
+                            <span data-i18n="fde-toggle-label">VER CAPA FDE</span>
+                            <label class="fde-toggle-switch">
+                                <input type="checkbox" id="fdeToggle" onchange="toggleFdeLayer()">
+                                <span class="fde-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TARJETAS CON LA EXPLICACIÓN DE LAS 4 ETAPAS DEL CICLO FDE (BOTTOM) -->
+                <div class="fde-stages-grid scroll-reveal">
+                    <div class="fde-stage-card">
+                        <div class="stage-card-header">
+                            <span class="stage-card-num">STAGE // 01</span>
+                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
+                        </div>
+                        <h3 class="stage-card-title" data-i18n="stage-1-title">EVALUACIÓN</h3>
+                        <p class="stage-card-desc" data-i18n="stage-1-desc">
+                            Incrustamos a nuestros ingenieros directamente en la operación para diagnosticar los flujos de trabajo, identificar fricciones latentes y mapear la infraestructura de datos existente.
+                        </p>
+                    </div>
+
+                    <div class="fde-stage-card">
+                        <div class="stage-card-header">
+                            <span class="stage-card-num">STAGE // 02</span>
+                            <span class="stage-badge corelab">[CORE LAB]</span>
+                        </div>
+                        <h3 class="stage-card-title" data-i18n="stage-2-title">DESARROLLO</h3>
+                        <p class="stage-card-desc" data-i18n="stage-2-desc">
+                            Diseñamos la arquitectura del sistema, entrenamos o ajustamos modelos agénticos y construimos la lógica de decisión bajo rigurosos principios de Ciencias de la Computación.
+                        </p>
+                    </div>
+
+                    <div class="fde-stage-card">
+                        <div class="stage-card-header">
+                            <span class="stage-card-num">STAGE // 03</span>
+                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
+                        </div>
+                        <h3 class="stage-card-title" data-i18n="stage-3-title">IMPLEMENTACIÓN</h3>
+                        <p class="stage-card-desc" data-i18n="stage-3-desc">
+                            Desplegamos las soluciones directamente en el entorno de producción del cliente, integrándolas con sus sistemas legados y garantizando estabilidad operacional.
+                        </p>
+                    </div>
+
+                    <div class="fde-stage-card">
+                        <div class="stage-card-header">
+                            <span class="stage-card-num">STAGE // 04</span>
+                            <span class="stage-badge onsite">[FDE ON-SITE]</span>
+                        </div>
+                        <h3 class="stage-card-title" data-i18n="stage-4-title">ADOPCIÓN</h3>
+                        <p class="stage-card-desc" data-i18n="stage-4-desc">
+                            Acompañamos a los equipos internos en la curva de aprendizaje, facilitando la transición cultural y estableciendo un bucle de retroalimentación continua en tiempo real.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: IA SEGURA Y SOBERANÍA DE DATOS (CON SUBTÍTULO Y ANIMACIÓN BIDIRECCIONAL POR SCROLL) -->
+        <section id="seguridad" class="security-section">
+            <div class="security-container">
+                <!-- TÍTULO DE SECCIÓN UNIFICADO -->
+                <div class="section-label scroll-reveal" data-i18n="security-section-title">IA SEGURA Y SOBERANÍA DE DATOS</div>
+                
+                <div class="security-card scroll-reveal-right">
+                    <div class="mission-title hype-tag">:: PRIVATE_INFRASTRUCTURE & COMPLIANCE</div>
+                    <p class="security-body-text" data-i18n="security-desc">
+                        Desplegamos infraestructura de Inteligencia Artificial Agéntica y capacidad de cómputo directamente dentro de la nube privada o servidores On-Premise de tu organización, garantizando la Soberanía de Datos y la protección integral de la información sensible.
+                    </p>
+
+                    <!-- Diagrama Lineal: Datos -> Infraestructura -> Resultados -->
+                    <div class="security-flow-grid">
+                        <div class="sec-step-card">
+                            <div class="sec-icon-box">
+                                <svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg>
+                            </div>
+                            <div class="sec-step-info">
+                                <span class="sec-step-tag">01 // INPUT</span>
+                                <span class="sec-step-title" data-i18n="sec-node-1">Tus Datos Sensibles</span>
+                            </div>
+                        </div>
+
+                        <svg class="sec-flow-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+
+                        <div class="sec-step-card">
+                            <div class="sec-icon-box">
+                                <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                            </div>
+                            <div class="sec-step-info">
+                                <span class="sec-step-tag">02 // AMBIENTE</span>
+                                <span class="sec-step-title" data-i18n="sec-node-2">Infra / Modelo Local</span>
+                            </div>
+                        </div>
+
+                        <svg class="sec-flow-arrow" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+
+                        <div class="sec-step-card">
+                            <div class="sec-icon-box">
+                                <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                            </div>
+                            <div class="sec-step-info">
+                                <span class="sec-step-tag">03 // OUTPUT</span>
+                                <span class="sec-step-title" data-i18n="sec-node-3">Resultados Seguros</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3 Pilares en Español -->
+                    <div class="security-pillars-grid">
+                        <div class="sec-pillar-box">
+                            <div class="sec-pillar-title" data-i18n="sec-p1-title">Cero Fuga de Datos</div>
+                            <div class="sec-pillar-desc" data-i18n="sec-p1-desc">Tu información confidencial nunca abandona el perímetro corporativo ni se utiliza para entrenar modelos públicos externos.</div>
+                        </div>
+                        <div class="sec-pillar-box">
+                            <div class="sec-pillar-title" data-i18n="sec-p2-title">Nube Privada / On-Premise</div>
+                            <div class="sec-pillar-desc" data-i18n="sec-p2-desc">Integración nativa dentro de tus propios servidores o tenants privados (AWS, Azure, GCP) bajo tus políticas de IT.</div>
+                        </div>
+                        <div class="sec-pillar-box">
+                            <div class="sec-pillar-title" data-i18n="sec-p3-title">Garantía & Cumplimiento Normativo</div>
+                            <div class="sec-pillar-desc" data-i18n="sec-p3-desc">Cumplimiento estricto de normativas de protección de datos personales, confidencialidad corporativa y acuerdos de NDA rígidos.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: CASOS & PROYECTOS -->
         <section id="casos" class="cases-section">
             <div class="cases-container">
                 <div class="section-label scroll-reveal" data-i18n="cases-title">CASOS & PROYECTOS</div>
@@ -2925,13 +2812,13 @@
             </div>
         </section>
 
-        <!-- SECCIÓN SOBRE NOSOTROS & BOARD DE DIRECCIÓN (UBICACIÓN POST CASOS Y PROYECTOS CON TÍTULO DE SECCIÓN PRINCIPAL) -->
+        <!-- SECCIÓN 5: SOBRE NOSOTROS & BOARD DE DIRECCIÓN -->
         <section id="nosotros" class="about-section">
             <div class="about-container scroll-reveal">
                 <!-- TÍTULO PRINCIPAL DE SECCIÓN -->
                 <div class="section-label scroll-reveal" data-i18n="about-title">SOBRE NOSOTROS</div>
                 
-                <!-- BOARD DE DIRECCIÓN Y CO-FUNDADORES (TODOS CON CARGO 'CO-FUNDADOR & DIRECTOR' Y BOTONES MAGNÉTICOS) -->
+                <!-- BOARD DE DIRECCIÓN Y CO-FUNDADORES (DIRECTOS Y SIN PALABRAS DE RELLENO) -->
                 <div class="team-grid scroll-reveal">
                     <!-- FEDERICO LUNA -->
                     <div class="team-card">
@@ -2939,7 +2826,7 @@
                             <span class="team-role-tag" data-i18n="role-fede">CO-FUNDADOR & DIRECTOR</span>
                             <h3 class="team-member-name">Federico Luna</h3>
                             <p class="team-member-bio" data-i18n="bio-fede">
-                                Especialista en Ciencias de la Computación, arquitectura de software escalable y desarrollo de sistemas agénticos avanzados. Posee una sólida trayectoria en el diseño técnico e implementación en producción de soluciones complejas para empresas de alta demanda.
+                                Co-Fundador y ex Líder Técnico, Arquitecto de Software e Ingeniero de I+D+i en Tecso Cooperativa de Trabajo. Consultor técnico, funcional y arquitecto de software en diferentes proyectos para la Municipalidad de Rosario.
                             </p>
                         </div>
                         <a href="https://www.linkedin.com/in/fedel?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" class="team-linkedin-link magnetic-btn">
@@ -2954,7 +2841,7 @@
                             <span class="team-role-tag" data-i18n="role-german">CO-FUNDADOR & DIRECTOR</span>
                             <h3 class="team-member-name">Germán Giró</h3>
                             <p class="team-member-bio" data-i18n="bio-german">
-                                Ex Secretario de Ciencia, Tecnología e Innovación de Santa Fe y ex Secretario de Tecnología de Rosario. Docente universitario e investigador, cuenta con más de 20 años de liderazgo en transformación digital y gestión tecnológica pública y privada.
+                                Director de la Licenciatura en Ciencia de Datos en la UGR, ex Secretario de Modernización y ex Secretario de Producción de la Municipalidad de Rosario, ex Presidente del Polo Tecnológico Rosario y Co-Fundador y ex Presidente de Tecso Cooperativa de Trabajo.
                             </p>
                         </div>
                         <a href="https://www.linkedin.com/in/germangiro?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" class="team-linkedin-link magnetic-btn">
@@ -2963,13 +2850,13 @@
                         </a>
                     </div>
 
-                    <!-- IGNACIO SANSEOVICH -->
+                    <!-- IGNACIO SANSEOVICH CON BIO EN UN SOLO PÁRRAFO COMPACTO Y COMPLETO -->
                     <div class="team-card">
                         <div class="team-card-top">
                             <span class="team-role-tag" data-i18n="role-ignacio">CO-FUNDADOR & DIRECTOR</span>
                             <h3 class="team-member-name">Ignacio Sanseovich</h3>
                             <p class="team-member-bio" data-i18n="bio-ignacio">
-                                Ex Presidente del Polo Tecnológico Rosario y empresario del sector IT con más de 15 años de trayectoria. Experto en desarrollo de negocios B2B, gobierno de datos y articulación de alianzas estratégicas para empresas en crecimiento.
+                                ex Presidente y Director de Tecso Cooperativa de Trabajo. Ex Presidente del Polo Tecnológico Rosario. Consultor en Business Intelligence y docente universitario en la Universidad Austral (Tecnicatura en Programación) y la UGR (Licenciatura en Ciencia de Datos).
                             </p>
                         </div>
                         <a href="https://www.linkedin.com/in/ignacio-oscar-sanseovich?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" class="team-linkedin-link magnetic-btn">
@@ -2979,7 +2866,7 @@
                     </div>
                 </div>
 
-                <!-- TARJETAS EXTENDIDA CON TEXTO MÁS DIRECTO Y CONCRETO Y LOGO UGR -->
+                <!-- TARJETA EXTENDIDA CON TEXTO MÁS DIRECTO Y CONCRETO Y LOGO UGR -->
                 <div class="team-extended-card scroll-reveal">
                     <div class="team-extended-title" data-i18n="team-ext-title">// NUESTRO EQUIPO Y RED DE TALENTO</div>
                     
@@ -3132,14 +3019,10 @@
                 "nav-about": "Nosotros",
                 "nav-cases": "Casos & Proyectos",
                 "nav-contact": "Contactanos",
-                "hero-title": "Construimos sistemas inteligentes para el mundo real.<span>Somos tu habilitador hacia la IA agéntica.</span>",
+                "hero-title": "Somos tu habilitador hacia la IA agéntica.",
                 "hero-desc": "Combinamos IA, Ciencia de Datos, Ciencias de la Computación y Sistemas de Información para diseñar e implementar sistemas inteligentes que se integran con los datos, procesos y conocimiento de las organizaciones.",
                 "hero-cta": "Contactanos →",
-                "core-lead": "Lideramos los desafíos de la economía digital desarrollando conocimiento, talento y tecnología con <span class=\"highlight\">impacto sostenible</span>.",
-                "manifesto-body": "El modelo no es tu ventaja competitiva: lo son tus datos, tus procesos y tu conocimiento. Diseñamos arquitecturas con modelos comerciales y de pesos abiertos para que aproveches la IA manteniendo el control de lo que te hace único.",
-                "manifesto-line1": "De los modelos a los sistemas.",
-                "manifesto-line2": "De los datos a la acción.",
-                "fde-main-title": "Nuestro Enfoque Metodológico",
+                "fde-main-title": "NUESTRO ENFOQUE METODOLÓGICO",
                 "fde-p1": "A diferencia de los abordajes tradicionales que entregan prototipos aislados, un proyecto de IA Agéntica real impacta de forma directa e interconectada en tres dimensiones de la organización: <strong>sus datos actuales, sus procesos operativos y su cultura de trabajo</strong>. En Enesimal abordamos estas tres capas de manera holística, garantizando sostenibilidad en producción.",
                 "fde-quote": "\"No se trata de lanzar un prototipo funcional y esperar que escale. Un proyecto de IA Agéntica exitoso requiere metodología, conocimiento profundo del dominio y experiencia comprobada en Ciencias de la Computación y Sistemas de Información.\"",
                 "stage-1-title": "EVALUACIÓN",
@@ -3150,8 +3033,8 @@
                 "stage-3-desc": "Desplegamos las soluciones directamente en el entorno de producción del cliente, integrándolas con sus sistemas legados y garantizando estabilidad operacional.",
                 "stage-4-title": "ADOPCIÓN",
                 "stage-4-desc": "Acompañamos a los equipos internos en la curva de aprendizaje, facilitando la transición cultural y estableciendo un bucle de retroalimentación continua en tiempo real.",
-                "security-title": "IA Segura, con Datos Bajo Tu Control",
-                "security-desc": "A diferencia de las soluciones convencionales que envían información sensible a APIs públicas de terceros, desplegamos IA agéntica e infraestructura de cómputo en la nube privada o servidores On-Premise de tu organización.",
+                "security-section-title": "IA SEGURA Y SOBERANÍA DE DATOS",
+                "security-desc": "Desplegamos infraestructura de Inteligencia Artificial Agéntica y capacidad de cómputo directamente dentro de la nube privada o servidores On-Premise de tu organización, garantizando la Soberanía de Datos y la protección integral de la información sensible.",
                 "sec-node-1": "Tus Datos Sensibles",
                 "sec-node-2": "Infra / Modelo Local",
                 "sec-node-3": "Resultados Seguros",
@@ -3163,11 +3046,11 @@
                 "sec-p3-desc": "Cumplimiento estricto de normativas de protección de datos personales, confidencialidad corporativa y acuerdos de NDA rígidos.",
                 "about-title": "SOBRE NOSOTROS",
                 "role-fede": "CO-FUNDADOR & DIRECTOR",
-                "bio-fede": "Especialista en Ciencias de la Computación, arquitectura de software escalable y desarrollo de sistemas agénticos avanzados. Posee una sólida trayectoria en el diseño técnico e implementación en producción de soluciones complejas para empresas de alta demanda.",
+                "bio-fede": "Co-Fundador y ex Líder Técnico, Arquitecto de Software e Ingeniero de I+D+i en Tecso Cooperativa de Trabajo. Consultor técnico, funcional y arquitecto de software en diferentes proyectos para la Municipalidad de Rosario.",
                 "role-german": "CO-FUNDADOR & DIRECTOR",
-                "bio-german": "Ex Secretario de Ciencia, Tecnología e Innovación de Santa Fe y ex Secretario de Tecnología de Rosario. Docente universitario e investigador, cuenta con más de 20 años de liderazgo en transformación digital y gestión tecnológica pública y privada.",
+                "bio-german": "Director de la Licenciatura en Ciencia de Datos en la UGR, ex Secretario de Modernización y ex Secretario de Producción de la Municipalidad de Rosario, ex Presidente del Polo Tecnológico Rosario y Co-Fundador y ex Presidente de Tecso Cooperativa de Trabajo.",
                 "role-ignacio": "CO-FUNDADOR & DIRECTOR",
-                "bio-ignacio": "Ex Presidente del Polo Tecnológico Rosario y empresario del sector IT con más de 15 años de trayectoria. Experto en desarrollo de negocios B2B, gobierno de datos y articulación de alianzas estratégicas para empresas en crecimiento.",
+                "bio-ignacio": "Co-Fundador y ex Presidente y Director de Tecso Cooperativa de Trabajo. Ex Presidente del Polo Tecnológico Rosario y empresario del sector IT. Consultor en Business Intelligence y docente universitario en la Universidad Austral (Tecnicatura en Programación) y la UGR (Licenciatura en Ciencia de Datos).",
                 "team-ext-title": "// NUESTRO EQUIPO Y RED DE TALENTO",
                 "team-ext-p": "<strong>Más de 20 ingenieros y científicos</strong> especializados en desarrollo de software, arquitectura de datos e Inteligencia Artificial.",
                 "chip-1": "Gestión & Estrategia",
@@ -3238,14 +3121,10 @@
                 "nav-about": "About Us",
                 "nav-cases": "Cases & Projects",
                 "nav-contact": "Contact Us",
-                "hero-title": "We build intelligent systems for the real world.<span>We are your enabler towards Agentic AI.</span>",
+                "hero-title": "We are your enabler towards Agentic AI.",
                 "hero-desc": "We combine AI, Data Science, Computer Science, and Information Systems to design and implement intelligent systems that integrate seamlessly with organizational data, processes, and knowledge.",
                 "hero-cta": "Contact Us →",
-                "core-lead": "We lead the challenges of the digital economy by developing knowledge, talent, and technology with <span class=\"highlight\">sustainable impact</span>.",
-                "manifesto-body": "The model is not your competitive advantage: your data, processes, and knowledge are. We design architectures with commercial and open-weight models, enabling you to leverage AI while retaining full control over what makes your organization unique.",
-                "manifesto-line1": "From models to systems.",
-                "manifesto-line2": "From data to action.",
-                "fde-main-title": "Our Methodological Approach",
+                "fde-main-title": "OUR METHODOLOGICAL APPROACH",
                 "fde-p1": "Unlike traditional approaches that deliver isolated prototypes, a real Agentic AI project directly impacts three core organizational pillars: <strong>current data, operational processes, and workplace culture</strong>. At Enesimal, we address these three layers holistically, guaranteeing production stability.",
                 "fde-quote": "\"It is not about deploying a working prototype and hoping it scales. A successful Agentic AI project requires methodology, deep domain knowledge, and proven expertise in Computer Science and Information Systems.\"",
                 "stage-1-title": "ASSESSMENT",
@@ -3256,8 +3135,8 @@
                 "stage-3-desc": "We deploy solutions directly into the client's production environment, integrating seamlessly with legacy systems and ensuring operational stability.",
                 "stage-4-title": "ADOPTION",
                 "stage-4-desc": "We guide internal teams through the learning curve, facilitating cultural transition and establishing a real-time continuous feedback loop.",
-                "security-title": "Secure AI, With Data Under Your Control",
-                "security-desc": "Unlike standard solutions that stream sensitive data to third-party public APIs, we deploy agentic AI and compute infrastructure on your organization's private cloud or On-Premise servers.",
+                "security-section-title": "SECURE AI & DATA SOVEREIGNTY",
+                "security-desc": "We deploy Agentic Artificial Intelligence infrastructure and compute capacity directly inside your organization's private cloud or On-Premise servers, ensuring Data Sovereignty and comprehensive protection of sensitive information.",
                 "sec-node-1": "Your Sensitive Data",
                 "sec-node-2": "Local / Private Infra Model",
                 "sec-node-3": "Secure Outputs",
@@ -3269,11 +3148,11 @@
                 "sec-p3-desc": "Strict compliance with personal data protection regulations, corporate confidentiality standards, and standard NDAs.",
                 "about-title": "ABOUT US",
                 "role-fede": "CO-FOUNDER & DIRECTOR",
-                "bio-fede": "Specialist in Computer Science, scalable software architecture, and advanced agentic systems engineering. Proven track record in technical design and production deployment of high-demand enterprise systems.",
+                "bio-fede": "Co-Founder and former Technical Lead, Software Architect, and R&D Engineer at Tecso Working Cooperative. Technical and functional consultant and software architect across various projects for the Municipality of Rosario.",
                 "role-german": "CO-FOUNDER & DIRECTOR",
-                "bio-german": "Former Secretary of Science, Technology & Innovation of Santa Fe and former Secretary of Technology of Rosario. University professor and researcher with 20+ years of digital transformation leadership across public and private sectors.",
+                "bio-german": "Director of the Data Science Degree at UGR, former Secretary of Modernization and former Secretary of Production at the Municipality of Rosario, former President of Polo Tecnológico Rosario, and Co-Founder and former President of Tecso Working Cooperative.",
                 "role-ignacio": "CO-FOUNDER & DIRECTOR",
-                "bio-ignacio": "Former President of Polo Tecnológico Rosario and IT business leader with 15+ years of experience. Expert in B2B technology business development, data governance, and strategic enterprise partnerships.",
+                "bio-ignacio": "Co-Founder and former President and Director of Tecso Working Cooperative. Former President of Polo Tecnológico Rosario and IT business leader. Business Intelligence consultant and university professor at Universidad Austral (Programming Degree) and UGR (Data Science Degree).",
                 "team-ext-title": "// OUR TEAM & TALENT NETWORK",
                 "team-ext-p": "<strong>Over 20 engineers and scientists</strong> specialized in software development, data architecture, and Artificial Intelligence.",
                 "chip-1": "Management & Strategy",
