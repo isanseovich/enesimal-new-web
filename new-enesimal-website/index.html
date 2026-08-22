@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Enesimal</title>
     
     <!-- Favicon / Icono de la pestaña del navegador -->
@@ -17,7 +17,7 @@
         /* Variables de Entorno - Modo Color por Defecto (Gris Platinado Monocromo) */
         :root {
             --bg-main: #0a0b0e;          /* Negro Carbón Profundo */
-            --bg-header: rgba(10, 11, 14, 0.2); /* Transparencia tipo vidrio */
+            --bg-header: rgba(10, 11, 14, 0.25); /* Transparencia tipo vidrio */
             --bg-light: #ffffff;        /* Blanco absoluto */
             --text-main: #ffffff;       /* Blanco puro */
             --text-dark: #000000;       /* Negro para texto en bloques claros */
@@ -41,7 +41,7 @@
         /* MODO INVERTIDO / LIGHT - CORREGIDO PARA ALTO CONTRASTE Y LEGIBILIDAD DE GRISES */
         body.monochrome-mode {
             --bg-main: #f4f5f7;         
-            --bg-header: rgba(255, 255, 255, 0.6);
+            --bg-header: rgba(255, 255, 255, 0.65);
             --bg-light: #0d0e12;        
             --text-main: #0a0b0e;       
             --text-dark: #ffffff;       
@@ -65,8 +65,11 @@
             padding: 0;
         }
 
+        /* OVERFLOW-X CLIP PREVIENE EL DESPLAZAMIENTO LATERAL SIN ROMPER POSITION: STICKY */
         html {
             scroll-behavior: smooth;
+            width: 100%;
+            overflow-x: clip;
         }
 
         body {
@@ -75,8 +78,14 @@
             color: var(--text-main);
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
-            overflow-x: hidden;
+            width: 100%;
+            overflow-x: clip;
             transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        }
+
+        main {
+            width: 100%;
+            overflow-x: clip;
         }
 
         /* CURSOR PERSONALIZADO Y SUTIL (Solo pantallas no táctiles) */
@@ -85,7 +94,7 @@
                 cursor: none;
             }
 
-            a, button, input, textarea, summary, .flow-pill, .partner-card, .case-block, .fde-toggle-switch, .lang-toggle-btn, .team-linkedin-link {
+            a, button, input, textarea, summary, .flow-pill, .partner-card, .case-block, .fde-toggle-switch, .lang-toggle-btn, .team-linkedin-link, .tech-chip {
                 cursor: none !important;
             }
 
@@ -126,7 +135,7 @@
         }
 
         /* Elementos secundario/retro atenuados */
-        .hype-tag, .steps-flow, .detail-item h5, .retro-sidebar, nav a, .card-num, .footer-copyright, .lang-toggle-btn {
+        .hype-tag, .steps-flow, .detail-item h5, .retro-sidebar, nav a, .card-num, .footer-copyright, .lang-toggle-btn, .tech-chip {
             font-family: var(--font-mono);
         }
 
@@ -136,17 +145,23 @@
             letter-spacing: 1.5px;
             font-weight: 400;
             font-family: var(--font-mono) !important;
+            word-break: break-word;
         }
 
-        /* NAVBAR FLOTANTE */
+        /* NAVBAR FLOTANTE STICKY RESTAURADO COMPLETO */
         header {
             width: 100%;
+            position: -webkit-sticky;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 10000;
             padding: 1rem 1.5rem 0 1.5rem;
             background-color: transparent;
             transition: padding 0.3s ease;
+        }
+
+        header.scrolled {
+            padding: 0.5rem 1.5rem 0 1.5rem;
         }
 
         .nav-container {
@@ -168,7 +183,8 @@
         }
 
         header.scrolled .nav-container {
-            padding: 0.8rem 2.5rem;
+            padding: 0.7rem 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
         }
 
         .logo-container {
@@ -296,6 +312,7 @@
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             width: 260px;
+            z-index: 10001;
         }
 
         nav.menu-open {
@@ -326,12 +343,8 @@
 
         /* HERO SECTION RESPONSIVE Y FLEXIBLE */
         .hero-motion-wrapper {
-            width: 100vw;
+            width: 100%;
             position: relative;
-            left: 50%;
-            right: 50%;
-            margin-left: -50vw;
-            margin-right: -50vw;
             min-height: calc(100vh - 63px);
             overflow: hidden;
             background-color: var(--bg-main);
@@ -382,6 +395,7 @@
             padding-left: 1.8rem;
             letter-spacing: -1px;
             text-shadow: 0 0 12px var(--bg-main);
+            word-break: break-word;
         }
 
         .hero h1 span {
@@ -416,7 +430,6 @@
             will-change: transform;
         }
 
-        /* MAYOR AIRE / ESPACIADO EXCLUSIVO PARA EL BOTÓN DEL HERO */
         .hero-cta-btn {
             margin-top: 2.8rem !important;
         }
@@ -428,7 +441,7 @@
             box-shadow: 0 0 25px rgba(212, 212, 216, 0.35);
         }
 
-        /* SECCIÓN CLIENTES (GARANTIZA VISIBILIDAD DE LOGOS) */
+        /* SECCIÓN CLIENTES */
         .partners-section {
             position: relative;
             z-index: 2;
@@ -489,49 +502,173 @@
         }
 
         @keyframes scrollMarquee {
-            0% {
-                transform: translateX(0);
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* TÍTULOS DE SECCIÓN PRINCIPALES UNIFICADOS EXACTOS CON CURSOR PEAGADO */
+        .section-label {
+            font-family: var(--font-main);
+            font-size: 3rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+            color: var(--text-main);
+            letter-spacing: -1px;
+            display: inline-block;
+            transition: color 0.3s ease;
+            word-break: break-word;
+            max-width: 100%;
+        }
+        
+        .section-label::after {
+            content: "▋";
+            color: var(--accent-blue);
+            animation: blink 1s infinite;
+            margin-left: 0.35rem;
+            display: inline-block;
+        }
+
+        /* SECCIÓN NUESTRAS CAPACIDADES */
+        .services-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+            overflow: hidden;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .service-card {
+            border: 1px solid var(--border-retro); 
+            background-color: var(--bg-main);
+            width: 100%;
+            transition: border-color 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .service-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .service-card summary {
+            padding: 2rem 2.5rem;
+            cursor: pointer;
+            list-style: none;
+            outline: none;
+            user-select: none;
+            position: relative;
+        }
+
+        .service-card summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: var(--font-main);
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            border-bottom: 1px solid var(--border-retro);
+            padding-bottom: 0.5rem;
+            padding-right: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            letter-spacing: -0.5px;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .service-title-wrapper {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            flex: 1;
+            min-width: 0;
+            word-break: break-word;
+        }
+
+        .service-title-icon {
+            width: 22px;
+            height: 22px;
+            stroke: var(--accent-blue);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            flex-shrink: 0;
+            animation: floatGlow 3s ease-in-out infinite;
+            will-change: transform, filter;
+        }
+
+        @keyframes floatGlow {
+            0%, 100% {
+                transform: translateY(0px) scale(1);
+                filter: drop-shadow(0 0 2px var(--accent-blue));
             }
-            100% {
-                transform: translateX(-50%);
+            50% {
+                transform: translateY(-3px) scale(1.12);
+                filter: drop-shadow(0 0 7px var(--accent-blue));
             }
         }
 
-        /* CORRECCIÓN RESPONSIVE PARA EL HERO Y CLIENTES EN MÓVILES/PANTALLAS MEDIANAS */
-        @media (max-width: 992px) {
-            .hero-motion-wrapper {
-                min-height: auto;
-            }
-            .hero h1 {
-                font-size: 2.8rem;
-                border-left-width: 6px;
-                padding-left: 1.2rem;
-            }
-            .hero p {
-                font-size: 1.05rem;
-            }
-            .partners-section {
-                padding: 2rem 0;
-            }
+        .service-card:hover .service-title-icon {
+            transform: scale(1.22);
         }
 
-        @media (max-width: 576px) {
-            .hero h1 {
-                font-size: 2.1rem;
-            }
-            .hero {
-                padding: 2rem 1.2rem;
-            }
-            .marquee-track {
-                gap: 2.5rem;
-            }
-            .partner-logo {
-                max-width: 110px;
-                max-height: 40px;
-            }
-            .hero-cta-btn {
-                margin-top: 2rem !important;
-            }
+        .service-card h3::after {
+            content: "REVEAL_DATA_STREAM:";
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            color: var(--text-muted-retro);
+            font-weight: 500;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .service-card summary::after {
+            content: "↓";
+            font-size: 1.35rem;
+            font-family: var(--font-main);
+            font-weight: 700;
+            color: var(--accent-blue);
+            position: absolute;
+            right: 2.5rem;
+            top: 2rem;
+            transform: none;
+            transition: transform 0.3s ease, color 0.3s ease;
+        }
+
+        .service-card[open] summary::after {
+            content: "↑";
+            color: var(--text-main);
+        }
+
+        .service-card[open] h3::after {
+            content: "HIDE_DATA_STREAM:";
+            color: var(--accent-blue);
+        }
+
+        .service-content {
+            padding: 2rem 2.5rem 2.5rem 2.5rem;
+            animation: expand 0.25s ease-out;
+        }
+
+        .service-card p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            max-width: 1000px;
+            line-height: 1.7;
         }
 
         /* SECCIÓN METODOLOGÍA FDE */
@@ -556,7 +693,6 @@
             padding: 0 2rem;
         }
 
-        /* ESTILOS DEL ENCABEZADO Y DESARROLLO METODOLÓGICO FDE */
         .fde-section-header {
             display: flex;
             flex-direction: column;
@@ -579,7 +715,6 @@
             color: var(--text-muted);
         }
 
-        /* EFECTO DE ESCRITURA PROGRESIVA SEGÚN SCROLL PARA LA CITA METODOLÓGICA */
         .fde-quote-callout {
             font-family: var(--font-mono);
             font-size: 1.05rem;
@@ -606,7 +741,6 @@
             color: var(--text-main);
         }
 
-        /* SWITCH CENTRADO DEBAJO DEL GRÁFICO DEL FLUJO FDE */
         .fde-center-switch-wrapper {
             display: flex;
             justify-content: center;
@@ -678,8 +812,7 @@
             box-shadow: 0 0 8px #22c55e;
         }
 
-        /* REACTIVIDAD DEL SWITCH SOBRE LAS BADGES FDE ON-SITE EN TARJETAS */
-        .stage-badge.onsite {
+        .stage-badge.onsite, .stage-badge.corelab {
             font-size: 0.68rem;
             font-weight: 700;
             padding: 0.25rem 0.6rem;
@@ -691,20 +824,6 @@
             transition: all 0.3s ease;
         }
 
-        /* ESTILO PARA [CORE LAB] IDÉNTICO AL FDE ON-SITE APAGADO */
-        .stage-badge.corelab {
-            font-size: 0.68rem;
-            font-weight: 700;
-            padding: 0.25rem 0.6rem;
-            border-radius: 4px;
-            letter-spacing: 1px;
-            border: 1px solid var(--border-retro);
-            color: var(--text-muted-retro);
-            background: rgba(255, 255, 255, 0.03);
-            transition: all 0.3s ease;
-        }
-
-        /* Cuando la capa FDE está ACTIVA (.fde-on) */
         .fde-on .stage-badge.onsite {
             border-color: rgba(34, 197, 94, 0.5) !important;
             color: #22c55e !important;
@@ -712,7 +831,6 @@
             box-shadow: 0 0 10px rgba(34, 197, 94, 0.2);
         }
 
-        /* TARJETAS EXPLICATIVAS DE LAS 4 ETAPAS DEL CICLO FDE */
         .fde-stages-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -763,12 +881,13 @@
             line-height: 1.6;
         }
 
-        /* SECCIÓN: IA SEGURA Y SOBERANÍA DE DATOS CON BORDES 완벽AMENTE ALINEADOS Y ANTI-CLIPPING */
+        /* SECCIÓN: IA SEGURA Y SOBERANÍA DE DATOS */
         .security-section {
             width: 100%;
             padding: 6rem 0;
             background-color: var(--bg-main);
             border-top: 1px dashed var(--border-retro);
+            overflow: hidden;
         }
 
         .security-container {
@@ -780,20 +899,18 @@
             gap: 2.5rem;
         }
 
-        /* ANIMACIÓN BIDIRECCIONAL DESDE LA DERECHA PARA EL BLOQUE SEGURIDAD */
         .scroll-reveal-right {
             opacity: 0;
-            transform: translateX(60px);
+            transform: translate3d(30px, 0, 0);
             transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, opacity;
         }
 
         .scroll-reveal-right.active {
             opacity: 1;
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
         }
 
-        /* FIX DE BORDE SUPERIOR CORTADO: ISOLATION, BACKFACE-VISIBILITY Y BORDES NÍTIDOS EXPLÍCITOS */
         .security-card {
             border-top: 1px solid var(--border-retro);
             border-right: 1px solid var(--border-retro);
@@ -820,7 +937,6 @@
             font-weight: 400;
         }
 
-        /* Diagrama Lineal: Datos -> Infraestructura -> Resultados */
         .security-flow-grid {
             display: flex;
             align-items: center;
@@ -901,7 +1017,6 @@
             opacity: 0.8;
         }
 
-        /* Grid de Beneficios de Seguridad */
         .security-pillars-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -940,12 +1055,239 @@
             line-height: 1.5;
         }
 
+        /* SECCIÓN CASOS & PROYECTOS CON TECH CHIPS ESTILEROS */
+        .cases-section {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            border-top: 1px solid var(--border-retro);
+            border-bottom: 1px solid var(--border-retro);
+            padding: 6rem 2rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            overflow: hidden;
+        }
+
+        .cases-section .section-label {
+            color: var(--text-dark);
+        }
+        
+        .cases-section .section-label::after {
+            color: var(--accent-blue);
+        }
+
+        .cases-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .case-block {
+            margin-bottom: 4rem;
+            border: 1px solid var(--border-dark);
+            padding: 3rem;
+            background-color: var(--bg-light);
+            position: relative;
+            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
+            transform-style: preserve-3d;
+            will-change: transform;
+            overflow: hidden;
+        }
+
+        .case-body-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 3rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .case-block::before {
+            content: "if (status === 'SUCCESS') =>";
+            font-family: var(--font-mono);
+            position: absolute;
+            top: -14px;
+            left: 20px;
+            background: var(--bg-light);
+            padding: 0 10px;
+            font-size: 0.8rem;
+            color: var(--text-muted-retro);
+            font-weight: 400;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .case-block:last-child {
+            margin-bottom: 0;
+        }
+
+        .case-header {
+            font-family: var(--font-main);
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1.2rem;
+            color: var(--text-dark);
+            letter-spacing: -0.5px;
+        }
+
+        .case-desc {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .case-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            border-top: 1px dashed var(--border-dark);
+            padding-top: 1.2rem;
+        }
+
+        .detail-item h5 {
+            font-size: 0.72rem !important;
+            letter-spacing: 1px;
+            color: var(--text-muted-retro) !important;
+            margin-bottom: 0.6rem;
+            text-transform: uppercase;
+            font-family: var(--font-mono) !important;
+        }
+
+        /* ESTILO PARA LOS CHIPS/TAGS DEL STACK TECNOLÓGICO */
+        .tech-chips-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .tech-chip {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            font-weight: 700;
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
+            background-color: rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border-dark);
+            color: var(--text-dark);
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        body.monochrome-mode .tech-chip {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            color: #ffffff;
+        }
+
+        .tech-chip:hover {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: #000000;
+            transform: translateY(-2px);
+        }
+
+        .case-linear-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            border-left: 2px solid var(--border-dark);
+            padding-left: 2rem;
+            position: relative;
+            width: 100%;
+        }
+
+        .chart-step-node {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            position: relative;
+        }
+
+        .chart-step-node::before {
+            content: "";
+            position: absolute;
+            left: calc(-2rem - 6px);
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--bg-light);
+            border: 2px solid var(--border-dark);
+            transition: all 0.3s ease;
+        }
+
+        .chart-step-node:hover::before {
+            background-color: var(--accent-blue);
+            border-color: var(--accent-blue);
+            transform: scale(1.3);
+        }
+
+        .node-icon-wrapper {
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--border-dark);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.03);
+            flex-shrink: 0;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .chart-step-node:hover .node-icon-wrapper {
+            transform: translateY(-2px);
+            border-color: var(--accent-blue);
+        }
+
+        .node-icon-wrapper svg {
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-dark);
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .node-text-wrapper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .node-title {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted-retro);
+            text-transform: uppercase;
+        }
+
+        .node-desc {
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .chart-step-arrow {
+            width: 16px;
+            height: 18px;
+            margin-left: 14px;
+            stroke: var(--text-dark);
+            opacity: 0.6;
+            stroke-width: 1.5;
+            fill: none;
+            flex-shrink: 0;
+        }
+
         /* SECCIÓN SOBRE NOSOTROS & BOARD DE DIRECCIÓN */
         .about-section {
             width: 100%;
             padding: 6rem 0;
             background-color: var(--bg-main);
             border-top: 1px dashed var(--border-retro);
+            overflow: hidden;
         }
 
         .about-container {
@@ -957,7 +1299,6 @@
             gap: 2.5rem;
         }
 
-        /* GRID DEL BOARD DE DIRECCIÓN */
         .team-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -1042,7 +1383,6 @@
             fill: currentColor;
         }
 
-        /* TARJETA INFERIOR VISUAL: EQUIPO MULTIDISCIPLINARIO & PARTNERSHIP UGR */
         .team-extended-card {
             border: 1px solid var(--border-retro);
             border-left: 4px solid var(--accent-blue);
@@ -1124,51 +1464,6 @@
 
         .partnership-text strong {
             color: var(--accent-blue);
-        }
-
-        @media (max-width: 992px) {
-            .fde-stages-grid {
-                grid-template-columns: 1fr;
-            }
-            .security-flow-grid {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .sec-flow-arrow {
-                transform: rotate(90deg);
-                margin: 0 auto;
-            }
-            .security-pillars-grid, .team-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .fde-section {
-                padding: 4rem 0;
-            }
-            .security-card, .team-extended-card {
-                padding: 2rem 1.5rem;
-            }
-            .security-body-text {
-                font-size: 1.02rem;
-            }
-            .fde-main-title {
-                font-size: 1.5rem;
-            }
-            .fde-intro-p {
-                font-size: 0.98rem;
-            }
-            .fde-quote-callout {
-                font-size: 0.92rem;
-            }
-            .team-extended-p {
-                font-size: 0.98rem;
-            }
-            .partnership-badge-row {
-                flex-direction: column;
-                align-items: flex-start;
-            }
         }
 
         .steps-wrapper {
@@ -1300,494 +1595,12 @@
             text-transform: uppercase;
         }
 
-        @media (max-width: 992px) {
-            header {
-                padding: 0.5rem 1rem 0 1rem;
-            }
-            .nav-container {
-                padding: 1rem 1.5rem;
-            }
-            header.scrolled .nav-container {
-                padding: 0.7rem 1.2rem;
-            }
-            .steps-flow {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 1.2rem;
-            }
-
-            .step-card-fde {
-                width: 100%;
-                align-items: stretch;
-            }
-
-            .flow-pill {
-                width: 100%;
-                text-align: center;
-                border-radius: 8px;
-                padding: 0.8rem 1rem;
-            }
-
-            .fde-node-tag {
-                justify-content: center;
-                text-align: center;
-            }
-
-            .flow-connector {
-                max-width: 100%;
-                height: 20px;
-                min-width: auto;
-                margin-top: 0;
-            }
-
-            .flow-connector svg {
-                width: 20px;
-                height: 20px;
-                transform: rotate(90deg);
-            }
-
-            .loop-return-track {
-                display: none;
-            }
-        }
-
-        /* Títulos de Sección Principales */
-        .section-label {
-            font-family: var(--font-main);
-            font-size: 3rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 3rem;
-            color: var(--text-main);
-            letter-spacing: -1px;
-            display: flex;
-            align-items: center;
-            transition: color 0.3s ease;
-        }
-        
-        .section-label::after {
-            content: "▋";
-            color: var(--accent-blue);
-            animation: blink 1s infinite;
-            margin-left: 0.5rem;
-        }
-
-        /* Servicios Bloques Horizontales Apilados */
-        .services-section {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-        }
-
-        .services-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 1.5rem;
-        }
-
-        .service-card {
-            border: 1px solid var(--border-retro); 
-            background-color: var(--bg-main);
-            width: 100%;
-            transition: border-color 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .service-card:hover {
-            border-color: var(--accent-blue);
-        }
-
-        .service-card summary {
-            padding: 2rem 2.5rem;
-            cursor: pointer;
-            list-style: none;
-            outline: none;
-            user-select: none;
-            position: relative;
-        }
-
-        .service-card summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .service-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            font-family: var(--font-main);
-            text-transform: uppercase;
-            color: var(--accent-blue);
-            border-bottom: 1px solid var(--border-retro);
-            padding-bottom: 0.5rem;
-            padding-right: 2.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            letter-spacing: -0.5px;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-
-        /* ICONOS DELANTE DE CADA CAPACIDAD CON ANIMACIÓN FLOTANTE / RESPIRACIÓN CONTINUA */
-        .service-title-wrapper {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.8rem;
-            flex: 1;
-            min-width: 0;
-            word-break: break-word;
-        }
-
-        .service-title-icon {
-            width: 22px;
-            height: 22px;
-            stroke: var(--accent-blue);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            flex-shrink: 0;
-            animation: floatGlow 3s ease-in-out infinite;
-            will-change: transform, filter;
-        }
-
-        @keyframes floatGlow {
-            0%, 100% {
-                transform: translateY(0px) scale(1);
-                filter: drop-shadow(0 0 2px var(--accent-blue));
-            }
-            50% {
-                transform: translateY(-3px) scale(1.12);
-                filter: drop-shadow(0 0 7px var(--accent-blue));
-            }
-        }
-
-        .service-card:hover .service-title-icon {
-            transform: scale(1.22);
-        }
-
-        /* INDICADOR Y FLECHA ICONOGRÁFICA AGRANDADA */
-        .service-card h3::after {
-            content: "REVEAL_DATA_STREAM:";
-            font-size: 0.75rem;
-            font-family: var(--font-mono);
-            color: var(--text-muted-retro);
-            font-weight: 500;
-            letter-spacing: 1px;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: color 0.3s ease;
-        }
-
-        .service-card summary::after {
-            content: "↓";
-            font-size: 1.35rem;
-            font-family: var(--font-main);
-            font-weight: 700;
-            color: var(--accent-blue);
-            position: absolute;
-            right: 2.5rem;
-            top: 2rem;
-            transform: none;
-            transition: transform 0.3s ease, color 0.3s ease;
-        }
-
-        .service-card[open] summary::after {
-            content: "↑";
-            color: var(--text-main);
-        }
-
-        .service-card[open] h3::after {
-            content: "HIDE_DATA_STREAM:";
-            color: var(--accent-blue);
-        }
-
-        .service-content {
-            padding: 2rem 2.5rem 2.5rem 2.5rem;
-            animation: expand 0.25s ease-out;
-        }
-
-        .service-card p {
-            font-size: 1.05rem;
-            color: var(--text-muted);
-            max-width: 1000px;
-        }
-
-        /* AJUSTES RESPONSIVE ESPECÍFICOS PARA LA SECCIÓN CAPACIDADES Y MANIFIESTO */
-        @media (max-width: 768px) {
-            .services-section {
-                padding: 4rem 1rem;
-            }
-
-            .service-card summary {
-                padding: 1.5rem 1.2rem;
-            }
-
-            .service-card summary::after {
-                right: 1.2rem;
-                top: 1.5rem;
-            }
-
-            .service-card h3 {
-                font-size: 1.05rem;
-                padding-right: 2rem;
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .service-card h3::after {
-                font-size: 0.65rem;
-                margin-top: 0.2rem;
-            }
-
-            .service-content {
-                padding: 1.2rem 1.2rem 1.5rem 1.2rem;
-            }
-
-            .service-card p {
-                font-size: 0.95rem;
-            }
-        }
-
-        /* Casos de Éxito con Gráfico Lineal con Iconos */
-        .cases-section {
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            border-top: 1px solid var(--border-retro);
-            border-bottom: 1px solid var(--border-retro);
-            padding: 6rem 2rem;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .cases-section .section-label {
-            color: var(--text-dark);
-        }
-        
-        .cases-section .section-label::after {
-            color: var(--accent-blue);
-        }
-
-        .cases-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .case-block {
-            margin-bottom: 4rem;
-            border: 1px solid var(--border-dark);
-            padding: 3rem;
-            background-color: var(--bg-light);
-            position: relative;
-            transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.4, 1);
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .case-body-grid {
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 3rem;
-            align-items: center;
-        }
-
-        .case-block::before {
-            content: "if (status === 'SUCCESS') =>";
-            font-family: var(--font-mono);
-            position: absolute;
-            top: -14px;
-            left: 20px;
-            background: var(--bg-light);
-            padding: 0 10px;
-            font-size: 0.8rem;
-            color: var(--text-muted-retro);
-            font-weight: 400;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        .case-block:last-child {
-            margin-bottom: 0;
-        }
-
-        .case-header {
-            font-family: var(--font-main);
-            font-size: 1.6rem;
-            font-weight: 700;
-            margin-bottom: 1.2rem;
-            color: var(--text-dark);
-            letter-spacing: -0.5px;
-        }
-
-        .case-desc {
-            font-size: 1.1rem;
-            color: var(--text-dark);
-            opacity: 0.9;
-            margin-bottom: 2rem;
-        }
-
-        .case-details {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-            border-top: 1px dashed var(--border-dark);
-            padding-top: 1.2rem;
-        }
-
-        .detail-item h5 {
-            font-size: 0.7rem !important;
-            letter-spacing: 1px;
-            color: var(--text-muted-retro) !important;
-            margin-bottom: 0.2rem;
-            text-transform: uppercase;
-        }
-
-        .detail-item p {
-            font-size: 0.88rem !important;
-            font-weight: 600;
-            line-height: 1.3;
-            color: var(--accent-blue);
-        }
-
-        /* COMPONENTE: Gráfico Lineal de Nodos con Flechas Vectoriales Lineales */
-        .case-linear-chart {
-            display: flex;
-            flex-direction: column;
-            gap: 0.8rem;
-            border-left: 2px solid var(--border-dark);
-            padding-left: 2rem;
-            position: relative;
-        }
-
-        .chart-step-node {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            position: relative;
-        }
-
-        .chart-step-node::before {
-            content: "";
-            position: absolute;
-            left: -2.41rem;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: var(--bg-light);
-            border: 2px solid var(--border-dark);
-            transition: all 0.3s ease;
-        }
-
-        .chart-step-node:hover::before {
-            background-color: var(--accent-blue);
-            border-color: var(--accent-blue);
-            transform: scale(1.3);
-        }
-
-        .node-icon-wrapper {
-            width: 44px;
-            height: 44px;
-            border: 1px solid var(--border-dark);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: rgba(0, 0, 0, 0.03);
-            flex-shrink: 0;
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .chart-step-node:hover .node-icon-wrapper {
-            transform: translateY(-2px);
-            border-color: var(--accent-blue);
-        }
-
-        .node-icon-wrapper svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--text-dark);
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
-        .node-text-wrapper {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .node-title {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--text-muted-retro);
-            text-transform: uppercase;
-        }
-
-        .node-desc {
-            font-family: var(--font-main);
-            font-size: 0.95rem;
-            font-weight: 700;
-            color: var(--text-dark);
-        }
-
-        .chart-step-arrow {
-            width: 16px;
-            height: 18px;
-            margin-left: 14px;
-            stroke: var(--text-dark);
-            opacity: 0.6;
-            stroke-width: 1.5;
-            fill: none;
-            flex-shrink: 0;
-        }
-
-        @media (max-width: 992px) {
-            .case-body-grid {
-                grid-template-columns: 1fr;
-                gap: 2.5rem;
-            }
-            .case-linear-chart {
-                border-left: none;
-                border-top: 2px solid var(--border-dark);
-                padding-left: 0;
-                padding-top: 2rem;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                overflow-x: auto;
-            }
-            .chart-step-node::before {
-                display: none;
-            }
-            .chart-step-arrow {
-                transform: rotate(-90deg);
-                margin-left: 0;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; border-left-width: 6px; padding-left: 1.2rem; }
-            .hero-content-direct { max-width: 100%; }
-            .section-label { font-size: 2.2rem !important; }
-            .split-section { grid-template-columns: 1fr !important; gap: 3rem !important; }
-            .marquee-track { gap: 2.5rem; animation-duration: 25s; }
-            .scroll-top-btn { bottom: 1.5rem; right: 1.5rem; padding: 0.6rem 1.2rem; font-size: 0.8rem; }
-            .case-linear-chart {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .chart-step-arrow {
-                transform: rotate(0deg);
-                margin-left: 14px;
-            }
-        }
-
-        /* SECCIÓN DE GEOLOCALIZACIÓN Y UBICACIÓN DE LA OFICINA CON PIN CON LOGO ENESIMAL */
+        /* SECCIÓN DE GEOLOCALIZACIÓN Y UBICACIÓN DE LA OFICINA */
         .location-section {
             width: 100%;
             padding: 6rem 0 0 0;
             border-top: 1px dashed var(--border-retro);
+            overflow: hidden;
         }
 
         .location-container {
@@ -1802,7 +1615,6 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 1.5rem;
-            margin-top: -1.5rem;
         }
 
         .address-text p {
@@ -1891,19 +1703,11 @@
             50% { transform: translate(-50%, -112%); }
         }
 
-        @media (max-width: 768px) {
-            .address-text p {
-                font-size: 1.1rem;
-            }
-            .full-width-map-wrapper {
-                height: 350px;
-            }
-        }
-
-        /* Sección Contacto con Canvas Libre de Caja Transparente */
+        /* SECCIÓN CONTACTO */
         .contact-section {
             border-top: 1px dashed var(--border-retro);
             padding: 6rem 2rem;
+            overflow: hidden;
         }
 
         .split-section {
@@ -1912,6 +1716,7 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 4rem;
+            width: 100%;
         }
 
         .contact-info {
@@ -1963,10 +1768,12 @@
             font-family: var(--font-mono);
             font-size: 0.92rem;
             color: var(--text-main);
-            margin-bottom: 2rem;
+            margin-top: 1.2rem;
+            margin-bottom: 1.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .contact-email-link {
@@ -1974,6 +1781,7 @@
             text-decoration: none;
             font-weight: 700;
             transition: color 0.25s ease;
+            word-break: break-all;
         }
 
         .contact-email-link:hover {
@@ -2018,7 +1826,6 @@
             border-color: var(--accent-blue);
         }
 
-        /* ESTILOS DEL MENSAJE DE CONFIRMACIÓN ASÍNCRONO DEL FORMULARIO */
         .form-status-msg {
             margin-top: 1.2rem;
             font-family: var(--font-mono);
@@ -2026,7 +1833,7 @@
             letter-spacing: 0.5px;
             padding: 0.8rem 1rem;
             border-radius: 4px;
-            display: none; /* Oculto por defecto */
+            display: none;
             animation: fadeInStatus 0.3s ease-out;
         }
 
@@ -2048,12 +1855,6 @@
             border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        @keyframes fadeInStatus {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Botón Scroll to Top */
         .scroll-top-btn {
             position: fixed;
             bottom: 2rem;
@@ -2092,6 +1893,7 @@
             padding: 4rem 2rem;
             background-color: var(--bg-main);
             border-top: 1px solid var(--border-retro);
+            overflow: hidden;
         }
 
         .footer-container {
@@ -2154,12 +1956,203 @@
             height: 16px;
         }
 
+        /* MEDIA QUERIES RESPONSIVE AJUSTADAS PARA SMARTPHONES Y TABLETS */
+        @media (max-width: 992px) {
+            .section-label {
+                font-size: 2.2rem;
+                margin-bottom: 2rem;
+            }
+            .fde-stages-grid {
+                grid-template-columns: 1fr;
+            }
+            .security-flow-grid {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .sec-flow-arrow {
+                transform: rotate(90deg);
+                margin: 0 auto;
+            }
+            .security-pillars-grid, .team-grid {
+                grid-template-columns: 1fr;
+            }
+            .case-body-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .case-linear-chart {
+                border-left: none;
+                border-top: 2px solid var(--border-dark);
+                padding-left: 0;
+                padding-top: 2rem;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .chart-step-arrow {
+                transform: rotate(0deg);
+                margin-left: 14px;
+            }
+            .chart-step-node::before {
+                display: none !important;
+            }
+            .steps-flow {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 1.2rem;
+            }
+            .step-card-fde {
+                width: 100%;
+                align-items: stretch;
+            }
+            .flow-pill {
+                width: 100%;
+                text-align: center;
+                border-radius: 8px;
+                padding: 0.8rem 1rem;
+            }
+            .fde-node-tag {
+                justify-content: center;
+                text-align: center;
+            }
+            .flow-connector {
+                max-width: 100%;
+                height: 20px;
+                min-width: auto;
+                margin-top: 0;
+            }
+            .flow-connector svg {
+                width: 20px;
+                height: 20px;
+                transform: rotate(90deg);
+            }
+            .loop-return-track {
+                display: none;
+            }
+            .split-section {
+                grid-template-columns: 1fr !important;
+                gap: 2.5rem !important;
+            }
+        }
+
         @media (max-width: 768px) {
+            header {
+                padding: 0.6rem 0.8rem 0 0.8rem;
+            }
+            .nav-container {
+                padding: 0.8rem 1.2rem;
+            }
+            .section-label {
+                font-size: 1.8rem !important;
+                letter-spacing: -0.5px;
+            }
+            .hero {
+                padding: 2rem 1.2rem;
+            }
+            .hero h1 {
+                font-size: 2.2rem;
+                border-left-width: 5px;
+                padding-left: 1rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .fde-section, .services-section, .security-section, .cases-section, .about-section, .contact-section {
+                padding: 3.5rem 1.2rem;
+            }
+            .fde-container, .security-container, .cases-container, .about-container {
+                padding: 0;
+            }
+            .security-card, .team-extended-card, .case-block, .fde-intro-card {
+                padding: 1.8rem 1.2rem;
+            }
+            .security-body-text {
+                font-size: 1rem;
+            }
+            .fde-intro-p {
+                font-size: 0.95rem;
+            }
+            .fde-quote-callout {
+                font-size: 0.9rem;
+                padding-left: 0.9rem;
+            }
+            .team-extended-p {
+                font-size: 0.98rem;
+            }
+            .partnership-badge-row {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 1rem;
+            }
+            .location-address-bar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .address-text p {
+                font-size: 1.1rem;
+            }
+            .full-width-map-wrapper {
+                height: 320px;
+            }
+            .contact-info {
+                min-height: auto;
+                padding: 0;
+            }
+            .contact-info h2 {
+                font-size: 1.6rem;
+            }
+            .contact-info p {
+                font-size: 1rem;
+            }
             .footer-right-col {
                 align-items: flex-start;
             }
             .footer-copyright {
                 text-align: left;
+            }
+            .scroll-top-btn {
+                bottom: 1.2rem;
+                right: 1.2rem;
+                padding: 0.6rem 1rem;
+                font-size: 0.75rem;
+            }
+            .service-card summary {
+                padding: 1.4rem 1.2rem;
+            }
+            .service-card h3 {
+                font-size: 1.05rem;
+                padding-right: 1.8rem;
+                line-height: 1.35;
+            }
+            .service-title-wrapper {
+                gap: 0.6rem;
+            }
+            .service-title-icon {
+                width: 18px;
+                height: 18px;
+            }
+            .service-card summary::after {
+                right: 1rem;
+                top: 1.4rem;
+                font-size: 1.2rem;
+            }
+            .service-card h3::after {
+                display: none;
+            }
+            .service-content {
+                padding: 1rem 1.2rem 1.5rem 1.2rem;
+            }
+            .service-card p {
+                font-size: 0.95rem;
+                line-height: 1.65;
+            }
+            .case-header {
+                font-size: 1.3rem;
+            }
+            .case-desc {
+                font-size: 0.98rem;
+            }
+            .chart-step-node::before {
+                display: none !important;
             }
         }
 
@@ -2191,7 +2184,7 @@
             <div class="controls-wrapper">
                 <!-- SELECTOR DE IDIOMA (ES / EN) -->
                 <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()" title="Switch Language / Cambiar Idioma">
-                    <svg class="lang-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <svg class="lang-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     <span id="langBtnText">EN</span>
                 </button>
 
@@ -2316,7 +2309,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN 1: NUESTRAS CAPACIDADES (REUBICADA AL PRINCIPIO CON ÍCONOS EN ANIMACIÓN CONTINUA) -->
+        <!-- SECCIÓN 1: NUESTRAS CAPACIDADES -->
         <section id="servicios" class="services-section">
             <div class="section-label scroll-reveal" data-i18n="capabilities-title">NUESTRAS CAPACIDADES</div>
             <div class="services-grid">
@@ -2394,27 +2387,23 @@
             </div>
         </section>
 
-        <!-- SECCIÓN 2: METODOLOGÍA FDE (CON TÍTULO PRINCIPAL DE SECCIÓN Y BADGE CORE LAB HOMOGÉNEA) -->
+        <!-- SECCIÓN 2: METODOLOGÍA FDE -->
         <section id="mision" class="fde-section">
             <div class="fde-container">
                 <div class="fde-section-header">
-                    <!-- TÍTULO DE SECCIÓN UNIFICADO CON ESTILO GRANDE DE SECCIÓN -->
                     <div class="section-label scroll-reveal" data-i18n="fde-main-title">NUESTRO ENFOQUE METODOLÓGICO</div>
 
-                    <!-- PÁRRAFOS EXPLICATIVOS Y CITA CON ESCRITURA PROGRESIVA POR SCROLL -->
                     <div class="fde-intro-card">
                         <p class="fde-intro-p" data-i18n="fde-p1">
                             A diferencia de los abordajes tradicionales que entregan prototipos aislados, un proyecto de IA Agéntica real impacta de forma directa e interconectada en tres dimensiones de la organización: <strong>sus datos actuales, sus procesos operativos y su cultura de trabajo</strong>. En Enesimal abordamos estas tres capas de manera holística, garantizando sostenibilidad en producción.
                         </p>
                         
-                        <!-- CITA CON EFECTO TYPEWRITER / SCROLL REVEAL PALABRA POR PALABRA -->
                         <div class="fde-quote-callout" id="typewriterCallout">
                             "No se trata de lanzar un prototipo funcional y esperar que escale. Un proyecto de IA Agéntica exitoso requiere metodología, conocimiento profundo del dominio y experiencia comprobada en Ciencias de la Computación y Sistemas de Información."
                         </div>
                     </div>
                 </div>
 
-                <!-- DIAGRAMA INTEGRADO FDE + SWITCH CENTRADO DEBAJO DEL GRÁFICO (MIDDLE) -->
                 <div class="fde-lifecycle-container scroll-reveal fde-off" id="fdeDiagramContainer">
                     <div class="steps-wrapper">
                         <div class="steps-flow">
@@ -2442,7 +2431,6 @@
                             </div>
                         </div>
 
-                        <!-- BUCLE VECTORIAL DE RETORNO Y FEEDBACK CONTINUO FDE -->
                         <div class="loop-return-track">
                             <svg class="loop-return-svg" viewBox="0 0 1000 32" fill="none" preserveAspectRatio="none">
                                 <path d="M 885 0 V 16 C 885 28, 865 30, 835 30 H 145 C 115 30, 95 28, 95 16 V 0" stroke="currentColor" stroke-width="1.5" stroke-dasharray="5 4"/>
@@ -2454,7 +2442,6 @@
                         </div>
                     </div>
 
-                    <!-- SWITCH INTERACTIVO CENTRADO EXACTAMENTE ABAJO DEL GRÁFICO -->
                     <div class="fde-center-switch-wrapper">
                         <div class="fde-toggle-container">
                             <span data-i18n="fde-toggle-label">VER CAPA FDE</span>
@@ -2466,7 +2453,6 @@
                     </div>
                 </div>
 
-                <!-- TARJETAS CON LA EXPLICACIÓN DE LAS 4 ETAPAS DEL CICLO FDE (BOTTOM) -->
                 <div class="fde-stages-grid scroll-reveal">
                     <div class="fde-stage-card">
                         <div class="stage-card-header">
@@ -2516,10 +2502,9 @@
             </div>
         </section>
 
-        <!-- SECCIÓN 3: IA SEGURA Y SOBERANÍA DE DATOS (CON SUBTÍTULO Y ANIMACIÓN BIDIRECCIONAL POR SCROLL) -->
+        <!-- SECCIÓN 3: IA SEGURA Y SOBERANÍA DE DATOS -->
         <section id="seguridad" class="security-section">
             <div class="security-container">
-                <!-- TÍTULO DE SECCIÓN UNIFICADO -->
                 <div class="section-label scroll-reveal" data-i18n="security-section-title">IA SEGURA Y SOBERANÍA DE DATOS</div>
                 
                 <div class="security-card scroll-reveal-right">
@@ -2528,7 +2513,6 @@
                         Desplegamos infraestructura de Inteligencia Artificial Agéntica y capacidad de cómputo directamente dentro de la nube privada o servidores On-Premise de tu organización, garantizando la Soberanía de Datos y la protección integral de la información sensible.
                     </p>
 
-                    <!-- Diagrama Lineal: Datos -> Infraestructura -> Resultados -->
                     <div class="security-flow-grid">
                         <div class="sec-step-card">
                             <div class="sec-icon-box">
@@ -2565,7 +2549,6 @@
                         </div>
                     </div>
 
-                    <!-- 3 Pilares en Español -->
                     <div class="security-pillars-grid">
                         <div class="sec-pillar-box">
                             <div class="sec-pillar-title" data-i18n="sec-p1-title">Cero Fuga de Datos</div>
@@ -2584,7 +2567,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN 4: CASOS & PROYECTOS -->
+        <!-- SECCIÓN 4: CASOS & PROYECTOS CON TECH CHIPS ESTILEROS -->
         <section id="casos" class="cases-section">
             <div class="cases-container">
                 <div class="section-label scroll-reveal" data-i18n="cases-title">CASOS & PROYECTOS</div>
@@ -2600,12 +2583,15 @@
                             <div class="case-details">
                                 <div class="detail-item">
                                     <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
-                                    <p>Python, LangGraph, PostgreSQL</p>
+                                    <div class="tech-chips-wrapper">
+                                        <span class="tech-chip">Python</span>
+                                        <span class="tech-chip">LangGraph</span>
+                                        <span class="tech-chip">PostgreSQL</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Gráfico Lineal con Iconos -->
                         <div class="case-linear-chart">
                             <div class="chart-step-node">
                                 <div class="node-icon-wrapper">
@@ -2655,12 +2641,17 @@
                             <div class="case-details">
                                 <div class="detail-item">
                                     <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
-                                    <p>LangGraph, Apache Kafka, LangSmith, PostgreSQL, WebSockets</p>
+                                    <div class="tech-chips-wrapper">
+                                        <span class="tech-chip">LangGraph</span>
+                                        <span class="tech-chip">Apache Kafka</span>
+                                        <span class="tech-chip">LangSmith</span>
+                                        <span class="tech-chip">PostgreSQL</span>
+                                        <span class="tech-chip">WebSockets</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Gráfico Lineal con Iconos -->
                         <div class="case-linear-chart">
                             <div class="chart-step-node">
                                 <div class="node-icon-wrapper">
@@ -2710,12 +2701,17 @@
                             <div class="case-details">
                                 <div class="detail-item">
                                     <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
-                                    <p>Python, OpenCV, YOLO, PyTorch, Docker</p>
+                                    <div class="tech-chips-wrapper">
+                                        <span class="tech-chip">Python</span>
+                                        <span class="tech-chip">OpenCV</span>
+                                        <span class="tech-chip">YOLO</span>
+                                        <span class="tech-chip">PyTorch</span>
+                                        <span class="tech-chip">Docker</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Gráfico Lineal con Iconos -->
                         <div class="case-linear-chart">
                             <div class="chart-step-node">
                                 <div class="node-icon-wrapper">
@@ -2765,12 +2761,17 @@
                             <div class="case-details">
                                 <div class="detail-item">
                                     <h5 data-i18n="stack-label">STACK TECNOLÓGICO</h5>
-                                    <p>Python, LangGraph, FastAPI, Redis, Docker</p>
+                                    <div class="tech-chips-wrapper">
+                                        <span class="tech-chip">Python</span>
+                                        <span class="tech-chip">LangGraph</span>
+                                        <span class="tech-chip">FastAPI</span>
+                                        <span class="tech-chip">Redis</span>
+                                        <span class="tech-chip">Docker</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Gráfico Lineal con Iconos (N9) -->
                         <div class="case-linear-chart">
                             <div class="chart-step-node">
                                 <div class="node-icon-wrapper">
@@ -2818,7 +2819,7 @@
                 <!-- TÍTULO PRINCIPAL DE SECCIÓN -->
                 <div class="section-label scroll-reveal" data-i18n="about-title">SOBRE NOSOTROS</div>
                 
-                <!-- BOARD DE DIRECCIÓN Y CO-FUNDADORES (DIRECTOS Y SIN PALABRAS DE RELLENO) -->
+                <!-- BOARD DE DIRECCIÓN Y CO-FUNDADORES -->
                 <div class="team-grid scroll-reveal">
                     <!-- FEDERICO LUNA -->
                     <div class="team-card">
@@ -2850,13 +2851,13 @@
                         </a>
                     </div>
 
-                    <!-- IGNACIO SANSEOVICH CON BIO EN UN SOLO PÁRRAFO COMPACTO Y COMPLETO -->
+                    <!-- IGNACIO SANSEOVICH CON BIO ACTUALIZADA EXACTA -->
                     <div class="team-card">
                         <div class="team-card-top">
                             <span class="team-role-tag" data-i18n="role-ignacio">CO-FUNDADOR & DIRECTOR</span>
                             <h3 class="team-member-name">Ignacio Sanseovich</h3>
                             <p class="team-member-bio" data-i18n="bio-ignacio">
-                                ex Presidente y Director de Tecso Cooperativa de Trabajo. Ex Presidente del Polo Tecnológico Rosario. Consultor en Business Intelligence y docente universitario en la Universidad Austral (Tecnicatura en Programación) y la UGR (Licenciatura en Ciencia de Datos).
+                                Ex Presidente y Director de Tecso Cooperativa de Trabajo. Ex Presidente del Polo Tecnológico Rosario y empresario del sector IT. Consultor en Business Intelligence y docente universitario en la Universidad Austral (Tecnicatura en Programación) y la UGR (Licenciatura en Ciencia de Datos).
                             </p>
                         </div>
                         <a href="https://www.linkedin.com/in/ignacio-oscar-sanseovich?utm_source=share_via&utm_content=profile&utm_medium=member_ios" target="_blank" rel="noopener noreferrer" class="team-linkedin-link magnetic-btn">
@@ -2866,7 +2867,7 @@
                     </div>
                 </div>
 
-                <!-- TARJETA EXTENDIDA CON TEXTO MÁS DIRECTO Y CONCRETO Y LOGO UGR -->
+                <!-- TARJETAS EXTENDIDA CON LOGO UGR -->
                 <div class="team-extended-card scroll-reveal">
                     <div class="team-extended-title" data-i18n="team-ext-title">// NUESTRO EQUIPO Y RED DE TALENTO</div>
                     
@@ -2896,7 +2897,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE GEOLOCALIZACIÓN Y UBICACIÓN DE LA OFICINA CON PIN CON LOGO ENESIMAL -->
+        <!-- SECCIÓN DE GEOLOCALIZACIÓN Y UBICACIÓN DE LA OFICINA CON PIN CON LOGO ENESIMAL (RESTAURADO COMPLETO) -->
         <section id="ubicacion" class="location-section">
             <div class="location-container">
                 <div class="section-label scroll-reveal" data-i18n="location-title">NUESTRA OFICINA</div>
@@ -2923,7 +2924,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN CONTACTO CON CANVAS LIBRE DE CAJA TRANSPARENTE Y LEYENDA EMAIL -->
+        <!-- SECCIÓN CONTACTO RESTAURADA CON TÍTULO DE SECCIÓN GRANDE Y CANVAS LIBRE -->
         <section id="contacto" class="contact-section">
             <div class="split-section">
                 <div class="contact-info scroll-reveal">
@@ -2984,7 +2985,7 @@
                     <span class="footer-fiscal-info" data-i18n="footer-fiscal">Razón Social: Enesimal S.A. | CUIT: 30-71849124-6</span>
                 </div>
 
-                <!-- Redes sociales pequeñas de color gris (mismo tono que el copyright) ubicadas DEBAJO del texto -->
+                <!-- Redes sociales pequeñas de color gris ubicadas DEBAJO del texto -->
                 <div class="footer-social-links">
                     <a href="https://www.instagram.com/enesimal.tech/" target="_blank" rel="noopener noreferrer" class="footer-social-link" title="Instagram">
                         <svg class="footer-social-icon" viewBox="0 0 24 24">
@@ -3050,7 +3051,7 @@
                 "role-german": "CO-FUNDADOR & DIRECTOR",
                 "bio-german": "Director de la Licenciatura en Ciencia de Datos en la UGR, ex Secretario de Modernización y ex Secretario de Producción de la Municipalidad de Rosario, ex Presidente del Polo Tecnológico Rosario y Co-Fundador y ex Presidente de Tecso Cooperativa de Trabajo.",
                 "role-ignacio": "CO-FUNDADOR & DIRECTOR",
-                "bio-ignacio": "Co-Fundador y ex Presidente y Director de Tecso Cooperativa de Trabajo. Ex Presidente del Polo Tecnológico Rosario y empresario del sector IT. Consultor en Business Intelligence y docente universitario en la Universidad Austral (Tecnicatura en Programación) y la UGR (Licenciatura en Ciencia de Datos).",
+                "bio-ignacio": "Ex Presidente y Director de Tecso Cooperativa de Trabajo. Ex Presidente del Polo Tecnológico Rosario y empresario del sector IT. Consultor en Business Intelligence y docente universitario en la Universidad Austral (Tecnicatura en Programación) y la UGR (Licenciatura en Ciencia de Datos).",
                 "team-ext-title": "// NUESTRO EQUIPO Y RED DE TALENTO",
                 "team-ext-p": "<strong>Más de 20 ingenieros y científicos</strong> especializados en desarrollo de software, arquitectura de datos e Inteligencia Artificial.",
                 "chip-1": "Gestión & Estrategia",
@@ -3152,7 +3153,7 @@
                 "role-german": "CO-FOUNDER & DIRECTOR",
                 "bio-german": "Director of the Data Science Degree at UGR, former Secretary of Modernization and former Secretary of Production at the Municipality of Rosario, former President of Polo Tecnológico Rosario, and Co-Founder and former President of Tecso Working Cooperative.",
                 "role-ignacio": "CO-FOUNDER & DIRECTOR",
-                "bio-ignacio": "Co-Founder and former President and Director of Tecso Working Cooperative. Former President of Polo Tecnológico Rosario and IT business leader. Business Intelligence consultant and university professor at Universidad Austral (Programming Degree) and UGR (Data Science Degree).",
+                "bio-ignacio": "Former President and Director of Tecso Working Cooperative. Former President of Polo Tecnológico Rosario and IT business leader. Business Intelligence consultant and university professor at Universidad Austral (Programming Degree) and UGR (Data Science Degree).",
                 "team-ext-title": "// OUR TEAM & TALENT NETWORK",
                 "team-ext-p": "<strong>Over 20 engineers and scientists</strong> specialized in software development, data architecture, and Artificial Intelligence.",
                 "chip-1": "Management & Strategy",
@@ -3374,8 +3375,9 @@
             });
         }
 
+        /* LISTENER DE SCROLL RE-EVALUADO PARA GARANTIZAR MENÚ STICKY Y SHLINK EN MÓVILES Y DESKTOP */
         window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
+            if (window.scrollY > 40) {
                 mainHeader.classList.add('scrolled');
             } else {
                 mainHeader.classList.remove('scrolled');
@@ -3458,7 +3460,7 @@
             }
             renderCursor();
 
-            const interactiveElements = document.querySelectorAll('a, button, input, textarea, summary, .flow-pill, .case-block, .fde-toggle-switch, .lang-toggle-btn, .team-linkedin-link');
+            const interactiveElements = document.querySelectorAll('a, button, input, textarea, summary, .flow-pill, .case-block, .fde-toggle-switch, .lang-toggle-btn, .team-linkedin-link, .tech-chip');
             interactiveElements.forEach(el => {
                 el.addEventListener('mouseenter', () => cursorFollower.classList.add('hovered'));
                 el.addEventListener('mouseleave', () => cursorFollower.classList.remove('hovered'));
