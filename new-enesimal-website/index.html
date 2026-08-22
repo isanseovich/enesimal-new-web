@@ -148,7 +148,7 @@
             word-break: break-word;
         }
 
-        /* NAVBAR FLOTANTE STICKY RESTAURADO COMPLETO */
+        /* NAVBAR FLOTANTE DE ANCHO COMPLETO (100% FULL WIDTH) */
         header {
             width: 100%;
             position: -webkit-sticky;
@@ -506,7 +506,7 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* TÍTULOS DE SECCIÓN PRINCIPALES UNIFICADOS EXACTOS CON CURSOR PEAGADO */
+        /* TÍTULOS DE SECCIÓN PRINCIPALES UNIFICADOS EXACTOS CON CURSOR PEGADO */
         .section-label {
             font-family: var(--font-main);
             font-size: 3rem;
@@ -1098,20 +1098,6 @@
             gap: 3rem;
             align-items: center;
             width: 100%;
-        }
-
-        .case-block::before {
-            content: "if (status === 'SUCCESS') =>";
-            font-family: var(--font-mono);
-            position: absolute;
-            top: -14px;
-            left: 20px;
-            background: var(--bg-light);
-            padding: 0 10px;
-            font-size: 0.8rem;
-            color: var(--text-muted-retro);
-            font-weight: 400;
-            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .case-block:last-child {
@@ -2184,7 +2170,7 @@
             <div class="controls-wrapper">
                 <!-- SELECTOR DE IDIOMA (ES / EN) -->
                 <button class="lang-toggle-btn" id="langToggleBtn" onclick="toggleLanguage()" title="Switch Language / Cambiar Idioma">
-                    <svg class="lang-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    <svg class="lang-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     <span id="langBtnText">EN</span>
                 </button>
 
@@ -2897,7 +2883,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN DE GEOLOCALIZACIÓN Y UBICACIÓN DE LA OFICINA CON PIN CON LOGO ENESIMAL (RESTAURADO COMPLETO) -->
+        <!-- SECCIÓN DE GEOLOCALIZACIÓN Y UBICACIÓN DE LA OFICINA -->
         <section id="ubicacion" class="location-section">
             <div class="location-container">
                 <div class="section-label scroll-reveal" data-i18n="location-title">NUESTRA OFICINA</div>
@@ -2924,7 +2910,7 @@
             </div>
         </section>
 
-        <!-- SECCIÓN CONTACTO RESTAURADA CON TÍTULO DE SECCIÓN GRANDE Y CANVAS LIBRE -->
+        <!-- SECCIÓN CONTACTO -->
         <section id="contacto" class="contact-section">
             <div class="split-section">
                 <div class="contact-info scroll-reveal">
