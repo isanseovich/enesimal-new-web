@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>| PRISMA | Provincia de Santa Fe</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+  --bg: #000000;
+  --sf: #000000;
+  --ink: #FFFFFF;
+  --mute: #B0B0B0;
+  --line: #454545;
+  --ac: #BC3AE5;
+  --ac2: #FF7402;
+  --bad: #D0D0D0;
+  --ok: #FFFFFF;
+  --soft: #171717;
+
+  --header-accent: #BC3AE5;
+  --diagram-line: #BC3AE5;
+
+  box-sizing: border-box;
+  color-scheme: dark;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* HEADER */
+
+header {
+  position: relative;
+  background: #000000;
+  color: #FFFFFF;
+  padding: 18px 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+  background: var(--header-accent);
+}
+
+.top {
+  max-width: 1180px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  font-size: 29px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #FFFFFF;
+}
+
+.brand small {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--mute);
+  margin-left: 10px;
+}
+
+.tag {
+  font-size: 11px;
+  font-weight: 500;
+  background: #000000;
+  color: #FFFFFF;
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+
+/* LOGO PROVINCIAL */
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.provincia-logo {
+  display: block;
+  width: 150px;
+  height: auto;
+  max-height: 52px;
+  object-fit: contain;
+}
+
+.brand-divider {
+  width: 1px;
+  height: 34px;
+  background: var(--line);
+}
+
+/* NAVIGATION */
+
+nav {
+  max-width: 1180px;
+  margin: 14px auto 0;
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555555 #000000;
+}
+
+nav button {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: #B0B0B0;
+  background: #000000;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  padding: 11px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+nav button:hover {
+  color: #FFFFFF;
+  background: #111111;
+}
+
+nav button[aria-selected="true"] {
+  color: #FFFFFF;
+  font-weight: 600;
+  border-bottom-color: #FFFFFF;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid #FFFFFF;
+  outline-offset: 3px;
+}
+
+/* MAIN */
+
+main {
+  max-width: 1180px;
+  margin: auto;
+  padding: 28px 24px 60px;
+}
+
+section.tab {
+  display: none;
+}
+
+section.tab.on {
+  display: block;
+}
+
+h2 {
+  color: #FFFFFF;
+  font-size: 25px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1.25;
+  margin: 0 0 5px;
+}
+
+h3 {
+  color: #FFFFFF;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 10px;
+}
+
+.lead {
+  color: var(--mute);
+  max-width: 70ch;
+  margin: 0 0 22px;
+  font-size: 14px;
+}
+
+/* GRID */
+
+.grid {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+
+.g2 {
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+}
+
+.g3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.g4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+/* CARDS */
+
+.card {
+  min-width: 0;
+  padding: 18px;
+  background: #000000;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.card h3 {
+  color: #FFFFFF;
+}
+
+/* KPI */
+
+.big {
+  font-size: 50px;
+  font-weight: 600;
+  letter-spacing: -1.8px;
+  line-height: 1.12;
+  color: #FFFFFF;
+  font-variant-numeric: tabular-nums;
+  margin: 8px 0;
+}
+
+.up,
+.dn {
+  color: #FFFFFF;
+}
+
+.mute,
+.note {
+  color: var(--mute);
+}
+
+.note {
+  font-size: 12px;
+}
+
+/* CHIPS AND LABELS */
+
+.chip {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 3px;
+  background: #111111;
+  color: #FFFFFF;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+.chip.ok,
+.chip.w,
+.chip.b {
+  background: #111111;
+  color: #FFFFFF;
+  border-color: var(--line);
+}
+
+/* PROGRESS BARS */
+
+.bar {
+  height: 6px;
+  background: #292929;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.bar i {
+  display: block;
+  height: 100%;
+  background: #FFFFFF;
+  border-radius: 0;
+}
+
+/* TABLES */
+
+.wrap {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: top;
+}
+
+th {
+  font-size: 11px;
+  font-weight: 600;
+  color: #B0B0B0;
+  background: #000000;
+  text-transform: uppercase;
+  letter-spacing: 0.035em;
+}
+
+td {
+  color: #FFFFFF;
+  background: #000000;
+}
+
+tbody tr:hover td {
+  background: #111111;
+}
+
+tbody tr:last-child td {
+  border-bottom-color: var(--line);
+}
+
+/* BUTTONS */
+
+.btn {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid #555555;
+  color: #FFFFFF;
+  background: #000000;
+  border-radius: 3px;
+  padding: 5px 11px;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: #171717;
+  border-color: #AAAAAA;
+}
+
+.btn.on {
+  background: #FFFFFF;
+  color: #000000;
+  border-color: #FFFFFF;
+}
+
+/* SEGMENTED CONTROLS */
+
+.seg {
+  display: flex;
+  gap: 0;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.seg button {
+  font: inherit;
+  font-size: 13px;
+  border: 1px solid var(--line);
+  background: #000000;
+  color: #B0B0B0;
+  padding: 6px 12px;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.seg button + button {
+  border-left: 0;
+}
+
+.seg button[aria-pressed="true"] {
+  background: #FFFFFF;
+  color: #000000;
+  border-color: #FFFFFF;
+  font-weight: 600;
+}
+
+/* SOURCES AND NOTES */
+
+.src {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+  color: #FFFFFF;
+}
+
+.pub {
+  border: 1px dashed #555555;
+  border-radius: 4px;
+  padding: 20px;
+  background: #000000;
+}
+
+ol.q {
+  padding-left: 20px;
+  margin: 0;
+}
+
+ol.q li {
+  margin-bottom: 12px;
+}
+
+.leg {
+  display: flex;
+  gap: 14px;
+  font-size: 12px;
+  color: var(--mute);
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.leg b {
+  display: inline-block;
+  width: 14px;
+  height: 2px;
+  vertical-align: middle;
+  margin-right: 5px;
+  background: #FFFFFF;
+}
+
+/* SVG GENERAL */
+
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* DIAGRAM LINES */
+
+.diagram line,
+.diagram polyline,
+.diagram .edge,
+.diagram .connector {
+  stroke: var(--diagram-line);
+}
+
+.diagram path.connector,
+.diagram path.edge,
+.diagram path.link {
+  stroke: var(--diagram-line);
+}
+
+/* FORM ELEMENTS */
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: #FFFFFF;
+  background: #000000;
+  border: 1px solid var(--line);
+  border-radius: 3px;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #888888;
+}
+
+select option {
+  color: #FFFFFF;
+  background: #000000;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 860px) {
+  .g2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .g3,
+  .g4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  header,
+  main {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 560px) {
+  .g2,
+  .g3,
+  .g4 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  header {
+    padding: 16px 14px 0;
+  }
+
+  main {
+    padding: 22px 14px 40px;
+  }
+
+  .brand {
+    font-size: 26px;
+  }
+
+  .brand small {
+    display: block;
+    margin: 4px 0 0;
+  }
+
+  .brand-group {
+    gap: 10px;
+  }
+
+  .provincia-logo {
+    width: 110px;
+    max-height: 44px;
+  }
+
+  .brand-divider {
+    height: 28px;
+  }
+
+  .card {
+    padding: 15px;
+  }
+
+  .big {
+    font-size: 40px;
+  }
+
+  nav button {blero de actividad productiva de San
+    padding: 10px 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <div class="brand-group">
+      <div class="brand">&nbsp;&nbsp;PRISMA<small> | Actividad productiva de Santa Fe </small></div>
+    </div>
+  </div>
+  <nav role="tablist" id="nav"></nav>
+</header>
+<main>
+
+<section class="tab on" id="resumen">
+  <h2>Resumen semanal</h2>
+  <p class="lead">Actividad de la provincia de Santa Fe.</p>
+  <div class="grid g2">
+   <div class="card">
+    <div style="display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end;margin-bottom:8px">
+     <div><div class="note">PRISMA SF, semana 42 de 2026 (base 100 = enero 2024)</div><div class="big" id="pv">–</div></div>
+     <div id="pd" style="font-size:18px;font-weight:600"></div>
+    </div>
+    <svg id="idx" viewBox="0 0 640 230" role="img" aria-label="Evolución del índice PRISMA SF y comparación con IPEC"></svg>
+    <div class="leg"><span><b style="background:var(--ac)"></b>PRISMA SF desestacionalizado</span><span><b style="background:var(--line)"></b>Bruto</span><span><b style="background:var(--ac2)"></b>Serie de referencia IPEC (backtesting)</span></div>
+   </div>
+   <div class="card"><h3>Componentes del índice</h3><div id="comp"></div><p class="note">Pesos definidos por backtesting contra series IPEC e INDEC. Los marcados con * se enriquecen al firmarse convenios.</p></div>
+  </div>
+  <div class="grid g2" style="margin-top:16px">
+   <div class="card">
+    <h3>Mapa provincial de actividad y flujos</h3>
+    <div class="seg" id="mapseg"><button aria-pressed="true" data-l="act">Actividad</button><button aria-pressed="true" data-l="flu">Flujos hacia puertos</button></div>
+    <div class="grid" style="grid-template-columns:minmax(0,300px) 1fr;align-items:start">
+     <svg id="map" viewBox="0 0 320 450" role="img" aria-label="Mapa esquemático de Santa Fe"></svg>
+     <div id="mapinfo"></div>
+    </div>
+    <p class="note">Esquema ilustrativo. La versión real usa la capa cartográfica de IDESF.</p>
+   </div>
+   <div class="card"><h3>Alertas de esta semana</h3><div id="alsum"></div><button class="btn" onclick="go('alertas')">Ver las 12 reglas</button></div>
+  </div>
+</section>
+
+
+<section class="tab" id="alertas">
+  <h2>Alertas operativas automáticas</h2>
+  <p class="lead">Reglas por umbral y por desvío estadístico. Cada una tiene prioridad, destinatario, canal y acuse de recibo.</p>
+  <div class="card"><div class="wrap"><table><thead><tr><th>Alerta</th><th>Regla</th><th>Prioridad</th><th>Destinatario</th><th>Canal</th><th>Estado</th></tr></thead><tbody id="altb"></tbody></table></div></div>
+</section>
+<section class="tab" id="tableros">
+  <h2>Seis tableros sectoriales</h2>
+  <p class="lead">Cada tablero muestra sus indicadores y de dónde sale cada dato. Los que dependen de convenio arrancan con información pública.</p>
+  <div class="seg" id="secseg"></div><div id="secbody"></div>
+</section>
+
+<section class="tab" id="integraciones">
+  <h2>Integraciones prioritarias</h2>
+  <p class="lead">Doce fuentes: las que no requieren convenio nuevo arrancan primero; el resto se gestiona desde ya.</p>
+  <div class="seg" id="intseg"><button aria-pressed="true" data-f="all">Todas</button><button aria-pressed="false" data-f="sin">Sin convenio nuevo</button><button aria-pressed="false" data-f="con">Con convenio</button></div>
+  <div class="grid g3" id="intg"></div>
+</section>
+
+<section class="tab" id="publico">
+  <h2>Micrositio público</h2>
+  <p class="lead">Vista para ciudadanía, prensa y empresas. Solo indicadores no sensibles, con la metodología a un clic.</p>
+  <div class="pub">
+   <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px"><strong style="font-size:20px">PRISMA SF: así viene la actividad en Santa Fe</strong><span class="chip">Actualizado cada lunes</span></div>
+   <div class="grid g4" style="margin:16px 0" id="pubk"></div>
+   <svg id="pubc" viewBox="0 0 640 150" role="img" aria-label="PRISMA SF últimas 26 semanas"></svg>
+   <p class="note">Descargá los datos en CSV · Leé la metodología · Fuentes: IPEC, INDEC, EPE, CAMMESA, BCRA y otras.</p>
+  </div>
+</section>
+
+<section class="tab" id="metodologia">
+  <h2>Metodología del índice</h2>
+  <p class="lead">Se publica completa para que cualquiera pueda reproducir el cálculo.</p>
+  <div class="grid g3" id="met"></div>
+</section>
+
+<section class="tab" id="conversar">
+  <h2>A definir</h2><section class="tab" id="tableros">
+  <h2>Seis tableros sectoriales</h2>
+  <p class="lead">Cada tablero muestra sus indicadores y de dónde sale cada dato. Los que dependen de convenio arrancan con información pública.</p>
+  <div class="seg" id="secseg"></div><div id="secbody"></div>
+</section>
+
+  <p class="lead">Decisiones que necesitamos cerrar para pasar de maqueta a MVP.</p>
+  <div class="card"><ol class="q">
+   <li><b>Convenios.</b> ¿Quién gestiona ARCA factura electrónica, SENASA, API/IIBB, Trabajo, VUCE/Aduana, banco y Bolsa de Comercio de Rosario, y con qué fecha objetivo?</li>
+   <li><b>Destinatarios de alertas.</b> ¿Quién recibe cada alerta y por qué canal? Hace falta una persona titular y una suplente por regla.</li>
+   <li><b>Publicación.</b> ¿Qué indicadores pasan al micrositio y quién aprueba el lanzamiento semanal del índice?</li>
+   <li><b>Referencias oficiales.</b> Acuerdo con IPEC e INDEC para usar sus series en el backtesting y citarlas.</li>
+   <li><b>Alcance del primer corte.</b> Confirmar que empleo y comercio salen con indicadores públicos hasta que lleguen los convenios.</li>
+   <li><b>Gobernanza de datos.</b> Qué datos son sensibles, quién los resguarda y qué nivel de agregación se muestra.</li>
+  </ol></div>
+</section>
+</main>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+function rng(s){return()=>{s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+function series(seed,n,base,tr,amp,noise,dip){const r=rng(seed),a=[];for(let i=0;i<n;i++){let v=base+tr*i+amp*Math.sin(i/52*6.283+seed)+(r()-.5)*noise;if(dip&&i>=n-dip[0])v-=dip[1]*Math.min(1,(i-(n-dip[0]))/2);a.push(v)}return a}
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function path(d,w,h,mn,mx,p=6){return d.map((v,i)=>(i?'L':'M')+(p+i*(w-2*p)/(d.length-1)).toFixed(1)+','+(h-p-(v-mn)/(mx-mn)*(h-2*p)).toFixed(1)).join('')}
+function spark(d,col){const mn=Math.min(...d),mx=Math.max(...d);return `<svg viewBox="0 0 160 44" width="100%" height="44"><path d="${path(d,160,44,mn,mx,3)}" fill="none" stroke="${col}" stroke-width="2"/></svg>`}
+
+/* Tabs */
+const tabs=[['resumen','Resumen'],['tableros','Tableros'],['alertas','Alertas'],['integraciones','Integraciones'],['publico','Micrositio'],['metodologia','Metodología'],['conversar','Para conversar']];
+$('#nav').innerHTML=tabs.map(([id,t],i)=>`<button role="tab" aria-selected="${i==0}" data-t="${id}">${t}</button>`).join('');
+function go(id){$$('section.tab').forEach(s=>s.classList.toggle('on',s.id===id));$$('#nav button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===id));scrollTo(0,0)}
+$('#nav').onclick=e=>{if(e.target.dataset.t)go(e.target.dataset.t)};
+
+/* Índice */
+const N=52,sa=series(11,N,98,.18,1.2,1.4,[3,2.4]).map(v=>v),seas=series(5,N,0,0,2.8,1.2),raw=sa.map((v,i)=>v+seas[i]),ref=sa.map((v,i)=>v-.6+Math.sin(i/6)*.8);
+function drawIdx(){const w=640,h=230,all=[...sa,...raw,...ref],mn=Math.min(...all)-1,mx=Math.max(...all)+1;
+ let g='';for(let k=0;k<4;k++){const y=10+k*(h-20)/3;g+=`<line x1="6" x2="634" y1="${y}" y2="${y}" stroke="${css('--line')}"/><text x="8" y="${y-3}" font-size="11" fill="${css('--mute')}">${(mx-k*(mx-mn)/3).toFixed(0)}</text>`}
+ $('#idx').innerHTML=g+`<path d="${path(raw,w,h,mn,mx)}" fill="none" stroke="${css('--line')}" stroke-width="2"/><path d="${path(ref,w,h,mn,mx)}" fill="none" stroke="${css('--ac2')}" stroke-width="2" stroke-dasharray="5 4"/><path d="${path(sa,w,h,mn,mx)}" fill="none" stroke="${css('--ac')}" stroke-width="3.5"/>`;
+ const p=sa.slice(-26),m1=Math.min(...p)-1,m2=Math.max(...p)+1;$('#pubc').innerHTML=`<path d="${path(p,640,150,m1,m2)}" fill="none" stroke="${css('--ac')}" stroke-width="3"/>`;
+ sec.forEach(s=>{const e=$('#sp-'+s.id);if(e)e.innerHTML=spark(s.d,css('--ac'))})}
+const last=sa[N-1],d1=last-sa[N-2];
+$('#pv').textContent=last.toFixed(1);
+$('#pd').innerHTML=`<span class="${d1<0?'dn':'up'}">${d1<0?'▼':'▲'} ${Math.abs(d1).toFixed(1)} pts</span> <span class="mute" style="font-weight:400">vs. semana anterior</span>`;
+const comps=[['Demanda eléctrica (EPE, CAMMESA)',16,-2.1],['Flujos logísticos (STOP 5.0)',14,-.8],['Carta de Porte (ARCA)',14,1.4],['Puertos',12,-1.2],['Consumo y pagos*',12,.3],['Empleo registrado*',12,.1],['Tránsito en peajes*',10,.6],['Comercio exterior',10,-.4]];
+$('#comp').innerHTML=comps.map(c=>`<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13.5px"><span>${c[0]}</span><span class="${c[2]<0?'dn':'up'}">${c[2]>0?'+':''}${c[2]}%</span></div><div class="bar"><i style="width:${c[1]*5}%"></i></div></div>`).join('');
+
+/* Alertas */
+const al=[
+['Caída de demanda eléctrica industrial','Demanda EPE industrial < –2 desvíos vs. 8 semanas','Alta','Industria y Energía','Correo y panel'],
+['Cola de camiones en accesos a puertos','Espera > 6 h en Gran Rosario (STOP 5.0)','Alta','Logística','WhatsApp y panel'],
+['Alerta SMN en zonas productivas','Alerta naranja o roja en departamentos productivos','Alta','Agro y Protección Civil','WhatsApp'],
+['Alerta SMN sobre rutas','Alerta vigente en corredores troncales','Media','Logística y Vialidad','Correo'],
+['Caída de embarques','Embarques semanales < –15% vs. promedio 4 semanas','Alta','Comercio exterior','Correo y panel'],
+['Falla de una fuente de datos','Sin actualización por más de 2 ciclos','Alta','Equipo técnico PRISMA','Slack y correo'],
+['Salto en demanda de gas o energía','Demanda CAMMESA +2 desvíos','Media','Energía','Panel'],
+['Baja en Carta de Porte','Cartas emitidas < –20% vs. misma semana del año previo','Media','Agro','Correo'],
+['Cierre de ruta o puente','Evento vial informado en corredor de carga','Media','Logística','WhatsApp'],
+['Desvío del índice PRISMA SF','Variación semanal fuera de ±2 desvíos','Media','Gabinete productivo','Correo'],
+['Riesgo hídrico en hidrovía','Altura del río bajo umbral de calado','Alta','Logística y Puertos','Correo y panel'],
+['Brecha pública vs. índice','Indicador oficial se aparta del índice > 3 pts','Baja','Equipo técnico PRISMA','Panel']];
+const st=al.map((a,i)=>i<4||i==5?'act':'ok');
+function rAl(){$('#altb').innerHTML=al.map((a,i)=>`<tr><td><b>${a[0]}</b></td><td>${a[1]}</td><td><span class="chip ${a[2]=='Alta'?'b':a[2]=='Media'?'w':''}">${a[2]}</span></td><td>${a[3]}</td><td>${a[4]}</td><td>${st[i]=='act'?`<button class="btn" data-i="${i}">Dar acuse</button>`:st[i]=='ack'?'<span class="chip ok">Con acuse</span>':'<span class="chip">Sin disparar</span>'}</td></tr>`).join('');
+ const act=st.filter(s=>s=='act').length;$('#alsum').innerHTML=`<p><b style="font-size:34px">${act}</b> activas sin acuse<br><span class="mute">${st.filter(s=>s=='ack').length} con acuse · ${st.filter(s=>s=='ok').length} sin disparar</span></p>`+al.map((a,i)=>st[i]!='ok'?`<div class="src"><span>${a[0]}</span><span class="chip ${st[i]=='ack'?'ok':a[2]=='Alta'?'b':'w'}">${st[i]=='ack'?'Con acuse':a[2]}</span></div>`:'').join('')+'<p></p>'}
+$('#altb').onclick=e=>{const i=e.target.dataset.i;if(i){st[i]='ack';rAl()}};
+
+/* Tableros */
+const sec=[
+{id:'agro',n:'Agro',k:[['Cartas de Porte semanales','48.200','+3,1%'],['Humedad de suelo (satélite)','62%','–4 pts'],['Alertas SMN activas','2','']],s:[['RUPP',0],['ARCA Carta de Porte / SISA',0],['SMN',0],['Satélite abierto',0],['Bolsa de Comercio de Rosario',1]]},
+{id:'industria',n:'Industria',k:[['Consumo eléctrico industrial','–2,1%','vs. 4 sem.'],['Índice industrial IPEC','103,4','+0,5%'],['Facturación','Público','con convenio']],s:[['IPEC',0],['EPE (consumo industrial)',0],['INDEC',0],['Facturación ARCA',1]]},
+{id:'energia',n:'Energía',k:[['Demanda provincial EPE','1.820 MW','–1,4%'],['Demanda nacional CAMMESA','+0,6%','vs. sem. previa'],['Reservas de potencia','Normal','']],s:[['EPE',0],['CAMMESA',0]]},
+{id:'logistica',n:'Logística',k:[['Espera media camiones (Gran Rosario)','4,2 h','+0,8 h'],['Camiones por día en puertos','5.900','–3,2%'],['Rutas con alerta','1','']],s:[['PRISMA / STOP 5.0',0],['Puertos y aeropuertos',0],['SMN (alertas)',0],['Peajes',1]]},
+{id:'comercio',n:'Comercio',k:[['Exportaciones provinciales','USD 612 M','–1,2%'],['Crédito y financiaciones (BCRA)','+0,9%','real'],['Consumo y pagos','Público','con convenio']],s:[['IPEC e INDEC (comercio exterior)',0],['BCRA',0],['Puertos',0],['Banco / pagos',1]]},
+{id:'empleo',n:'Empleo',k:[['Empleo registrado privado','+0,1%','interanual'],['Tasa de desempleo (INDEC)','6,8%','trimestral'],['Observatorio laboral','Público','con convenio']],s:[['IPEC',0],['INDEC',0],['Trabajo / observatorio laboral',1]]}];
+sec.forEach((s,i)=>s.d=series(30+i*7,26,100,.2,2,2.5));
+let cur='agro';
+function rSec(){$('#secseg').innerHTML=sec.map(s=>`<button aria-pressed="${s.id==cur}" data-s="${s.id}">${s.n}</button>`).join('');
+ const s=sec.find(x=>x.id==cur);
+ $('#secbody').innerHTML=`<div class="grid g3">${s.k.map(k=>`<div class="card"><div class="note">${k[0]}</div><div style="font-size:30px;font-weight:700">${k[1]}</div><div class="mute">${k[2]}</div></div>`).join('')}</div>
+ <div class="grid g2" style="margin-top:16px"><div class="card"><h3>Tendencia de 26 semanas</h3><div id="sp-${s.id}" style="max-width:100%"></div><svg id="big" viewBox="0 0 640 160"></svg></div>
+ <div class="card"><h3>Fuentes</h3>${s.s.map(f=>`<div class="src"><span>${f[0]}</span><span class="chip ${f[1]?'w':'ok'}">${f[1]?'Con convenio':'Disponible'}</span></div>`).join('')}</div></div>`;
+ const d=s.d,mn=Math.min(...d)-1,mx=Math.max(...d)+1;$('#big').innerHTML=`<path d="${path(d,640,160,mn,mx)}" fill="none" stroke="${css('--ac')}" stroke-width="3"/>`;$('#sp-'+s.id).remove()}
+$('#secseg').onclick=e=>{if(e.target.dataset.s){cur=e.target.dataset.s;rSec()}};
+
+/* Integraciones */
+const ints=[['PRISMA / STOP 5.0',0,'Turnos y colas de camiones'],['RUPP',0,'Registro de productores'],['IDESF',0,'Capas geográficas'],['IPEC',0,'Estadística provincial'],['EPE',0,'Demanda eléctrica provincial'],['Puertos',0,'Embarques y operaciones'],['ARCA WS (Carta de Porte / SISA)',0,'Movimiento de granos'],['BCRA',0,'Crédito y medios de pago'],['CAMMESA',0,'Demanda nacional'],['SMN',0,'Alertas meteorológicas'],['INDEC',0,'Series nacionales'],['Satélite abierto',0,'Cultivos y humedad'],['ARCA factura electrónica',1,'Facturación por sector'],['SENASA',1,'Sanidad y movimientos'],['API / IIBB',1,'Recaudación provincial'],['Trabajo',1,'Empleo registrado'],['VUCE / Aduana',1,'Comercio exterior'],['Banco / pagos',1,'Consumo electrónico'],['Bolsa de Comercio de Rosario',1,'Mercado de granos']];
+let fl='all';
+function rInt(){$('#intseg').innerHTML=[['all','Todas'],['sin','Sin convenio nuevo'],['con','Con convenio']].map(([f,t])=>`<button aria-pressed="${f==fl}" data-f="${f}">${t}</button>`).join('');
+ $('#intg').innerHTML=ints.filter(i=>fl=='all'||(fl=='sin')==!i[1]).map(i=>`<div class="card"><div style="display:flex;justify-content:space-between;gap:8px"><b>${i[0]}</b><span class="chip ${i[1]?'w':'ok'}">${i[1]?'En gestión':'Primera etapa'}</span></div><div class="mute" style="margin-top:4px">${i[2]}</div></div>`).join('')}
+$('#intseg').onclick=e=>{if(e.target.dataset.f){fl=e.target.dataset.f;rInt()}};
+
+/* Público */
+$('#pubk').innerHTML=[['PRISMA SF',last.toFixed(1)],['Variación semanal',(d1<0?'–':'+')+Math.abs(d1).toFixed(1)+' pts'],['Variación interanual','+'+(last-sa[0]).toFixed(1)+' pts'],['Exportaciones','USD 612 M']].map(k=>`<div class="card"><div class="note">${k[0]}</div><div style="font-size:26px;font-weight:700">${k[1]}</div></div>`).join('');
+
+/* Metodología */
+$('#met').innerHTML=[['Recolección','Cada fuente se conecta por API o archivo y se controla su frescura.'],['Estandarización','Cada indicador se pasa a puntaje estándar para poder combinarlos.'],['Desestacionalización','Se quita el efecto de calendario y de campaña para ver la tendencia real.'],['Ponderación','Los pesos salen de un backtesting contra series IPEC e INDEC.'],['Base 100','El índice se expresa en base 100 y se publica cada lunes.'],['Transparencia','Metodología, pesos y datos descargables en el micrositio.']].map(m=>`<div class="card"><h3>${m[0]}</h3><div class="mute">${m[1]}</div></div>`).join('');
+
+/* Mapa */
+const nodes=[
+{n:'Reconquista',x:240,y:95,a:-.5,t:'Agroindustria y frigoríficos'},{n:'Ceres',x:60,y:150,a:1.2,t:'Zona agrícola y ganadera'},{n:'Rafaela',x:105,y:245,a:.6,t:'Lácteos y metalmecánica'},{n:'Santa Fe',x:178,y:268,a:-.9,t:'Servicios y puerto'},{n:'Venado Tuerto',x:70,y:405,a:1.5,t:'Agro y maquinaria'},{n:'Gran Rosario',x:182,y:362,a:-2.4,t:'Complejo portuario y agroindustrial'}];
+let lay={act:1,flu:1},sel=5;
+function rMap(){const f=lay.flu?nodes.slice(0,5).map(n=>`<line x1="${n.x}" y1="${n.y}" x2="182" y2="362" stroke="${css('--ac')}" stroke-width="${2+Math.abs(n.a)*1.5}" opacity=".55" stroke-dasharray="6 5"/>`).join(''):'';
+ const c=lay.act?nodes.map((n,i)=>`<g tabindex="0" role="button" aria-label="${n.n}" data-i="${i}" style="cursor:pointer"><circle cx="${n.x}" cy="${n.y}" r="${9+Math.abs(n.a)*4}" fill="${n.a<0?css('--bad'):css('--ok')}" opacity=".85" stroke="${i==sel?css('--ink'):'none'}" stroke-width="3"/><text x="${n.x+14}" y="${n.y+4}" font-size="12" fill="${css('--ink')}">${n.n}</text></g>`).join(''):'';
+ $('#map').innerHTML=`<path d="M20,20 L290,20 L300,90 L275,170 L255,250 L255,330 L240,395 L180,435 L40,435 L25,300 L12,180 Z" fill="${css('--soft')}" stroke="${css('--mute')}" stroke-width="1.5"/>`+f+c;
+ const n=nodes[sel];$('#mapinfo').innerHTML=`<h3>${n.n}</h3><p class="mute">${n.t}</p><div style="font-size:28px;font-weight:700" class="${n.a<0?'dn':'up'}">${n.a>0?'+':''}${n.a}%</div><div class="note">Actividad vs. 4 semanas. Tocá un punto para ver otro territorio.</div>`}
+$('#map').onclick=e=>{const g=e.target.closest('[data-i]');if(g){sel=+g.dataset.i;rMap()}};
+$('#mapseg').onclick=e=>{const b=e.target.closest('button');if(b){lay[b.dataset.l]^=1;b.setAttribute('aria-pressed',!!lay[b.dataset.l]);rMap()}};
+
+function all(){drawIdx();rSec();rInt();rAl();rMap()}
+all();matchMedia('(prefers-color-scheme:dark)').addEventListener('change',all);
+</script>
+</body>
+</html>
